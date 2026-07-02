@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3X-UI — Каскад и ноды</title>
+  <meta name="description" content="3X-UI — веб-панель управления Xray. Каскадное проксирование, распределённые ноды, централизованное управление." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist Mono';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist Mono';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Geist', sans-serif;
+      background: #0a0a0a;
+      color: #e8e8e8;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      --accent: #d97757;
+      --accent-dim: rgba(217, 119, 87, 0.10);
+      --accent-glow: rgba(217, 119, 87, 0.06);
+      --card-bg: #121212;
+      --border-subtle: rgba(255, 255, 255, 0.05);
+      --text-muted: #888;
+      --radius: 0px;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 18px 0;
+      transition: background 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      color: #fff;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ========== NAV TOGGLE ========== */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 110;
+      position: relative;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      border-radius: 0;
+      transition: all 0.3s ease;
+      position: absolute;
+    }
+    .nav-toggle span:nth-child(1) { transform: translateY(-7px); }
+    .nav-toggle span:nth-child(2) { transform: translateY(0); }
+    .nav-toggle span:nth-child(3) { transform: translateY(7px); }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(0) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(10px); }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(0) rotate(-45deg); }
+
+    /* ========== OVERLAY ========== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      pointer-events: none;
+      visibility: hidden;
+      opacity: 0;
+      background: rgba(10, 10, 10, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: visibility 0.35s ease, opacity 0.35s ease;
+    }
+    .nav-overlay.active {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding-top: 80px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-content { position: relative; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 24px;
+      font-family: 'Geist Mono', monospace;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      display: inline-block;
+      animation: pulse-dot 2s ease infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.75rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero h1 .outline {
+      -webkit-text-stroke: 1px rgba(255,255,255,0.15);
+      color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 32px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-prime {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: opacity 0.3s ease;
+    }
+    .btn-prime:hover { opacity: 0.85; }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: transparent;
+      color: #fff;
+      font-weight: 500;
+      font-size: 0.875rem;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      letter-spacing: 0.02em;
+      transition: border-color 0.3s ease;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.3); }
+
+    /* ========== HERO VISUAL ========== */
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .arch-svg {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* ========== SECTIONS ========== */
+    .section {
+      padding: 100px 0;
+      position: relative;
+    }
+    .section-alt { background: var(--card-bg); }
+    .section-header {
+      max-width: 640px;
+      margin-bottom: 56px;
+    }
+    .section-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ========== ARCHITECTURE ========== */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+    }
+    .arch-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-subtle);
+      padding: 36px 28px;
+      transition: border-color 0.3s ease;
+    }
+    .arch-card:hover { border-color: rgba(217, 119, 87, 0.25); }
+    .arch-card-num {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 16px;
+      letter-spacing: 0.08em;
+    }
+    .arch-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .arch-card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .arch-card .code-snip {
+      display: inline-block;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem;
+      background: rgba(255,255,255,0.04);
+      padding: 2px 8px;
+      color: var(--accent);
+      margin-top: 12px;
+    }
+
+    /* ========== CASCADE ========== */
+    .cascade-diagram {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .cascade-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+    .cascade-node {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-subtle);
+      padding: 16px 24px;
+      width: 100%;
+      max-width: 360px;
+    }
+    .cascade-node-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 0;
+      flex-shrink: 0;
+    }
+    .cascade-node-dot.in { background: var(--accent); }
+    .cascade-node-dot.out { background: #6b8cff; }
+    .cascade-node-dot.mid { background: #4ecdc4; }
+    .cascade-node span {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.8125rem;
+      color: #ccc;
+    }
+    .cascade-arrow {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'Geist Mono', monospace;
+    }
+
+    /* ========== FEATURES ========== */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .feat-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-subtle);
+      padding: 32px 28px;
+    }
+    .feat-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .feat-card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ========== CODE ========== */
+    .code-block {
+      background: #060606;
+      border: 1px solid var(--border-subtle);
+      padding: 24px 28px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.8125rem;
+      line-height: 1.8;
+      color: #ccc;
+      overflow-x: auto;
+      margin-top: 24px;
+    }
+    .code-block .cmt { color: #555; font-style: italic; }
+    .code-block .key { color: var(--accent); }
+    .code-block .str { color: #6b8cff; }
+    .code-block .val { color: #4ecdc4; }
+
+    /* ========== NODES ========== */
+    .nodes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+    }
+    .node-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-subtle);
+      padding: 28px 24px;
+    }
+    .node-card .node-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.6875rem;
+      color: #4ecdc4;
+      margin-bottom: 12px;
+    }
+    .node-card .node-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #4ecdc4;
+      display: inline-block;
+    }
+    .node-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .node-card p {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .node-card .node-meta {
+      margin-top: 14px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.6875rem;
+      color: #555;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 0;
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer p {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ========== REVEAL ========== */
+    .reveal, .reveal-l, .reveal-r {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal-l { transform: translateX(-24px); }
+    .reveal-r { transform: translateX(24px); }
+    .reveal.visible, .reveal-l.visible, .reveal-r.visible {
+      opacity: 1;
+      transform: translate(0);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-content { text-align: center; }
+      .hero-sub { max-width: none; }
+      .hero-actions { justify-content: center; }
+      .arch-grid { grid-template-columns: 1fr; }
+      .cascade-diagram { grid-template-columns: 1fr; gap: 40px; }
+      .cascade-flow { order: -1; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .nodes-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-overlay { pointer-events: none; }
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 100;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        width: 280px;
+        height: 100dvh;
+        padding: 100px 32px 40px;
+        background: rgba(10, 10, 10, 0.96);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        border-left: 1px solid rgba(217, 119, 87, 0.12);
+      }
+      .nav-links.open { transform: translateX(0); }
+      .nav-links a {
+        font-size: 0.9375rem;
+        padding: 14px 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.04);
+        letter-spacing: 0.08em;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+      .section { padding: 60px 0; }
+      .arch-card { padding: 24px 20px; }
+      .feat-card { padding: 24px 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-l, .reveal-r { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAV ========== -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">3X<span>-UI</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#arch">Архитектура</a>
+        <a href="#cascade">Каскад</a>
+        <a href="#nodes">Ноды</a>
+        <a href="#config">Конфиг</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content reveal">
+        <div class="hero-badge">v2.x Панель управления</div>
+        <h1>
+          Каскад и ноды<br />
+          <span class="accent">3X-UI</span>
+        </h1>
+        <p class="hero-sub">
+          Веб-панель для Xray с поддержкой каскадного проксирования, 
+          распределённых нод и централизованного мониторинга. 
+          Минималистичный интерфейс, полный контроль.
+        </p>
+        <div class="hero-actions">
+          <a href="#arch" class="btn-prime">Разобраться</a>
+          <a href="#config" class="btn-ghost">Конфигурация</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal-l">
+        <svg class="arch-svg" viewBox="0 0 400 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="40" width="320" height="50" rx="0" fill="rgba(217,119,87,0.08)" stroke="rgba(217,119,87,0.3)" stroke-width="1"/>
+          <text x="200" y="70" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Geist,sans-serif" font-size="13" font-weight="600">3X-UI Панель</text>
+
+          <rect x="140" y="120" width="120" height="36" rx="0" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <text x="200" y="144" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="Geist Mono,monospace" font-size="10">API Core</text>
+
+          <line x1="200" y1="156" x2="200" y2="190" stroke="rgba(217,119,87,0.3)" stroke-width="1"/>
+          <line x1="100" y1="200" x2="300" y2="200" stroke="rgba(217,119,87,0.2)" stroke-width="1"/>
+
+          <circle cx="100" cy="230" r="40" fill="rgba(107,140,255,0.08)" stroke="rgba(107,140,255,0.35)" stroke-width="1"/>
+          <text x="100" y="235" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Geist,sans-serif" font-size="10" font-weight="600">Нода</text>
+
+          <circle cx="200" cy="230" r="40" fill="rgba(78,205,196,0.08)" stroke="rgba(78,205,196,0.35)" stroke-width="1"/>
+          <text x="200" y="235" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Geist,sans-serif" font-size="10" font-weight="600">Каскад</text>
+
+          <circle cx="300" cy="230" r="40" fill="rgba(217,119,87,0.08)" stroke="rgba(217,119,87,0.35)" stroke-width="1"/>
+          <text x="300" y="235" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Geist,sans-serif" font-size="10" font-weight="600">Xray</text>
+
+          <line x1="100" y1="270" x2="100" y2="300" stroke="rgba(107,140,255,0.25)" stroke-width="1"/>
+          <line x1="200" y1="270" x2="200" y2="300" stroke="rgba(78,205,196,0.25)" stroke-width="1"/>
+          <line x1="300" y1="270" x2="300" y2="300" stroke="rgba(217,119,87,0.25)" stroke-width="1"/>
+
+          <text x="100" y="320" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="Geist Mono,monospace" font-size="9">inbound</text>
+          <text x="200" y="320" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="Geist Mono,monospace" font-size="9">chain</text>
+          <text x="300" y="320" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="Geist Mono,monospace" font-size="9">outbound</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ARCHITECTURE ========== -->
+  <section class="section section-alt" id="arch">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Архитектура</div>
+        <h2 class="section-title">Как устроен 3X-UI</h2>
+        <p class="section-desc">
+          Панель построена вокруг Xray-core и предоставляет веб-интерфейс 
+          для управления прокси-серверами, входящими и исходящими 
+          соединениями, а также каскадными цепочками.
+        </p>
+      </div>
+      <div class="arch-grid">
+        <div class="arch-card reveal">
+          <div class="arch-card-num">01</div>
+          <h3>Xray Core</h3>
+          <p>
+            Движок проксирования, поддерживающий VLESS, VMess, Trojan, 
+            Shadowsocks, WireGuard и SOCKS. Единый конфиг в JSON 
+            со строгой типизацией протоколов.
+          </p>
+          <span class="code-snip">xray config.json</span>
+        </div>
+        <div class="arch-card reveal-l">
+          <div class="arch-card-num">02</div>
+          <h3>Веб-панель</h3>
+          <p>
+            Интерфейс на React с real-time статистикой, логами 
+            подключений, графиками трафика и управлением пользователями. 
+            REST API для автоматизации.
+          </p>
+          <span class="code-snip">3x-ui web</span>
+        </div>
+        <div class="arch-card reveal-r">
+          <div class="arch-card-num">03</div>
+          <h3>База данных</h3>
+          <p>
+            SQLite для хранения конфигов, пользователей, статистики. 
+            Поддержка экспорта и бэкапов. Легковесность без 
+            внешних зависимостей.
+          </p>
+          <span class="code-snip">/etc/3x-ui/</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CASCADE ========== -->
+  <section class="section" id="cascade">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Каскад</div>
+        <h2 class="section-title">Цепочки прокси-серверов</h2>
+        <p class="section-desc">
+          Каскадное проксирование позволяет выстраивать цепочки 
+          из нескольких серверов. Трафик проходит через промежуточные 
+          ноды последовательно, увеличивая анонимность и гибкость 
+          маршрутизации.
+        </p>
+      </div>
+      <div class="cascade-diagram">
+        <div class="cascade-flow reveal">
+          <div class="cascade-node">
+            <div class="cascade-node-dot in"></div>
+            <span>Клиент (inbound)</span>
+          </div>
+          <div class="cascade-arrow">&#9660;</div>
+          <div class="cascade-node">
+            <div class="cascade-node-dot mid"></div>
+            <span>Нода 1 — VLESS</span>
+          </div>
+          <div class="cascade-arrow">&#9660;</div>
+          <div class="cascade-node">
+            <div class="cascade-node-dot mid"></div>
+            <span>Нода 2 — Shadowsocks</span>
+          </div>
+          <div class="cascade-arrow">&#9660;</div>
+          <div class="cascade-node">
+            <div class="cascade-node-dot out"></div>
+            <span>Исходящий (outbound)</span>
+          </div>
+        </div>
+        <div class="reveal-l">
+          <h3 style="font-size:1.05rem;font-weight:600;color:#fff;margin-bottom:16px;">Как это работает</h3>
+          <p style="font-size:0.875rem;color:var(--text-muted);line-height:1.8;margin-bottom:16px;">
+            В 3X-UI каскад настраивается через цепочку outbound-правил. 
+            Каждый последующий сервер получает трафик от предыдущего, 
+            шифруя его своим протоколом. Поддерживаются схемы:
+          </p>
+          <ul style="list-style:none;padding:0;">
+            <li style="padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:0.875rem;color:var(--text-muted);display:flex;gap:10px;align-items:center;">
+              <span style="color:var(--accent);font-family:'Geist Mono',monospace;">&#8594;</span>
+              VLESS &#8594; Shadowsocks &#8594; Цель
+            </li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:0.875rem;color:var(--text-muted);display:flex;gap:10px;align-items:center;">
+              <span style="color:var(--accent);font-family:'Geist Mono',monospace;">&#8594;</span>
+              VMess &#8594; Trojan &#8594; SOCKS5 &#8594; Цель
+            </li>
+            <li style="padding:8px 0;font-size:0.875rem;color:var(--text-muted);display:flex;gap:10px;align-items:center;">
+              <span style="color:var(--accent);font-family:'Geist Mono',monospace;">&#8594;</span>
+              WireGuard &#8594; VLESS &#8594; Shadowsocks &#8594; Цель
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURES ========== -->
+  <section class="section section-alt" id="nodes">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Возможности</div>
+        <h2 class="section-title">Управление нодами</h2>
+        <p class="section-desc">
+          3X-UI предоставляет полный контроль над каждым узлом 
+          инфраструктуры — от одного сервера до распределённого кластера.
+        </p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-card reveal">
+          <h3>Множественные ноды</h3>
+          <p>
+            Подключение неограниченного количества серверов 
+            через единую панель. Каждая нода со своим набором 
+            протоколов и пользователей.
+          </p>
+        </div>
+        <div class="feat-card reveal-l">
+          <h3>Статистика в реальном времени</h3>
+          <p>
+            Графики трафика по каждому пользователю и ноде. 
+            Лог подключений с фильтрацией по дате, протоколу, IP.
+          </p>
+        </div>
+        <div class="feat-card reveal">
+          <h3>Шаблоны конфигов</h3>
+          <p>
+            Быстрое развёртывание новых нод через предустановленные 
+            шаблоны. Поддержка JSON и TOML форматов.
+          </p>
+        </div>
+        <div class="feat-card reveal-l">
+          <h3>API для автоматизации</h3>
+          <p>
+            RESTful API для интеграции с внешними системами: 
+            биллинг, мониторинг, оркестрация.
+          </p>
+        </div>
+        <div class="feat-card reveal">
+          <h3>Двухфакторная аутентификация</h3>
+          <p>
+            TOTP и Telegram-уведомления для защиты панели 
+            от несанкционированного доступа.
+          </p>
+        </div>
+        <div class="feat-card reveal-l">
+          <h3>Бэкапы и восстановление</h3>
+          <p>
+            Автоматические бэкапы конфигурации и базы данных 
+            с возможностью точечного восстановления.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NODE CARD GRID ========== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Типы нод</div>
+        <h2 class="section-title">Топология инфраструктуры</h2>
+        <p class="section-desc">
+          Каждая нода в 3X-UI может выступать в одной из трёх ролей. 
+          Комбинируя их, вы строите маршрут любой сложности.
+        </p>
+      </div>
+      <div class="nodes-grid">
+        <div class="node-card reveal">
+          <div class="node-status">активна</div>
+          <h3>Входящая нода</h3>
+          <p>
+            Принимает подключения от клиентов. Первая точка входа 
+            в инфраструктуру. Настраивается с VLESS, VMess, Trojan.
+          </p>
+          <div class="node-meta">inbound — порт 443</div>
+        </div>
+        <div class="node-card reveal-l">
+          <div class="node-status">активна</div>
+          <h3>Транзитная нода</h3>
+          <p>
+            Промежуточный узел в каскаде. Перенаправляет трафик 
+            без расшифровки. Увеличивает длину цепочки.
+          </p>
+          <div class="node-meta">relay — цепочка</div>
+        </div>
+        <div class="node-card reveal-r">
+          <div class="node-status">активна</div>
+          <h3>Исходящая нода</h3>
+          <p>
+            Финальная точка перед целевым ресурсом. Именно её IP 
+            видит внешний сервер. Последний hop.
+          </p>
+          <div class="node-meta">outbound — к цели</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONFIG ========== -->
+  <section class="section section-alt" id="config">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Конфигурация</div>
+        <h2 class="section-title">Пример настройки</h2>
+        <p class="section-desc">
+          Базовая конфигурация Xray для каскадного проксирования 
+          с двумя промежуточными нодами.
+        </p>
+      </div>
+      <div class="reveal">
+        <div class="code-block">
+<span class="cmt">// Каскад: клиент -> VLESS нода -> Shadowsocks -> цель</span><br />
+{<br />
+&nbsp;&nbsp;<span class="key">"inbounds"</span>: [{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"port"</span>: <span class="val">443</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"protocol"</span>: <span class="str">"vless"</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"settings"</span>: {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"clients"</span>: [{ <span class="key">"id"</span>: <span class="str">"uuid-here"</span> }]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;}],<br />
+&nbsp;&nbsp;<span class="key">"outbounds"</span>: [{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"protocol"</span>: <span class="str">"shadowsocks"</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"settings"</span>: {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"servers"</span>: [{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"address"</span>: <span class="str">"node2.example.com"</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"port"</span>: <span class="val">8388</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"method"</span>: <span class="str">"chacha20-ietf-poly1305"</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"password"</span>: <span class="str">"password"</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;}, {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"protocol"</span>: <span class="str">"freedom"</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"tag"</span>: <span class="str">"direct"</span><br />
+&nbsp;&nbsp;}]<br />
+}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 3X-UI — Обзор панели управления. Неофициальный лендинг.</p>
+      <div class="footer-links">
+        <a href="https://github.com/MHSanaei/3x-ui" target="_blank">GitHub</a>
+        <a href="https://xtls.github.io" target="_blank">Xray Docs</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    const nav = document.getElementById('navbar');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          nav.classList.toggle('scrolled', window.scrollY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // Mobile nav toggle
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    const overlay = document.getElementById('navOverlay');
+    const navLinks = links.querySelectorAll('a');
+
+    function openMenu() {
+      toggle.classList.add('active');
+      links.classList.add('open');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      toggle.classList.remove('active');
+      links.classList.remove('open');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', () => {
+      links.classList.contains('open') ? closeMenu() : openMenu();
+    });
+    overlay.addEventListener('click', closeMenu);
+    navLinks.forEach(a => a.addEventListener('click', closeMenu));
+
+    // Reveal
+    const reveals = document.querySelectorAll('.reveal, .reveal-l, .reveal-r');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+  </script>
+</body>
+</html>

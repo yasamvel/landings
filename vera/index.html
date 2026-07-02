@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вера — Православие. Крещение Руси. Закон Божий.</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --gold:#c9a94e;--gold-light:#e8d5a3;
+      --burgundy:#8b1a2b;--burgundy-dark:#5c101c;
+      --cream:#faf8f5;--cream2:#f5f0ea;
+    }
+    body{font-family:'Inter',sans-serif;background:var(--cream);color:#2d2a24;overflow-x:hidden}
+    h1,h2,h3,h4,.font-serif{font-family:'Playfair Display',Georgia,serif}
+    .bg-cream{background:var(--cream)}
+    .bg-cream2{background:var(--cream2)}
+    .text-gold{color:var(--gold)}
+    .text-burgundy{color:var(--burgundy)}
+    .border-gold{border-color:var(--gold-light)!important}
+    .btn-burgundy{
+      background:var(--burgundy);color:#fff;border:none;
+      box-shadow:0 4px 16px rgba(139,26,43,0.2);
+      transition:all .3s
+    }
+    .btn-burgundy:hover{
+      background:var(--burgundy-dark);color:#fff;
+      transform:translateY(-2px);
+      box-shadow:0 8px 32px rgba(139,26,43,0.3)
+    }
+    .btn-outline-gold{
+      background:transparent;color:var(--burgundy);
+      border:1px solid var(--gold-light);
+      transition:all .3s
+    }
+    .btn-outline-gold:hover{
+      background:rgba(201,169,78,0.1);
+      border-color:var(--gold)
+    }
+    .section-pad{padding:60px 0}
+    @media(max-width:768px){.section-pad{padding:40px 0}}
+    .card-hover{transition:all .3s;cursor:default}
+    .card-hover:hover{
+      transform:translateY(-4px);
+      box-shadow:0 12px 48px rgba(0,0,0,0.08);
+      border-color:var(--gold-light)!important
+    }
+    .icon-circle{
+      width:48px;height:48px;border-radius:50%;
+      background:linear-gradient(135deg,rgba(201,169,78,0.15),rgba(201,169,78,0.05));
+      border:1px solid var(--gold-light);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--gold);flex-shrink:0
+    }
+    .prayer-section{
+      background:linear-gradient(135deg,var(--burgundy-dark),var(--burgundy));
+      color:#fff
+    }
+    .prayer-box{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(8px);
+      max-width:680px;margin:0 auto
+    }
+    .prayer-text{
+      font-family:'Playfair Display',Georgia,serif;
+      font-size:clamp(18px,2.5vw,22px);
+      line-height:2;font-style:italic
+    }
+    .hero-overlay{
+      background:linear-gradient(180deg,rgba(245,240,234,0.9),rgba(250,248,245,0.95));
+    }
+    header{
+      background:rgba(250,248,245,0.85);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(232,225,214,0.5)
+    }
+    .sticky-top{position:sticky;top:0;z-index:1020}
+    .apostle-card{transition:all .3s;cursor:default}
+    .apostle-card:hover{
+      border-color:var(--gold-light)!important;
+      background:rgba(201,169,78,0.04)
+    }
+    .section-title{letter-spacing:-0.3px}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="sticky-top">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg px-0">
+      <a class="navbar-brand fw-bold font-serif fs-4 text-burgundy py-2" href="#">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--burgundy)" stroke-width="2.5" stroke-linecap="round" style="margin-right:8px;vertical-align:-4px"><path d="M12 2v20M4 12h16"/></svg>Вера
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <i class="bi bi-list fs-3"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto gap-lg-3">
+          <li class="nav-item"><a class="nav-link" href="#about">О Христе</a></li>
+          <li class="nav-item"><a class="nav-link" href="#history">Крещение Руси</a></li>
+          <li class="nav-item"><a class="nav-link" href="#church">Церковь</a></li>
+          <li class="nav-item"><a class="nav-link" href="#apostles">Апостолы</a></li>
+          <li class="nav-item"><a class="nav-link" href="#prayer">Отче наш</a></li>
+          <li class="nav-item"><a class="nav-link" href="#testament">Новый Завет</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="position-relative overflow-hidden" style="background:url('https://images.unsplash.com/photo-1531218140226-38e03a8f8b4b?w=1920&q=80') center/cover no-repeat fixed">
+  <div class="hero-overlay position-absolute inset-0 w-100 h-100" style="inset:0"></div>
+  <div class="container position-relative" style="z-index:1">
+    <div class="row align-items-center text-center" style="min-height:60vh;padding:100px 0 60px">
+      <div class="col-lg-8 mx-auto">
+        <span class="badge bg-light text-burgundy px-4 py-2 rounded-pill mb-3 fs-6 fw-normal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--burgundy)" stroke-width="2.5" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M12 2v20M4 12h16"/></svg>Православная вера
+        </span>
+        <h1 class="display-3 fw-bold mb-3 font-serif">
+          Свет <span class="text-burgundy fst-italic">Истины</span>,<br>просиявший через века
+        </h1>
+        <p class="lead text-secondary mb-5 mx-auto" style="max-width:600px">
+          Православие — это не просто религия. Это живая связь с Богом, основанная на любви, смирении и евангельских заповедях.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="#about" class="btn btn-burgundy btn-lg px-5 rounded-pill">
+            Познать истину <i class="bi bi-arrow-right ms-2"></i>
+          </a>
+          <a href="#prayer" class="btn btn-outline-gold btn-lg px-5 rounded-pill">
+            <i class="bi bi-heart me-2"></i>Молитва Господня
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT JESUS -->
+<section id="about" class="section-pad bg-cream">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <p class="text-uppercase small fw-semibold text-gold mb-1">Сын Божий</p>
+        <h2 class="display-5 fw-bold font-serif mb-3 section-title">Иисус Христос —<br>Путь, Истина и Жизнь</h2>
+        <p class="text-secondary">Иисус Христос — центральная личность христианства, Сын Божий, воплотившийся от Духа Святого и Девы Марии. Он пришёл в мир, чтобы спасти человечество от греха и даровать вечную жизнь.</p>
+        <p class="text-secondary">Его учение, изложенное в Евангелиях, стало нравственным фундаментом всей европейской цивилизации. Заповеди блаженства, Нагорная проповедь — слова Христа остаются маяком истины для миллиардов людей.</p>
+        <p class="text-secondary mb-0">Своей крестной смертью и Воскресением Он победил смерть и даровал каждому верующему надежду на спасение.</p>
+      </div>
+      <div class="col-lg-6">
+        <div class="rounded-4 shadow-lg" style="border:1px solid var(--gold-light)">
+          <div class="p-4 bg-light text-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:8px"><path d="M12 2v20M4 12h16"/></svg>
+            <p class="font-serif fst-italic mb-2 fs-5">«Я есмь путь и истина и жизнь»</p>
+            <small class="text-muted">Ин. 14:6</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY: Baptism of Rus -->
+<section id="history" class="section-pad bg-cream2">
+  <div class="container">
+    <div class="text-center mb-4">
+      <p class="text-uppercase small fw-semibold text-gold mb-1">988 год</p>
+      <h2 class="display-5 fw-bold font-serif mb-3 section-title">Крещение Руси</h2>
+      <p class="text-secondary mx-auto" style="max-width:640px">Поворотный момент в истории восточного славянства, определивший духовный и культурный путь России на тысячу лет вперёд.</p>
+    </div>
+    <div class="row g-3 justify-content-center">
+      <div class="col-lg-10">
+        <div class="card card-hover border-gold">
+          <div class="card-body p-3">
+            <p class="text-uppercase small fw-bold text-gold mb-1">~860 г.</p>
+            <h4 class="font-serif fw-bold fs-5">Первое крещение</h4>
+            <p class="text-secondary mb-0 small">Святые равноапостольные Кирилл и Мефодий несут славянскую письменность и Евангелие на земли Руси. Княгиня Ольга принимает крещение в Константинополе.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-10">
+        <div class="card card-hover border-gold">
+          <div class="card-body p-3">
+            <p class="text-uppercase small fw-bold text-gold mb-1">988 г.</p>
+            <h4 class="font-serif fw-bold fs-5">Крещение князя Владимира</h4>
+            <p class="text-secondary mb-0 small">Князь Владимир Святославич принимает православие в Корсуни и крестит киевский народ в водах Днепра.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-10">
+        <div class="card card-hover border-gold">
+          <div class="card-body p-3">
+            <p class="text-uppercase small fw-bold text-gold mb-1">XI–XIII вв.</p>
+            <h4 class="font-serif fw-bold fs-5">Расцвет православия на Руси</h4>
+            <p class="text-secondary mb-0 small">Строительство каменных храмов (София Киевская), открытие монастырей (Киево-Печерская лавра), распространение грамотности и иконописи.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RUSSIAN ORTHODOX CHURCH -->
+<section id="church" class="section-pad bg-cream">
+  <div class="container">
+    <div class="text-center mb-4">
+      <p class="text-uppercase small fw-semibold text-gold mb-1">РПЦ</p>
+      <h2 class="display-5 fw-bold font-serif mb-3 section-title">Русская Православная Церковь</h2>
+      <p class="text-secondary mx-auto" style="max-width:640px">Духовная опора России на протяжении тысячелетия — история, традиции и служение Церкви Христовой.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="icon-circle mb-3"><i class="bi bi-buildings fs-4"></i></div>
+          <h4 class="font-serif fw-bold fs-5">История и традиция</h4>
+          <p class="text-secondary mb-0 small">От крещения киевлян до наших дней — более 1000 лет непрерывного духовного преемства, святоотеческого наследия и литургической жизни.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="icon-circle mb-3"><i class="bi bi-book fs-4"></i></div>
+          <h4 class="font-serif fw-bold fs-5">Священное Писание</h4>
+          <p class="text-secondary mb-0 small">Библия — основа вероучения. Ветхий и Новый Заветы читаются за богослужениями и являются источником Божественного откровения.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="icon-circle mb-3"><i class="bi bi-droplet fs-4"></i></div>
+          <h4 class="font-serif fw-bold fs-5">Таинства и богослужение</h4>
+          <p class="text-secondary mb-0 small">Семь таинств: Крещение, Миропомазание, Причащение, Покаяние, Елеосвящение, Брак и Священство — благодатные дары Святого Духа.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="icon-circle mb-3"><i class="bi bi-person-hearts fs-4"></i></div>
+          <h4 class="font-serif fw-bold fs-5">Святые и подвижники</h4>
+          <p class="text-secondary mb-0 small">Собор русских святых: Сергий Радонежский, Серафим Саровский, Ксения Петербургская — примеры святости и любви к Богу.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="icon-circle mb-3"><i class="bi bi-shop fs-4"></i></div>
+          <h4 class="font-serif fw-bold fs-5">Храмы и монастыри</h4>
+          <p class="text-secondary mb-0 small">Тысячи храмов и обителей по всей России — от величественных соборов до скромных деревенских церквей.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="icon-circle mb-3"><i class="bi bi-file-earmark-text fs-4"></i></div>
+          <h4 class="font-serif fw-bold fs-5">Закон Божий</h4>
+          <p class="text-secondary mb-0 small">Десять заповедей и заповеди блаженства — нравственный закон, данный Богом для спасения души и праведной жизни.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 APOSTLES -->
+<section id="apostles" class="section-pad bg-cream2">
+  <div class="container">
+    <div class="text-center mb-4">
+      <p class="text-uppercase small fw-semibold text-gold mb-1">Ученики Христовы</p>
+      <h2 class="display-5 fw-bold font-serif mb-3 section-title">12 Апостолов</h2>
+      <p class="text-secondary mx-auto" style="max-width:600px">Простые рыбаки и мытари, ставшие столпами Церкви — они пронесли Евангелие до края земли.</p>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Пётр</h5>
+          <small class="text-muted">Первоверховный</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Андрей</h5>
+          <small class="text-muted">Первозванный</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Иаков Зеведеев</h5>
+          <small class="text-muted">Старший</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Иоанн</h5>
+          <small class="text-muted">Богослов</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Филипп</h5>
+          <small class="text-muted">Апостол</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Варфоломей</h5>
+          <small class="text-muted">Апостол</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Фома</h5>
+          <small class="text-muted">Неверующий</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Матфей</h5>
+          <small class="text-muted">Евангелист</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Иаков Алфеев</h5>
+          <small class="text-muted">Апостол</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Иуда Фаддей</h5>
+          <small class="text-muted">Апостол</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Симон Зилот</h5>
+          <small class="text-muted">Кананит</small>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card apostle-card border-0 shadow-sm text-center p-3 bg-white h-100">
+          <div class="icon-circle mx-auto mb-2"><i class="bi bi-person fs-4"></i></div>
+          <h5 class="fw-bold mb-0 fs-6">Матфий</h5>
+          <small class="text-muted">Заменил Искариота</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE LORD'S PRAYER -->
+<section id="prayer" class="section-pad prayer-section">
+  <div class="container">
+    <div class="text-center mb-4">
+      <p class="text-uppercase small fw-semibold mb-2" style="color:var(--gold-light)">Молитва Господня</p>
+      <h2 class="display-5 fw-bold font-serif mb-3 section-title text-white">Отче наш</h2>
+      <p style="color:rgba(255,255,255,.65);max-width:500px;margin:0 auto">Молитва, которую дал нам Сам Иисус Христос (Мф. 6:9–13).</p>
+    </div>
+    <div class="prayer-box rounded-4 p-5">
+      <div class="text-center mb-4">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" stroke-width="1.5" stroke-linecap="round" opacity=".6"><path d="M12 2v20M4 12h16"/></svg>
+      </div>
+      <div class="prayer-text text-center text-white">
+        Отче наш, сущий на небесах!<br>
+        Да святится имя Твоё;<br>
+        Да приидет Царствие Твоё;<br>
+        Да будет воля Твоя и на земле, как на небе;<br>
+        Хлеб наш насущный дай нам на сей день;<br>
+        И прости нам долги наши, как и мы прощаем должникам нашим;<br>
+        И не введи нас в искушение, но избавь нас от лукавого.<br><br>
+        Ибо Твоё есть Царство и сила и слава во веки.<br>
+        Аминь.
+      </div>
+      <p class="text-center mt-4 mb-0" style="font-size:13px;color:rgba(255,255,255,.4)">Мф. 6:9–13</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEW TESTAMENT -->
+<section id="testament" class="section-pad bg-cream">
+  <div class="container">
+    <div class="text-center mb-4">
+      <p class="text-uppercase small fw-semibold text-gold mb-1">Священное Писание</p>
+      <h2 class="display-5 fw-bold font-serif mb-3 section-title">Новый Завет</h2>
+      <p class="text-secondary mx-auto" style="max-width:640px">27 книг, написанных апостолами — сердце христианского откровения о спасении и любви Божией.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="d-flex gap-3 align-items-start">
+            <span class="icon-circle">1</span>
+            <div>
+              <h4 class="font-serif fw-bold fs-5 mb-1">Евангелие от Матфея</h4>
+              <p class="text-secondary small mb-0">Наиболее полное изложение Нагорной проповеди, заповедей блаженства и молитвы «Отче наш».</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="d-flex gap-3 align-items-start">
+            <span class="icon-circle">2</span>
+            <div>
+              <h4 class="font-serif fw-bold fs-5 mb-1">Евангелие от Марка</h4>
+              <p class="text-secondary small mb-0">Самое краткое Евангелие. Акцент на чудесах Христа и Его Божественной силе.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="d-flex gap-3 align-items-start">
+            <span class="icon-circle">3</span>
+            <div>
+              <h4 class="font-serif fw-bold fs-5 mb-1">Евангелие от Луки</h4>
+              <p class="text-secondary small mb-0">Наиболее литературное. Содержит притчи о блудном сыне и добром самарянине.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="d-flex gap-3 align-items-start">
+            <span class="icon-circle">4</span>
+            <div>
+              <h4 class="font-serif fw-bold fs-5 mb-1">Евангелие от Иоанна</h4>
+              <p class="text-secondary small mb-0">«В начале было Слово» — раскрывает Божественную природу Христа.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="d-flex gap-3 align-items-start">
+            <span class="icon-circle">5</span>
+            <div>
+              <h4 class="font-serif fw-bold fs-5 mb-1">Деяния апостолов</h4>
+              <p class="text-secondary small mb-0">История рождения Церкви: сошествие Святого Духа, проповедь апостолов.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="d-flex gap-3 align-items-start">
+            <span class="icon-circle">6</span>
+            <div>
+              <h4 class="font-serif fw-bold fs-5 mb-1">Послания апостолов</h4>
+              <p class="text-secondary small mb-0">21 послание — наставления в вере, нравственные уроки и разъяснение учения.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="d-flex gap-3 align-items-start">
+            <span class="icon-circle">7</span>
+            <div>
+              <h4 class="font-serif fw-bold fs-5 mb-1">Откровение Иоанна Богослова</h4>
+              <p class="text-secondary small mb-0">Апокалипсис — пророческая книга о конце времён и Небесном Иерусалиме.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-hover border-0 shadow-sm h-100 p-3">
+          <div class="d-flex gap-3 align-items-start">
+            <span class="icon-circle">8</span>
+            <div>
+              <h4 class="font-serif fw-bold fs-5 mb-1">Закон Божий</h4>
+              <p class="text-secondary small mb-0">10 заповедей, Заповеди блаженства, две главные заповеди о любви к Богу и ближнему.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-pad bg-cream2">
+  <div class="container text-center">
+    <h2 class="display-5 fw-bold font-serif mb-3 section-title">Прими свет истины</h2>
+    <p class="text-secondary mx-auto mb-4" style="max-width:500px">Вера начинается с открытого сердца. Приди в храм, прочитай Евангелие, сотвори первую молитву.</p>
+    <a href="#prayer" class="btn btn-burgundy btn-lg px-5 rounded-pill">
+      <i class="bi bi-heart me-2"></i>Читать «Отче наш»
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4 border-top" style="border-color:var(--gold-light)!important">
+  <div class="container">
+    <div class="d-flex justify-content-center gap-4 mb-2 flex-wrap">
+      <a href="#about" class="text-decoration-none small text-muted">О Христе</a>
+      <a href="#history" class="text-decoration-none small text-muted">Крещение Руси</a>
+      <a href="#church" class="text-decoration-none small text-muted">РПЦ</a>
+      <a href="#apostles" class="text-decoration-none small text-muted">Апостолы</a>
+      <a href="#testament" class="text-decoration-none small text-muted">Новый Завет</a>
+    </div>
+    <p class="text-center small text-muted mb-0 opacity-75">© 2026. Слава Богу за всё.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

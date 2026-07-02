@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTS App — Магазин приложений для Android</title>
+  <meta name="description" content="MTS App — официальный магазин приложений для Android. Тысячи проверенных приложений, игр и программ. Безопасно, быстро, бесплатно.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f1a;
+      --bg-card: #1a1a2e;
+      --bg-elevated: #222240;
+      --fg: #f0f0f5;
+      --fg-secondary: #9090a8;
+      --accent: #ff4d4d;
+      --accent-hover: #ff3333;
+      --accent-glow: rgba(255, 77, 77, 0.3);
+      --green: #4caf50;
+      --blue: #5b7cfa;
+      --yellow: #ffc107;
+      --purple: #a855f7;
+      --cyan: #22d3ee;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --max-width: 1200px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    .bg-glow {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .bg-glow::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      top: -200px;
+      right: -100px;
+      background: radial-gradient(circle, rgba(255, 77, 77, 0.12) 0%, transparent 70%);
+      animation: float 20s ease-in-out infinite;
+    }
+    .bg-glow::after {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      bottom: -100px;
+      left: -100px;
+      background: radial-gradient(circle, rgba(91, 124, 250, 0.1) 0%, transparent 70%);
+      animation: float 25s ease-in-out infinite reverse;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -40px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* --- Nav --- */
+    nav {
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(15, 15, 26, 0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--fg);
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+      font-weight: 800;
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      color: var(--fg-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--fg); }
+    .btn-nav {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-nav:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--fg);
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* --- Hero --- */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 77, 77, 0.12);
+      border: 1px solid rgba(255, 77, 77, 0.2);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--purple), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--fg-secondary);
+      max-width: 620px;
+      margin: 0 auto 40px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: white;
+      padding: 16px 36px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-card);
+      color: var(--fg);
+      padding: 16px 36px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { background: var(--bg-elevated); transform: translateY(-2px); }
+
+    .hero-apps {
+      margin-top: 64px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      opacity: 0.6;
+    }
+    .hero-app {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .hero-app:hover { transform: translateY(-4px); opacity: 1; }
+
+    /* --- Features --- */
+    .features {
+      padding: 100px 0;
+    }
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      color: var(--fg-secondary);
+      font-size: 17px;
+      max-width: 540px;
+      margin-bottom: 56px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--fg-secondary);
+      line-height: 1.7;
+    }
+
+    /* --- Categories --- */
+    .categories {
+      padding: 80px 0;
+    }
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+    .category-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius-sm);
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
+      text-decoration: none;
+      color: var(--fg);
+    }
+    .category-card:hover {
+      transform: translateY(-3px);
+      background: var(--bg-elevated);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .category-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+    .category-card span {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* --- Stats --- */
+    .stats {
+      padding: 80px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--fg), var(--fg-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 14px;
+      color: var(--fg-secondary);
+      margin-top: 8px;
+    }
+
+    /* --- CTA --- */
+    .cta {
+      padding: 100px 0;
+      text-align: center;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(255,77,77,0.06), rgba(168,85,247,0.06));
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 24px;
+      padding: 64px 32px;
+    }
+    .cta h2 {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .cta p {
+      color: var(--fg-secondary);
+      font-size: 17px;
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* --- Footer --- */
+    footer {
+      padding: 48px 0 32px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand p {
+      font-size: 14px;
+      color: var(--fg-secondary);
+      margin-top: 12px;
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--fg-secondary);
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      color: var(--fg-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--fg); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.04);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--fg-secondary);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .hero { padding: 60px 0 50px; }
+    }
+    @media (max-width: 680px) {
+      .nav-links a { display: none; }
+      .mobile-menu-btn { display: block; }
+      .nav-links a.btn-nav { display: inline-flex; }
+      .hero-apps { gap: 12px; }
+      .hero-app { width: 56px; height: 56px; font-size: 24px; border-radius: 14px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .cta-box { padding: 40px 24px; }
+    }
+
+    /* --- Animations --- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BG Glow -->
+  <div class="bg-glow"></div>
+
+  <!-- Nav -->
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">
+        <span class="logo-icon">M</span>
+        MTS App
+      </a>
+      <div class="nav-links">
+        <a href="#features">Возможности</a>
+        <a href="#categories">Категории</a>
+        <a href="#stats">Статистика</a>
+        <a href="#cta" class="btn-nav">Установить</a>
+      </div>
+      <button class="mobile-menu-btn" onclick="toggleMobile()">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge fade-in">🚀 Уже доступно на mtsapp.ru</div>
+      <h1 class="fade-in">
+        Магазин приложений<br>
+        <span>для Android</span>
+      </h1>
+      <p class="fade-in">
+        Тысячи проверенных приложений, игр и программ. Безопасная загрузка,
+        удобный поиск и регулярные обновления — всё в одном месте.
+      </p>
+      <div class="hero-buttons fade-in">
+        <a href="#cta" class="btn-primary">
+          📲 Скачать MTS App
+        </a>
+        <a href="#features" class="btn-secondary">
+          Узнать больше →
+        </a>
+      </div>
+      <div class="hero-apps fade-in">
+        <div class="hero-app">📱</div>
+        <div class="hero-app">🎮</div>
+        <div class="hero-app">📷</div>
+        <div class="hero-app">🎵</div>
+        <div class="hero-app">💼</div>
+        <div class="hero-app">📚</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-label fade-in">Почему MTS App</div>
+      <h2 class="section-title fade-in">Всё, что нужно для комфортного использования</h2>
+      <p class="section-sub fade-in">
+        Мы сделали магазин приложений удобным, быстрым и безопасным — чтобы вы
+        могли сосредоточиться на том, что действительно важно.
+      </p>
+      <div class="features-grid">
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(76,175,80,0.15); color: var(--green);">🛡️</div>
+          <h3>Проверенные приложения</h3>
+          <p>Каждое приложение проходит автоматическую и ручную проверку на вирусы, вредоносный код и уязвимости.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(91,124,250,0.15); color: var(--blue);">⚡</div>
+          <h3>Мгновенная загрузка</h3>
+          <p>Серверы по всей России обеспечивают высокую скорость скачивания даже в регионах с нестабильным интернетом.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(255,193,7,0.15); color: var(--yellow);">🔄</div>
+          <h3>Автообновления</h3>
+          <p>Приложения обновляются автоматически. Вы всегда пользуетесь последними версиями с актуальными функциями.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(168,85,247,0.15); color: var(--purple);">🎯</div>
+          <h3>Умные рекомендации</h3>
+          <p>Персональные подборки на основе ваших интересов. Никакого спама — только то, что вам действительно нужно.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(34,211,238,0.15); color: var(--cyan);">📦</div>
+          <h3>Компактные APK</h3>
+          <p>Оптимизированные сборки .apk занимают меньше места на устройстве и устанавливаются в два клика.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(255,77,77,0.15); color: var(--accent);">👨‍👩‍👧‍👦</div>
+          <h3>Родительский контроль</h3>
+          <p>Гибкие настройки ограничений: фильтр по возрасту, контроль времени и список разрешённых приложений.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories" id="categories">
+    <div class="container">
+      <div class="section-label fade-in">Категории</div>
+      <h2 class="section-title fade-in">Тысячи приложений на любой вкус</h2>
+      <p class="section-sub fade-in">
+        От игр и социальных сетей до профессиональных инструментов — у нас есть всё.
+      </p>
+      <div class="categories-grid">
+        <a href="#" class="category-card fade-in">
+          <div class="category-icon">🎮</div>
+          <span>Игры</span>
+        </a>
+        <a href="#" class="category-card fade-in">
+          <div class="category-icon">📱</div>
+          <span>Соцсети</span>
+        </a>
+        <a href="#" class="category-card fade-in">
+          <div class="category-icon">💼</div>
+          <span>Работа</span>
+        </a>
+        <a href="#" class="category-card fade-in">
+          <div class="category-icon">🎵</div>
+          <span>Музыка</span>
+        </a>
+        <a href="#" class="category-card fade-in">
+          <div class="category-icon">📷</div>
+          <span>Фото</span>
+        </a>
+        <a href="#" class="category-card fade-in">
+          <div class="category-icon">🎬</div>
+          <span>Видео</span>
+        </a>
+        <a href="#" class="category-card fade-in">
+          <div class="category-icon">📚</div>
+          <span>Образование</span>
+        </a>
+        <a href="#" class="category-card fade-in">
+          <div class="category-icon">🏋️</div>
+          <span>Здоровье</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats" id="stats">
+    <div class="container">
+      <div class="section-label fade-in" style="text-align:center;">MTS App в цифрах</div>
+      <h2 class="section-title fade-in" style="text-align:center;">Нам доверяют миллионы</h2>
+      <p class="section-sub fade-in" style="text-align:center; margin-left:auto;margin-right:auto;">
+        С каждым днём наше сообщество растёт, а каталог пополняется новыми приложениями.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-card fade-in">
+          <div class="stat-number">10 000+</div>
+          <div class="stat-label">Приложений в каталоге</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-number">5 млн+</div>
+          <div class="stat-label">Активных пользователей</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-number">99.9%</div>
+          <div class="stat-label">Безопасных загрузок</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-number">4.8 ★</div>
+          <div class="stat-label">Средний рейтинг приложений</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <div class="container">
+      <div class="cta-box fade-in">
+        <h2>Готовы попробовать?</h2>
+        <p>
+          Скачайте MTS App прямо сейчас и откройте для себя мир качественных
+          Android-приложений. Бесплатно и без регистрации.
+        </p>
+        <a href="#" class="btn-primary" style="font-size:18px; padding:18px 44px;">
+          📲 Скачать MTS App
+        </a>
+        <p style="margin-top:20px; font-size:13px; color:var(--fg-secondary);">
+          Совместимо с Android 8.0 и выше • APK 12 МБ
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <span class="logo-icon">M</span>
+            MTS App
+          </a>
+          <p>Официальный магазин приложений для Android. Безопасно, быстро, бесплатно.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Продукт</h4>
+          <a href="#">Каталог</a>
+          <a href="#">Популярное</a>
+          <a href="#">Новинки</a>
+          <a href="#">Обновления</a>
+        </div>
+        <div class="footer-col">
+          <h4>Поддержка</h4>
+          <a href="#">Помощь</a>
+          <a href="#">Безопасность</a>
+          <a href="#">Сообщить о проблеме</a>
+          <a href="#">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Правовая информация</h4>
+          <a href="#">Политика конфиденциальности</a>
+          <a href="#">Условия использования</a>
+          <a href="#">Лицензии</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 MTS App. Все права защищены.</span>
+        <span>mtsapp.ru — магазин приложений для Android</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Intersection Observer for fade-in -->
+  <script>
+    function toggleMobile() {
+      const links = document.querySelector('.nav-links');
+      const btn = links.querySelector('.btn-nav');
+      const all = links.querySelectorAll('a');
+      const isOpen = links.style.display === 'flex';
+      if (isOpen) {
+        links.style.display = '';
+      } else {
+        links.style.display = 'flex';
+        links.style.flexDirection = 'column';
+        links.style.position = 'absolute';
+        links.style.top = '70px';
+        links.style.left = '0';
+        links.style.right = '0';
+        links.style.background = 'rgba(15,15,26,0.98)';
+        links.style.padding = '20px 24px';
+        links.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+        all.forEach(a => { a.style.display = 'block'; a.style.padding = '10px 0'; });
+        btn.style.display = 'inline-block';
+        btn.style.marginTop = '8px';
+        btn.style.width = '100%';
+        btn.style.textAlign = 'center';
+      }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Nav scroll hide
+    let lastScroll = 0;
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      const current = window.scrollY;
+      if (current > lastScroll && current > 100) {
+        nav.style.transform = 'translateY(-100%)';
+      } else {
+        nav.style.transform = 'translateY(0)';
+      }
+      lastScroll = current;
+    });
+  </script>
+</body>
+</html>

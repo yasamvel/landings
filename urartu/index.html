@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URARTU — Колыбель древней цивилизации</title>
+  <meta name="description" content="История государства Урарту — одной из величайших держав древнего Ближнего Востока. IX–VI века до н.э., Армянское нагорье, озеро Ван.">
+  <meta name="keywords" content="Урарту, Urartu, Арарат, древняя цивилизация, Армянское нагорье, Эребуни, Ванская крепость, Аргишти">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="#hero">
+      <span class="brand-urartu">URARTU</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+        <li class="nav-item"><a class="nav-link" href="#about">О государстве</a></li>
+        <li class="nav-item"><a class="nav-link" href="#timeline">Хронология</a></li>
+        <li class="nav-item"><a class="nav-link" href="#kings">Цари</a></li>
+        <li class="nav-item"><a class="nav-link" href="#architecture">Архитектура</a></li>
+        <li class="nav-item"><a class="nav-link" href="#culture">Культура</a></li>
+        <li class="nav-item"><a class="nav-link" href="#facts">Факты</a></li>
+        <li class="nav-item">
+          <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+            <i class="bi bi-moon-stars-fill"></i>
+            <i class="bi bi-sun-fill"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ====== HERO ====== -->
+<section id="hero" class="hero-section">
+  <div class="hero-overlay"></div>
+  <svg class="ararat-silhouette" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="araratGrad" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="currentColor" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="currentColor" stop-opacity="0.05"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,500 L30,430 L80,460 L120,380 L180,410 L230,300 L270,340 L320,220 L360,280 L400,180 L440,260 L490,150 L520,220 L570,280 L620,200 L660,260 L710,340 L750,300 L800,370 L850,330 L890,400 L940,360 L970,420 L1000,500 Z"
+          fill="url(#araratGrad)"/>
+    <path d="M400,180 L440,260 L490,150 L520,220" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.2"/>
+  </svg>
+  <div class="hero-content">
+    <div class="container text-center">
+      <span class="hero-badge fade-up">Армянское нагорье · IX в. до н.э.</span>
+      <h1 class="hero-logo fade-up">URARTU</h1>
+      <p class="hero-subtitle fade-up">Колыбель древней цивилизации</p>
+      <p class="hero-desc fade-up">История государства Урарту — одной из величайших держав<br class="d-none d-md-block"> древнего Ближнего Востока</p>
+      <a href="#about" class="btn btn-hero fade-up">
+        Исследовать историю <i class="bi bi-arrow-down ms-2"></i>
+      </a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span></span>
+  </div>
+</section>
+
+<!-- ====== ABOUT ====== -->
+<section id="about" class="section-padding">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 reveal">
+        <span class="section-tag">История</span>
+        <h2 class="section-title">О государстве Урарту</h2>
+        <div class="divider"></div>
+        <p class="section-text">
+          Урарту — древнее государство, возникшее в <strong>IX веке до н. э.</strong> 
+          на территории Армянского нагорья, в районе озера <strong>Ван</strong> 
+          (территория современной Турции, Армении и Ирана).
+        </p>
+        <p class="section-text">
+          На пике своего могущества Урарту охватывало обширные территории 
+          Закавказья и являлось одной из ведущих держав Ближнего Востока, 
+          на равных соперничая с <strong>Ассирийской империей</strong>.
+        </p>
+        <p class="section-text">
+          Урарту оставило богатое культурное наследие: 
+          развитую ирригационную систему, величественные крепости, 
+          уникальную письменность и высокое искусство металлообработки.
+        </p>
+      </div>
+      <div class="col-lg-6 reveal">
+        <div class="about-visual">
+          <div class="about-map-placeholder">
+            <svg viewBox="0 0 600 400" class="map-svg">
+              <defs>
+                <linearGradient id="lakeGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#D6A54B" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#A34A2A" stop-opacity="0.1"/>
+                </linearGradient>
+              </defs>
+              <!-- Lake Van -->
+              <ellipse cx="300" cy="220" rx="90" ry="55" fill="url(#lakeGrad)" stroke="#D6A54B" stroke-width="1.5" opacity="0.6"/>
+              <!-- Ararat -->
+              <path d="M420,350 L460,200 L480,240 L500,160 L520,230 L540,180 L580,350" fill="none" stroke="#A34A2A" stroke-width="2" opacity="0.4"/>
+              <text x="250" y="130" fill="#D6A54B" font-size="11" opacity="0.6" font-family="Inter">ARMENIAN</text>
+              <text x="260" y="145" fill="#D6A54B" font-size="11" opacity="0.6" font-family="Inter">HIGHLANDS</text>
+              <text x="290" y="255" fill="#D6A54B" font-size="9" opacity="0.5" font-family="Inter">оз.Ван</text>
+              <text x="240" y="370" fill="#A34A2A" font-size="8" opacity="0.3">~ IX в. до н.э.</text>
+            </svg>
+          </div>
+          <div class="about-stats">
+            <div class="about-stat-item">
+              <span class="about-stat-num">IX</span>
+              <span class="about-stat-label">век до н.э.</span>
+            </div>
+            <div class="about-stat-divider"></div>
+            <div class="about-stat-item">
+              <span class="about-stat-num">200+</span>
+              <span class="about-stat-label">крепостей</span>
+            </div>
+            <div class="about-stat-divider"></div>
+            <div class="about-stat-item">
+              <span class="about-stat-num">300</span>
+              <span class="about-stat-label">лет истории</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== TIMELINE ====== -->
+<section id="timeline" class="section-padding section-dark">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-tag light">Хронология</span>
+      <h2 class="section-title light">Историческая временная шкала</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+    <div class="timeline mt-5">
+      <div class="timeline-item reveal">
+        <div class="timeline-marker">
+          <span class="timeline-year">IX в. до н.э.</span>
+        </div>
+        <div class="timeline-content">
+          <h4>Основание царства</h4>
+          <p>Образование государства Урарту на Армянском нагорье. Первые упоминания в ассирийских источниках.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-marker">
+          <span class="timeline-year">IX–VIII вв.</span>
+        </div>
+        <div class="timeline-content">
+          <h4>Период расцвета</h4>
+          <p>Урарту становится одной из мощнейших держав региона. Расширение границ, укрепление армии и экономики.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-marker">
+          <span class="timeline-year">VIII в. до н.э.</span>
+        </div>
+        <div class="timeline-content">
+          <h4>Строительство крепостей</h4>
+          <p>Возведение Эребуни, Тейшебаини и сотен других крепостей. Расцвет архитектуры и фортификации.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-marker">
+          <span class="timeline-year">VIII–VII вв.</span>
+        </div>
+        <div class="timeline-content">
+          <h4>Войны с Ассирией</h4>
+          <p>Длительное противостояние с Ассирийской империей. Походы Саргона II и Тиглатпаласара III.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-marker">
+          <span class="timeline-year">VI в. до н.э.</span>
+        </div>
+        <div class="timeline-content">
+          <h4>Закат государства</h4>
+          <p>Ослабление Урарту под натиском скифов, киммерийцев и мидян. Переход территорий под власть Ахеменидов.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== KINGS ====== -->
+<section id="kings" class="section-padding">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-tag">Правители</span>
+      <h2 class="section-title">Великие цари Урарту</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+    <div class="row g-4 mt-4">
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="king-card">
+          <div class="king-icon"><i class="bi bi-crown"></i></div>
+          <h3 class="king-name">Арама</h3>
+          <p class="king-period">IX в. до н.э.</p>
+          <p class="king-desc">Первый известный правитель Урарту. Упоминается в ассирийских надписях как основатель царской династии.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="king-card">
+          <div class="king-icon"><i class="bi bi-shield-fill"></i></div>
+          <h3 class="king-name">Сардури I</h3>
+          <p class="king-period">~844–828 гг. до н.э.</p>
+          <p class="king-desc">Укрепил государство, перенёс столицу в Тушпу (Ван). Строитель монументальных крепостных стен.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="king-card">
+          <div class="king-icon"><i class="bi bi-building"></i></div>
+          <h3 class="king-name">Ишпуини</h3>
+          <p class="king-period">~828–810 гг. до н.э.</p>
+          <p class="king-desc">Создатель урартской письменности. Ввёл клинопись и систематизировал религиозный пантеон.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="king-card">
+          <div class="king-icon"><i class="bi bi-water"></i></div>
+          <h3 class="king-name">Менуа</h3>
+          <p class="king-period">~810–786 гг. до н.э.</p>
+          <p class="king-desc">Создатель грандиозной ирригационной системы. Построил канал Менуа длиной более 70 км.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="king-card">
+          <div class="king-icon"><i class="bi bi-trophy-fill"></i></div>
+          <h3 class="king-name">Аргишти I</h3>
+          <p class="king-period">~786–764 гг. до н.э.</p>
+          <p class="king-desc">Царь-завоеватель. Основал Эребуни (Ереван). При нём Урарту достигло максимальных границ.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="king-card">
+          <div class="king-icon"><i class="bi bi-book-fill"></i></div>
+          <h3 class="king-name">Руса I</h3>
+          <p class="king-period">~735–714 гг. до н.э.</p>
+          <p class="king-desc">Последний великий царь. Построил крепость Тейшебаини, вёл борьбу с Ассирией и киммерийцами.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ARCHITECTURE ====== -->
+<section id="architecture" class="section-padding section-dark">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-tag light">Архитектура</span>
+      <h2 class="section-title light">Крепости и города</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+    <div class="row g-4 mt-4">
+      <div class="col-md-4 reveal">
+        <div class="arch-card">
+          <div class="arch-visual">
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="250" fill="#2F2A26" rx="8"/>
+              <path d="M0,250 L50,190 L100,210 L150,140 L200,180 L250,120 L300,160 L350,100 L400,180 L400,250 Z" fill="#A34A2A" opacity="0.3"/>
+              <rect x="160" y="110" width="80" height="60" fill="none" stroke="#D6A54B" stroke-width="2" opacity="0.5"/>
+              <path d="M160,110 L200,80 L240,110" fill="none" stroke="#D6A54B" stroke-width="2" opacity="0.5"/>
+              <text x="140" y="230" fill="#F2E6D0" font-size="14" font-family="Playfair Display">Эребуни</text>
+            </svg>
+          </div>
+          <div class="arch-body">
+            <h4>Эребуни</h4>
+            <p>Основана Аргишти I в 782 г. до н.э. Крепость на холме Арин-Берд в современном Ереване.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal">
+        <div class="arch-card">
+          <div class="arch-visual">
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="250" fill="#2F2A26" rx="8"/>
+              <path d="M0,250 L60,200 L120,230 L180,160 L240,180 L300,130 L340,170 L400,220 L400,250 Z" fill="#A34A2A" opacity="0.25"/>
+              <rect x="100" y="140" width="60" height="40" fill="none" stroke="#D6A54B" stroke-width="1.5" opacity="0.4"/>
+              <rect x="240" y="120" width="50" height="35" fill="none" stroke="#D6A54B" stroke-width="1.5" opacity="0.4"/>
+              <text x="125" y="230" fill="#F2E6D0" font-size="14" font-family="Playfair Display">Тейшебаини</text>
+            </svg>
+          </div>
+          <div class="arch-body">
+            <h4>Тейшебаини</h4>
+            <p>Крепость на холме Кармир-Блур, построенная Русой I. Центр административного управления.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal">
+        <div class="arch-card">
+          <div class="arch-visual">
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="250" fill="#2F2A26" rx="8"/>
+              <path d="M0,250 L30,220 L80,240 L130,170 L180,200 L230,130 L280,160 L330,100 L370,150 L400,190 L400,250 Z" fill="#A34A2A" opacity="0.3"/>
+              <rect x="40" y="170" width="100" height="50" fill="none" stroke="#D6A54B" stroke-width="2" opacity="0.5"/>
+              <rect x="260" y="90" width="60" height="45" fill="none" stroke="#D6A54B" stroke-width="1.5" opacity="0.4"/>
+              <text x="120" y="230" fill="#F2E6D0" font-size="14" font-family="Playfair Display">Ванская крепость</text>
+            </svg>
+          </div>
+          <div class="arch-body">
+            <h4>Ванская крепость</h4>
+            <p>Столица Тушпа (Ван). Высечена в скале, монументальные залы и царские усыпальницы.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CULTURE ====== -->
+<section id="culture" class="section-padding">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-tag">Наследие</span>
+      <h2 class="section-title">Культура и наследие</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+    <div class="row g-4 mt-4">
+      <div class="col-md-6 col-lg-3 reveal">
+        <div class="culture-card">
+          <div class="culture-icon"><i class="bi bi-pencil-square"></i></div>
+          <h4>Письменность</h4>
+          <p>Урартская клинопись, заимствованная у ассирийцев, но адаптированная под местный язык. Надписи на камне и глине.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 reveal">
+        <div class="culture-card">
+          <div class="culture-icon"><i class="bi bi-gear-wide-connected"></i></div>
+          <h4>Металлургия</h4>
+          <p>Высокое искусство обработки бронзы и железа. Боевые топоры, щиты, шлемы, ювелирные изделия и культовые предметы.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 reveal">
+        <div class="culture-card">
+          <div class="culture-icon"><i class="bi bi-droplet"></i></div>
+          <h4>Ирригация</h4>
+          <p>Грандиозная сеть каналов и водохранилищ. Канал Менуа (70+ км) — шедевр древней гидротехники.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 reveal">
+        <div class="culture-card">
+          <div class="culture-icon"><i class="bi bi-sun-fill"></i></div>
+          <h4>Религия</h4>
+          <p>Пантеон во главе с богом Халди. Культовые центры, храмы, ритуальные надписи и церемонии.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== GALLERY ====== -->
+<section id="gallery" class="section-padding section-dark">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-tag light">Галерея</span>
+      <h2 class="section-title light">Артефакты и наследие</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+    <div class="row g-3 mt-4">
+      <div class="col-6 col-md-4 col-lg-3 reveal">
+        <div class="gallery-item">
+          <svg viewBox="0 0 300 300">
+            <rect width="300" height="300" fill="#2F2A26"/>
+            <circle cx="150" cy="140" r="50" fill="none" stroke="#D6A54B" stroke-width="2" opacity="0.5"/>
+            <circle cx="150" cy="140" r="25" fill="none" stroke="#D6A54B" stroke-width="1.5" opacity="0.3"/>
+            <path d="M120,200 L180,200" stroke="#D6A54B" stroke-width="2" opacity="0.4"/>
+            <text x="95" y="260" fill="#F2E6D0" font-size="11" opacity="0.7">Бронзовый щит</text>
+          </svg>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 reveal">
+        <div class="gallery-item">
+          <svg viewBox="0 0 300 300">
+            <rect width="300" height="300" fill="#2F2A26"/>
+            <path d="M100,200 L150,70 L200,200 Z" fill="none" stroke="#D6A54B" stroke-width="2" opacity="0.5"/>
+            <path d="M80,200 L220,200" stroke="#D6A54B" stroke-width="1.5" opacity="0.3"/>
+            <rect x="130" y="130" width="40" height="30" fill="none" stroke="#A34A2A" stroke-width="1.5" opacity="0.5"/>
+            <text x="85" y="260" fill="#F2E6D0" font-size="11" opacity="0.7">Клинопись</text>
+          </svg>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 reveal">
+        <div class="gallery-item">
+          <svg viewBox="0 0 300 300">
+            <rect width="300" height="300" fill="#2F2A26"/>
+            <path d="M50,250 L100,180 L150,200 L200,140 L250,180 L300,250 Z" fill="#A34A2A" opacity="0.3"/>
+            <rect x="130" y="130" width="30" height="50" fill="none" stroke="#D6A54B" stroke-width="2" opacity="0.5"/>
+            <text x="85" y="280" fill="#F2E6D0" font-size="11" opacity="0.7">Крепость</text>
+          </svg>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 reveal">
+        <div class="gallery-item">
+          <svg viewBox="0 0 300 300">
+            <rect width="300" height="300" fill="#2F2A26"/>
+            <path d="M30,280 L100,180 L180,220 L250,130 L280,280 Z" fill="none" stroke="#D6A54B" stroke-width="2" opacity="0.3"/>
+            <path d="M100,180 L120,140 L140,180" fill="none" stroke="#A34A2A" stroke-width="1.5" opacity="0.5"/>
+            <text x="85" y="260" fill="#F2E6D0" font-size="11" opacity="0.7">Арарат</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FACTS ====== -->
+<section id="facts" class="section-padding">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-tag">Факты</span>
+      <h2 class="section-title">Урарту в цифрах</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+    <div class="row g-4 mt-4">
+      <div class="col-md-4 reveal">
+        <div class="fact-card">
+          <div class="fact-number"><span class="count-up" data-target="9">0</span></div>
+          <div class="fact-suffix">IX–VI века до н.э.</div>
+          <p class="fact-label">Эпоха Урарту — более 300 лет великой истории</p>
+        </div>
+      </div>
+      <div class="col-md-4 reveal">
+        <div class="fact-card">
+          <div class="fact-number"><span class="count-up" data-target="200">0</span>+</div>
+          <div class="fact-suffix">крепостей</div>
+          <p class="fact-label">Более 200 крепостей построено на всей территории государства</p>
+        </div>
+      </div>
+      <div class="col-md-4 reveal">
+        <div class="fact-card">
+          <div class="fact-number"><span class="count-up" data-target="100">0</span>00+</div>
+          <div class="fact-suffix">археологических находок</div>
+          <p class="fact-label">Тысячи артефактов, раскрывающих историю древней цивилизации</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CTA ====== -->
+<section class="section-padding cta-section">
+  <div class="container text-center reveal">
+    <h2 class="cta-title">Откройте для себя Урарту</h2>
+    <p class="cta-text">История древней цивилизации, затерянной среди гор Армянского нагорья</p>
+    <a href="#hero" class="btn btn-hero">
+      <i class="bi bi-arrow-up me-2"></i> К началу
+    </a>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <span class="footer-logo">URARTU</span>
+        <p class="footer-desc mt-3">Историко-культурный проект, посвящённый древнему государству Урарту — колыбели цивилизации на Армянском нагорье.</p>
+      </div>
+      <div class="col-lg-4">
+        <h5 class="footer-heading">Навигация</h5>
+        <ul class="footer-links">
+          <li><a href="#about">О государстве</a></li>
+          <li><a href="#timeline">Хронология</a></li>
+          <li><a href="#kings">Цари</a></li>
+          <li><a href="#architecture">Архитектура</a></li>
+          <li><a href="#culture">Культура</a></li>
+          <li><a href="#facts">Факты</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <h5 class="footer-heading">Связаться</h5>
+        <div class="footer-social mt-3">
+          <a href="#" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-link" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-link" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+        <p class="footer-credit mt-3">© 2026 URARTU Project. Все права защищены.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Создано с уважением к истории древней Армении</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

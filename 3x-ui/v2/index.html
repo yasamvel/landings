@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3X-UI — панель управления Xray</title>
+<meta name="description" content="3X-UI — продвинутая open-source панель управления Xray-core. Мультипротокольный прокси-сервер с веб-интерфейсом, Telegram-ботом, статистикой трафика и Docker.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' rx='8' fill='%230ea5e9'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='system-ui' font-weight='800' font-size='18' fill='%23fff'%3E3X%3C/text%3E%3C/svg%3E">
+
+<!-- Materialize CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<!-- Material Icons (встроенные в Materialize) -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- Google Fonts для заголовков -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --accent: #0ea5e9;
+  --accent-dark: #0284c7;
+  --bg-dark: #0f172a;
+  --bg-card: #1e293b;
+  --text-light: #f1f5f9;
+  --text-muted: #94a3b8;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-light);
+}
+
+/* Navbar */
+nav { 
+  background: rgba(15,23,42,0.92); 
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+  height: 64px;
+  line-height: 64px;
+}
+nav .brand-logo { 
+  font-weight: 800; 
+  font-size: 22px; 
+  letter-spacing: -0.03em;
+  padding-left: 20px;
+}
+nav .brand-logo .accent { color: var(--accent); }
+nav ul a { 
+  font-weight: 500; 
+  font-size: 14px; 
+  color: var(--text-muted) !important;
+  transition: color .2s;
+}
+nav ul a:hover { color: var(--text-light) !important; }
+nav ul a .material-icons { font-size: 18px; margin-right: 4px; vertical-align: middle; }
+nav .sidenav-trigger i { font-size: 28px; }
+
+/* Sidenav */
+.sidenav { background: var(--bg-dark); }
+.sidenav li a { color: var(--text-muted); font-weight: 500; padding: 0 24px; }
+.sidenav li a:hover { color: var(--text-light); background: rgba(255,255,255,0.05); }
+
+/* Hero */
+.hero-section {
+  padding: 80px 0 60px;
+  position: relative;
+  overflow: hidden;
+  min-height: 600px;
+}
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-section h1 {
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  margin: 40px 0 20px;
+}
+.hero-section h1 .accent { color: var(--accent); }
+.hero-section .lead {
+  font-size: 18px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 600px;
+  margin-bottom: 32px;
+}
+.hero-section .stats-row {
+  display: flex;
+  gap: 40px;
+  margin: 36px 0;
+  flex-wrap: wrap;
+}
+.hero-section .stat-item .num {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.hero-section .stat-item .label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.hero-section .chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+/* Buttons overrides */
+.btn { border-radius: 8px; font-weight: 600; text-transform: none; font-size: 14.5px; height: 44px; line-height: 44px; padding: 0 28px; }
+.btn.accent { background: var(--accent); }
+.btn.accent:hover { background: var(--accent-dark); }
+.btn-large { height: 52px; line-height: 52px; padding: 0 36px; font-size: 16px; border-radius: 10px; }
+.btn-flat { color: var(--text-muted); }
+.btn-flat:hover { background: rgba(255,255,255,0.05); color: var(--text-light); }
+
+/* Section styling */
+.section { padding: 72px 0; }
+.section-title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+.section-title .accent { color: var(--accent); }
+.section-desc {
+  font-size: 16px;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+.section-desc strong { color: var(--text-light); }
+
+/* Cards override */
+.card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: none !important;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(14,165,233,0.25);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3) !important;
+}
+.card .card-content { padding: 28px 24px; }
+.card .card-title {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.3;
+  margin-bottom: 10px;
+  color: var(--text-light);
+}
+.card .card-title .material-icons {
+  font-size: 28px;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 12px;
+}
+.card p { color: var(--text-muted); font-size: 14.5px; line-height: 1.55; }
+
+/* Protocol cards */
+.proto-grid { margin-top: 40px; }
+.proto-card .card-content { text-align: center; padding: 24px 18px; }
+.proto-card .proto-icon {
+  width: 48px; height: 48px;
+  background: rgba(14,165,233,0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+.proto-card .proto-icon .material-icons { font-size: 22px; color: var(--accent); }
+.proto-card h5 { font-weight: 700; font-size: 16px; margin-bottom: 6px; }
+.proto-card p { font-size: 13px; }
+
+/* Install block */
+.install-card { margin-top: 40px; }
+.install-card .card-content { padding: 32px; }
+.install-card .card-title { font-size: 20px; margin-bottom: 16px; }
+.install-card pre {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 18px 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #7dd3fc;
+  overflow-x: auto;
+  margin: 0;
+}
+.install-card pre .hl { color: #fff; font-weight: 600; }
+.install-note {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.install-note strong { color: var(--text-light); }
+
+/* Feature list (карточки в 2 колонки) */
+.feature-list { margin-top: 40px; }
+.feature-item {
+  display: flex;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.feature-item:last-child { border-bottom: none; }
+.feature-item .fi-icon .material-icons {
+  font-size: 22px;
+  color: var(--accent);
+  width: 36px;
+  height: 36px;
+  background: rgba(14,165,233,0.08);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feature-item .fi-text h6 { font-weight: 700; font-size: 15px; margin: 0 0 4px; }
+.feature-item .fi-text p { color: var(--text-muted); font-size: 13.5px; margin: 0; line-height: 1.5; }
+
+/* Chip override */
+.chip {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-muted);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 12.5px;
+  border-radius: 8px;
+  height: 30px;
+  line-height: 30px;
+}
+.chip.accent-chip { background: rgba(14,165,233,0.12); color: #7dd3fc; border-color: rgba(14,165,233,0.2); }
+
+/* Divider */
+.divider-custom {
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+  margin-bottom: 24px;
+}
+
+/* Stats cards */
+.stat-card .card-content { text-align: center; padding: 32px 20px; }
+.stat-card .stat-num {
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-card .stat-label { color: var(--text-muted); font-size: 14px; }
+
+/* Docker grid */
+.docker-card .card-content { padding: 28px; }
+.docker-card .dc-icon {
+  width: 48px; height: 48px;
+  background: rgba(14,165,233,0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.docker-card .dc-icon .material-icons { font-size: 24px; color: var(--accent); }
+.docker-card pre {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #7dd3fc;
+  overflow-x: auto;
+  margin: 14px 0 0;
+}
+
+/* Warning block */
+.warning-block {
+  background: rgba(251,191,36,0.06);
+  border: 1px solid rgba(251,191,36,0.15);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.warning-block .material-icons { color: #fbbf24; font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.warning-block p { color: var(--text-muted); font-size: 14px; margin: 0; line-height: 1.5; }
+.warning-block p strong { color: var(--text-light); }
+
+/* Lang chips */
+.lang-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+/* Quote section */
+.quote-section {
+  text-align: center;
+  padding: 80px 0;
+  position: relative;
+}
+.quote-section::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14,165,233,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.quote-section .mark {
+  font-size: 64px;
+  line-height: 1;
+  color: rgba(14,165,233,0.2);
+  font-weight: 900;
+  margin-bottom: 16px;
+}
+.quote-section blockquote {
+  font-size: clamp(22px, 2.8vw, 34px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--text-muted);
+}
+.quote-section blockquote em { 
+  font-style: normal;
+  color: var(--text-light);
+}
+
+/* CTA section */
+.cta-section {
+  text-align: center;
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: -300px; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14,165,233,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-section h2 {
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  position: relative;
+}
+.cta-section p {
+  font-size: 17px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  position: relative;
+}
+
+/* Footer */
+.page-footer {
+  background: rgba(15,23,42,0.95);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 28px 0;
+}
+.page-footer .footer-copyright { background: transparent; color: var(--text-muted); font-size: 13px; }
+.page-footer .footer-copyright a { color: var(--accent); }
+.page-footer ul li { display: inline; margin-left: 20px; }
+.page-footer ul a { color: var(--text-muted); font-size: 13px; font-weight: 500; }
+.page-footer ul a:hover { color: var(--accent); }
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* Platform chips */
+.platform-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 12px; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hero-section { padding: 48px 0 40px; min-height: auto; }
+  .hero-section .stats-row { gap: 24px; }
+  .section { padding: 48px 0; }
+  .hero-section h1 { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo">3<span class="accent">X</span>-UI</a>
+    <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="#features"><i class="material-icons">tune</i>Возможности</a></li>
+      <li><a href="#protocols"><i class="material-icons">device_hub</i>Протоколы</a></li>
+      <li><a href="#install"><i class="material-icons">download</i>Установка</a></li>
+      <li><a href="#docker"><i class="material-icons">cloud</i>Docker</a></li>
+      <li><a href="#stats"><i class="material-icons">bar_chart</i>Статистика</a></li>
+      <li><a href="https://github.com/MHSanaei/3x-ui" target="_blank" class="btn accent" style="margin-left:12px;margin-top:10px;">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Mobile sidenav -->
+<ul class="sidenav" id="mobile-nav">
+  <li style="height:72px;line-height:72px;padding:0 24px;font-size:20px;font-weight:800;color:var(--text-light);border-bottom:1px solid rgba(255,255,255,0.06);">3<span style="color:var(--accent)">X</span>-UI</li>
+  <li><a href="#features"><i class="material-icons">tune</i>Возможности</a></li>
+  <li><a href="#protocols"><i class="material-icons">device_hub</i>Протоколы</a></li>
+  <li><a href="#install"><i class="material-icons">download</i>Установка</a></li>
+  <li><a href="#docker"><i class="material-icons">cloud</i>Docker</a></li>
+  <li><a href="#stats"><i class="material-icons">bar_chart</i>Статистика</a></li>
+  <li><div class="divider" style="background:rgba(255,255,255,0.06);margin:8px 0;"></div></li>
+  <li><a href="https://github.com/MHSanaei/3x-ui" target="_blank" style="color:var(--accent);"><i class="material-icons">open_in_new</i>GitHub</a></li>
+</ul>
+
+<!-- Hero -->
+<section class="hero-section scrollspy" id="hero">
+  <div class="container">
+    <div class="row">
+      <div class="col s12 l7">
+        <div class="chips-row">
+          <div class="chip accent-chip">Open Source · GPL-3.0</div>
+          <div class="chip accent-chip">Go + Vue</div>
+          <div class="chip accent-chip">Docker-ready</div>
+        </div>
+        <h1><span class="accent">3X-UI</span><br>Панель управления Xray-core</h1>
+        <p class="lead">Продвинутая open-source панель для управления прокси-серверами. Мультипротокольная, с веб-интерфейсом, Telegram-ботом и учётом трафика по каждому клиенту.</p>
+        
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="num">14.5K+</div>
+            <div class="label"><i class="material-icons" style="font-size:14px;vertical-align:middle;">star</i> звёзд GitHub</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">13</div>
+            <div class="label"><i class="material-icons" style="font-size:14px;vertical-align:middle;">language</i> языков</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">10+</div>
+            <div class="label"><i class="material-icons" style="font-size:14px;vertical-align:middle;">device_hub</i> протоколов</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">8</div>
+            <div class="label"><i class="material-icons" style="font-size:14px;vertical-align:middle;">devices</i> платформ</div>
+          </div>
+        </div>
+
+        <a href="https://github.com/MHSanaei/3x-ui" target="_blank" class="btn-large accent waves-effect waves-light">
+          <i class="material-icons left">star</i>GitHub — 3X-UI
+        </a>
+        <a href="#install" class="btn-large btn-flat waves-effect">
+          Быстрый старт <i class="material-icons right">arrow_forward</i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section scrollspy" id="features">
+  <div class="container">
+    <div class="divider-custom"></div>
+    <h2 class="section-title">Всё для управления <span class="accent">прокси-сервером</span></h2>
+    <p class="section-desc">Форк X-UI с расширенной поддержкой протоколов, улучшенной стабильностью и учётом трафика по каждому клиенту.</p>
+
+    <div class="feature-list">
+      <div class="row">
+        <div class="col s12 m6">
+          <div class="feature-item">
+            <div class="fi-icon"><i class="material-icons">security</i></div>
+            <div class="fi-text">
+              <h6>Per-client контроль</h6>
+              <p>Квоты трафика, сроки действия, лимиты IP, онлайн-статус. Шаринг ссылок, QR-коды и подписки в один клик.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="fi-icon"><i class="material-icons">bar_chart</i></div>
+            <div class="fi-text">
+              <h6>Статистика трафика</h6>
+              <p>По каждому inbound, клиенту и outbound. Сброс статистики, графики загрузки — полная картина использования.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="fi-icon"><i class="material-icons">public</i></div>
+            <div class="fi-text">
+              <h6>Multi-node поддержка</h6>
+              <p>Управляй и масштабируй через единую панель — от одного VPS до роя серверов.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="fi-icon"><i class="material-icons">smart_toy</i></div>
+            <div class="fi-text">
+              <h6>Telegram-бот</h6>
+              <p>Удалённый мониторинг и управление сервером прямо из Telegram. Уведомления, статус, команды.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6">
+          <div class="feature-item">
+            <div class="fi-icon"><i class="material-icons">swap_horiz</i></div>
+            <div class="fi-text">
+              <h6>Маршрутизация</h6>
+              <p>WARP, NordVPN, собственные правила, балансировщики нагрузки и цепочки outbound-прокси.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="fi-icon"><i class="material-icons">api</i></div>
+            <div class="fi-text">
+              <h6>RESTful API</h6>
+              <p>Полная документация Swagger прямо в панели. Интегрируй с чем угодно.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="fi-icon"><i class="material-icons">storage</i></div>
+            <div class="fi-text">
+              <h6>SQLite / PostgreSQL</h6>
+              <p>Выбор хранилища: SQLite для малых нагрузок, PostgreSQL для крупных инсталляций. Миграция между ними.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="fi-icon"><i class="material-icons">cloud</i></div>
+            <div class="fi-text">
+              <h6>Docker + Fail2ban</h6>
+              <p>Готовый docker-compose со встроенным Fail2ban для защиты от перебора IP. Работает из коробки.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Protocols -->
+<section class="section scrollspy grey darken-4" id="protocols" style="background:#0b1120;">
+  <div class="container">
+    <div class="divider-custom"></div>
+    <h2 class="section-title">Любой протокол под <span class="accent">твои задачи</span></h2>
+    <p class="section-desc">Поддержка всех основных прокси-протоколов с современными транспортами: <strong>TCP, mKCP, WebSocket, gRPC, HTTPUpgrade, XHTTP</strong> — и TLS / XTLS / REALITY безопасностью.</p>
+
+    <div class="proto-grid row">
+      <div class="col s6 m4 l3">
+        <div class="card proto-card">
+          <div class="card-content">
+            <div class="proto-icon"><i class="material-icons">flash_on</i></div>
+            <h5>VLESS</h5>
+            <p>Лёгкий прокси-протокол с XTLS и REALITY</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m4 l3">
+        <div class="card proto-card">
+          <div class="card-content">
+            <div class="proto-icon"><i class="material-icons">vpn_lock</i></div>
+            <h5>VMess</h5>
+            <p>Проверенный протокол с шифрованием</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m4 l3">
+        <div class="card proto-card">
+          <div class="card-content">
+            <div class="proto-icon"><i class="material-icons">verified_user</i></div>
+            <h5>Trojan</h5>
+            <p>HTTPS-трафик с встроенной защитой</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m4 l3">
+        <div class="card proto-card">
+          <div class="card-content">
+            <div class="proto-icon"><i class="material-icons">lock</i></div>
+            <h5>Shadowsocks</h5>
+            <p>Классический лёгкий прокси</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m4 l3">
+        <div class="card proto-card">
+          <div class="card-content">
+            <div class="proto-icon"><i class="material-icons">speed</i></div>
+            <h5>WireGuard</h5>
+            <p>Скоростной VPN-протокол</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m4 l3">
+        <div class="card proto-card">
+          <div class="card-content">
+            <div class="proto-icon"><i class="material-icons">wifi_tethering</i></div>
+            <h5>Hysteria2</h5>
+            <p>Высокоскоростной протокол на QUIC</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m4 l3">
+        <div class="card proto-card">
+          <div class="card-content">
+            <div class="proto-icon"><i class="material-icons">http</i></div>
+            <h5>HTTP / SOCKS</h5>
+            <p>Mixed-режим для совместимости</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m4 l3">
+        <div class="card proto-card">
+          <div class="card-content">
+            <div class="proto-icon"><i class="material-icons">alt_route</i></div>
+            <h5>TUN / Tunnel</h5>
+            <p>Dokodemo-door и туннелирование</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:40px;">
+      <p style="font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:12px;">Поддерживаемые платформы</p>
+      <div class="platform-row">
+        <div class="chip">Ubuntu</div>
+        <div class="chip">Debian</div>
+        <div class="chip">Fedora</div>
+        <div class="chip">CentOS</div>
+        <div class="chip">AlmaLinux</div>
+        <div class="chip">Rocky Linux</div>
+        <div class="chip">Arch</div>
+        <div class="chip">Alpine</div>
+        <div class="chip">Windows</div>
+        <div class="chip">ARM64</div>
+        <div class="chip">ARMv7</div>
+        <div class="chip">AMD64</div>
+        <div class="chip">386</div>
+        <div class="chip">s390x</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Install -->
+<section class="section scrollspy" id="install">
+  <div class="container">
+    <div class="divider-custom"></div>
+    <h2 class="section-title">Установка в <span class="accent">одну команду</span></h2>
+    <p class="section-desc">Готовая команда установки — и у тебя панель с защищённым доступом, случайными логином и портом.</p>
+
+    <div class="install-card card" style="border-color:rgba(14,165,233,0.2);">
+      <div class="card-content">
+        <div class="card-title"><i class="material-icons left" style="color:var(--accent);font-size:22px;">terminal</i>Последняя стабильная версия</div>
+        <pre><span class="hl">bash</span> &lt;(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)</pre>
+        <div class="install-note">После установки запусти <strong>x-ui</strong> — откроется меню управления: запуск/остановка, сброс пароля, SSL-сертификаты.</div>
+      </div>
+    </div>
+
+    <div class="install-card card">
+      <div class="card-content">
+        <div class="card-title"><i class="material-icons left" style="color:var(--accent);font-size:22px;">label</i>Установка конкретной версии</div>
+        <pre><span class="hl">bash</span> &lt;(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) <span class="hl">v3.4.0</span></pre>
+        <div class="install-note">Укажи тег версии вместо <strong>v3.4.0</strong> — установится именно она.</div>
+      </div>
+    </div>
+
+    <div class="install-card card">
+      <div class="card-content">
+        <div class="card-title"><i class="material-icons left" style="color:var(--accent);font-size:22px;">cloud_upload</i>Unattended / Cloud-init</div>
+        <pre><span class="hl">XUI_NONINTERACTIVE=1</span> bash &lt;(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)</pre>
+        <div class="install-note">Без единого вопроса! Логин, пароль и путь генерируются автоматически. Готово для Hetzner, AWS, DO, Vultr.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Docker -->
+<section class="section scrollspy grey darken-4" id="docker" style="background:#0b1120;">
+  <div class="container">
+    <div class="divider-custom"></div>
+    <h2 class="section-title">Запуск через <span class="accent">Docker</span></h2>
+    <p class="section-desc">Готовый docker-compose с PostgreSQL, Fail2ban и всеми зависимостями.</p>
+
+    <div class="row">
+      <div class="col s12 m6">
+        <div class="card docker-card">
+          <div class="card-content">
+            <div class="dc-icon"><i class="material-icons">cloud</i></div>
+            <span class="card-title">Быстрый старт (SQLite)</span>
+            <p>Запуск с SQLite — ничего лишнего, всё из коробки.</p>
+            <pre>docker compose up -d</pre>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="card docker-card" style="border-color:rgba(14,165,233,0.2);">
+          <div class="card-content">
+            <div class="dc-icon"><i class="material-icons">storage</i></div>
+            <span class="card-title">С PostgreSQL</span>
+            <p>Для высоких нагрузок и multi-node. Uncomment строки в docker-compose.yml.</p>
+            <pre>docker compose --profile postgres up -d</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning-block">
+      <i class="material-icons">warning</i>
+      <p><strong>Важно: NET_ADMIN</strong><br>Fail2ban использует iptables для блокировки. Убедись, что у контейнера есть <strong>cap_add: NET_ADMIN, NET_RAW</strong> — иначе баны логируются, но не применяются.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="section scrollspy" id="stats">
+  <div class="container">
+    <div class="divider-custom"></div>
+    <h2 class="section-title">Растёт с <span class="accent">каждым днём</span></h2>
+    <p class="section-desc">Активное Open Source сообщество, тысячи звёзд на GitHub, сотни контрибьюторов и миллионы скачиваний.</p>
+
+    <div class="row">
+      <div class="col s6 m3">
+        <div class="card stat-card">
+          <div class="card-content">
+            <div class="stat-num">14.5K+</div>
+            <div class="stat-label"><i class="material-icons" style="font-size:16px;vertical-align:middle;">star</i> звёзд</div>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m3">
+        <div class="card stat-card">
+          <div class="card-content">
+            <div class="stat-num">6M+</div>
+            <div class="stat-label"><i class="material-icons" style="font-size:16px;vertical-align:middle;">download</i> скачиваний</div>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m3">
+        <div class="card stat-card">
+          <div class="card-content">
+            <div class="stat-num">13</div>
+            <div class="stat-label"><i class="material-icons" style="font-size:16px;vertical-align:middle;">language</i> языков UI</div>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 m3">
+        <div class="card stat-card">
+          <div class="card-content">
+            <div class="stat-num">10+</div>
+            <div class="stat-label"><i class="material-icons" style="font-size:16px;vertical-align:middle;">device_hub</i> протоколов</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Languages -->
+<section class="section scrollspy grey darken-4" id="languages" style="background:#0b1120;text-align:center;">
+  <div class="container">
+    <div class="divider-custom" style="margin:0 auto 24px;"></div>
+    <h2 class="section-title">Интерфейс на <span class="accent">13 языках</span></h2>
+    <p class="section-desc" style="margin:0 auto 40px;">Панель доступна на твоём языке. Тёмная и светлая темы — переключай в один клик.</p>
+
+    <div class="lang-row">
+      <div class="chip">English</div>
+      <div class="chip">فارسی</div>
+      <div class="chip">العربية</div>
+      <div class="chip">中文（简体）</div>
+      <div class="chip">中文（繁體）</div>
+      <div class="chip">Español</div>
+      <div class="chip accent-chip">Русский</div>
+      <div class="chip">Українська</div>
+      <div class="chip">Türkçe</div>
+      <div class="chip">Tiếng Việt</div>
+      <div class="chip">日本語</div>
+      <div class="chip">Bahasa Indonesia</div>
+      <div class="chip">Português (Brasil)</div>
+    </div>
+  </div>
+</section>
+
+<!-- Quote -->
+<section class="quote-section">
+  <div class="container">
+    <div class="mark">"</div>
+    <blockquote>3X-UI — это самая продвинутая open-source панель для Xray. <em>Всё, что тебе нужно</em> для управления прокси: от одного клиента до целого кластера.</blockquote>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Начни прямо <span class="accent">сейчас</span></h2>
+    <p>Бесплатно. Open Source. Всё включено.</p>
+    <a href="https://github.com/MHSanaei/3x-ui" target="_blank" class="btn-large accent waves-effect waves-light">
+      <i class="material-icons left">star</i>GitHub — 3X-UI
+    </a>
+    <a href="#install" class="btn-large btn-flat waves-effect">
+      Быстрый старт <i class="material-icons right">arrow_forward</i>
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="page-footer">
+  <div class="container">
+    <div class="row" style="margin-bottom:0;">
+      <div class="col s12 m6">
+        <span style="font-weight:800;font-size:16px;">3<span style="color:var(--accent);">X</span>-UI</span>
+        <span style="color:var(--text-muted);font-size:13px;margin-left:16px;">Open Source · GPL-3.0</span>
+      </div>
+      <div class="col s12 m6 right-align">
+        <ul>
+          <li><a href="https://github.com/MHSanaei/3x-ui" target="_blank">GitHub</a></li>
+          <li><a href="https://github.com/MHSanaei/3x-ui/releases" target="_blank">Releases</a></li>
+          <li><a href="https://github.com/MHSanaei/3x-ui/wiki" target="_blank">Wiki</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+      3X-UI · Сделано сообществом
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Sidenav
+  var elems = document.querySelectorAll('.sidenav');
+  M.Sidenav.init(elems);
+
+  // Scrollspy
+  var spy = document.querySelectorAll('.scrollspy');
+  M.ScrollSpy.init(spy, { scrollOffset: 80 });
+
+  // Reveal on scroll
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(function(s) { observer.observe(s); });
+
+  // Count-up animation for stats
+  function animateCountUp(el) {
+    var text = el.textContent;
+    var match = text.match(/[\d.]+/);
+    if (!match) return;
+    var target = parseFloat(match[0].replace(/,/g, ''));
+    var suffix = text.replace(match[0], '');
+    var duration = 2000;
+    var start = performance.now();
+    function frame(now) {
+      var t = Math.min(1, (now - start) / duration);
+      var eased = 1 - Math.pow(1 - t, 4);
+      var val = Math.round(target * eased);
+      el.textContent = val.toLocaleString('en-US') + suffix;
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  var countObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        entry.target.dataset.animated = '1';
+        animateCountUp(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.stat-num').forEach(function(el) { countObserver.observe(el); });
+});
+</script>
+</body>
+</html>

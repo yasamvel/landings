@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сущевский Вал 46 — Коммерческие помещения в Москве</title>
+  <meta name="description" content="Аренда коммерческих помещений от 370 м² в Москве. Сущевский Вал 46, 3 минуты от метро Марьина Роща. Грузовые лифты, высокий трафик." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    /* ========== FONTS ========== */
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist Mono';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+
+    /* ========== VARIABLES ========== */
+    :root {
+      --navy: #0f172a;
+      --navy-light: #1e293b;
+      --gold: #c8923e;
+      --gold-light: #e8b85a;
+      --gold-muted: #a67c33;
+      --cream: #f8f6f1;
+      --white: #ffffff;
+      --off-white: #f1efe9;
+      --text: #1a1a2e;
+      --text-muted: #5c5c6e;
+      --radius: 12px;
+      --radius-sm: 6px;
+      --shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 12px 48px rgba(15, 23, 42, 0.12);
+      --transition: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ========== RESET ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; }
+
+    /* ========== CONTAINER ========== */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 16px 0;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    nav.scrolled {
+      background: rgba(248, 246, 241, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+    }
+    .nav-logo span {
+      color: var(--gold);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--navy);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.8125rem;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover {
+      background: var(--gold);
+      transform: translateY(-1px);
+      color: var(--white) !important;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--off-white) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -20%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(200, 146, 62, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-content {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.75rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-sub {
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 44ch;
+      margin-bottom: 12px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 8px;
+      margin-bottom: 32px;
+    }
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .hero-meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      border: none;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .btn-primary:hover {
+      background: var(--gold);
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--navy);
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      border: 1px solid rgba(15, 23, 42, 0.15);
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      background: rgba(200, 146, 62, 0.04);
+    }
+
+    .hero-visual {
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+    .hero-image-wrap {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      background: var(--navy-light);
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-image-wrap svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-badge {
+      position: absolute;
+      bottom: -12px;
+      left: -12px;
+      background: var(--navy);
+      color: var(--gold);
+      padding: 14px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      line-height: 1.3;
+      box-shadow: var(--shadow);
+    }
+    .hero-badge strong {
+      font-size: 1.25rem;
+      display: block;
+      color: var(--white);
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========== SECTIONS COMMON ========== */
+    .section {
+      padding: 100px 0;
+    }
+    .section-header {
+      text-align: left;
+      margin-bottom: 56px;
+      max-width: 600px;
+    }
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--navy);
+    }
+    .section h2 .highlight {
+      color: var(--gold);
+    }
+    .section-desc {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 48ch;
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+
+    /* ========== FEATURES ========== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: rgba(15, 23, 42, 0.08);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .feature-card {
+      background: var(--white);
+      padding: 36px 28px;
+      transition: background var(--transition);
+    }
+    .feature-card:hover {
+      background: var(--off-white);
+    }
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: rgba(200, 146, 62, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: var(--gold);
+    }
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .feature-card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ========== SPACES / BENTO ========== */
+    .spaces-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .space-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .space-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .space-card:first-child {
+      grid-row: span 2;
+    }
+    .space-card-image {
+      aspect-ratio: 16 / 10;
+      background: var(--navy-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.15);
+      overflow: hidden;
+      position: relative;
+    }
+    .space-card-image svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .space-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--gold);
+      color: var(--white);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .space-card-body {
+      padding: 24px;
+    }
+    .space-card-body h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .space-card-body .space-size {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .space-card-body p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ========== LOCATION ========== */
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .location-info h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .location-info p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .location-details {
+      display: grid;
+      gap: 16px;
+    }
+    .location-detail {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9375rem;
+      color: var(--text);
+    }
+    .location-detail-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(200, 146, 62, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+    .location-image {
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      background: var(--navy-light);
+      box-shadow: var(--shadow-lg);
+    }
+    .location-image iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* ========== CTA ========== */
+    .cta-section {
+      background: var(--navy);
+      padding: 100px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(200, 146, 62, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      color: var(--white);
+      max-width: 600px;
+      margin: 0 auto 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-section p {
+      color: rgba(255,255,255,0.6);
+      font-size: 1.0625rem;
+      max-width: 44ch;
+      margin: 0 auto 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-section .btn-primary {
+      background: var(--gold);
+    }
+    .cta-section .btn-primary:hover {
+      background: var(--gold-light);
+      color: var(--navy);
+    }
+    .cta-section .btn-secondary {
+      border-color: rgba(255,255,255,0.2);
+      color: var(--white);
+    }
+    .cta-section .btn-secondary:hover {
+      border-color: var(--gold);
+      background: rgba(200, 146, 62, 0.08);
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 0;
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p {
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.5);
+      transition: color var(--transition);
+    }
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    /* ========== SCROLL REVEAL ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== IMAGE SLIDER ========== */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .slider-track {
+      display: flex;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      height: 100%;
+    }
+    .slider-track img {
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.2s ease;
+      z-index: 2;
+      color: #0f172a;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .slider-btn:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.08);
+    }
+    .slider-btn:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+    .slider-btn-prev { left: 8px; }
+    .slider-btn-next { right: 8px; }
+    .space-card-image:hover .slider-btn {
+      opacity: 1;
+    }
+    .slider-dots {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 2;
+    }
+    .slider-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+    .slider-dot.active {
+      background: var(--gold);
+    }
+
+    /* ========== MOBILE ========== */
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .hero-content {
+        text-align: center;
+      }
+      .hero-sub {
+        max-width: none;
+      }
+      .hero-meta {
+        justify-content: center;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .hero-visual {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .spaces-grid {
+        grid-template-columns: 1fr;
+      }
+      .space-card:first-child {
+        grid-row: span 1;
+      }
+      .location-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .nav-links a:not(.nav-cta) {
+        display: none;
+      }
+      .section {
+        padding: 60px 0;
+      }
+      .cta-section {
+        padding: 60px 0;
+      }
+    }
+    @media (max-width: 540px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-meta {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      footer .container {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+      .nav-cta {
+        font-size: 0.75rem;
+        padding: 6px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAV ========== -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">rent<span>msk</span></a>
+      <div class="nav-links">
+        <a href="#spaces">Помещения</a>
+        <a href="#location">Расположение</a>
+        <a href="#features">Преимущества</a>
+        <a href="#contact" class="nav-cta">Связаться</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Сущевский Вал 46</p>
+        <h1>Коммерческие помещения <em>в центре Москвы</em></h1>
+        <p class="hero-sub">
+          От 370 до 725 м&sup2;. Свободная планировка, грузовые лифты,
+          высокий трафик. Три минуты от метро Марьина Роща.
+        </p>
+        <div class="hero-meta">
+          <span class="hero-meta-item">
+            <span class="hero-meta-dot"></span>
+            3 мин от метро
+          </span>
+          <span class="hero-meta-item">
+            <span class="hero-meta-dot"></span>
+            Грузовые лифты
+          </span>
+          <span class="hero-meta-item">
+            <span class="hero-meta-dot"></span>
+            Высокий трафик
+          </span>
+        </div>
+        <div class="hero-actions">
+          <a href="#spaces" class="btn-primary">
+            Смотреть объекты
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#" class="btn-secondary">Скачать презентацию</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-image-wrap">
+          <img src="images/bg.jpg" alt="Бизнес-центр Сущевский Вал 46" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
+        <div class="hero-badge">
+          <strong>3 мин</strong>
+          до метро Марьина Роща
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURES ========== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Преимущества</p>
+        <h2>Пространство, которое <span class="highlight">работает на вас</span></h2>
+      </div>
+      <div class="features-grid reveal">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          </div>
+          <h3>Метро в 3 минутах</h3>
+          <p>Марьина Роща, &laquo;Савеловская&raquo; и &laquo;Менделеевская&raquo; в шаговой доступности.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>Высокий трафик</h3>
+          <p>Оживлённая магистраль, первый этаж, витринные витражи —  отличная проходимость.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Под любой бизнес</h3>
+          <p>Офис, ритейл, шоурум, производство —  планировка позволяет всё.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          </div>
+          <h3>Грузовые лифты</h3>
+          <p>2 грузовых лифта —  удобная логистика и перемещение оборудования.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SPACES ========== -->
+  <section class="section" style="background: var(--off-white);" id="spaces">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Помещения</p>
+        <h2>Доступные <span class="highlight">площади</span></h2>
+        <p class="section-desc">Три варианта под ваш формат —  от небольшого офиса до полноценного производства или шоурума.</p>
+      </div>
+      <div class="spaces-grid reveal">
+        <div class="space-card">
+          <div class="space-card-image">
+            <div class="slider-container" data-slider="725">
+              <div class="slider-track">
+                <img src="images/725-1.jpg" alt="Помещение 725 м²" />
+                <img src="images/725-2.jpg" alt="Помещение 725 м² — вид 2" />
+              </div>
+              <button class="slider-btn slider-btn-prev" onclick="slideTo(this,'prev')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <button class="slider-btn slider-btn-next" onclick="slideTo(this,'next')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div class="slider-dots">
+                <span class="slider-dot active" onclick="slideToIndex(this.closest('.slider-container'),0)"></span>
+                <span class="slider-dot" onclick="slideToIndex(this.closest('.slider-container'),1)"></span>
+              </div>
+            </div>
+            <span class="space-tag">Рекомендуем</span>
+          </div>
+          <div class="space-card-body">
+            <p class="space-size">725 м&sup2;</p>
+            <h3>Под крупный бизнес</h3>
+            <p>Просторное помещение свободного назначения на втором этаже. Панорамные окна, отдельный вход, высота потолков 4.2 м.</p>
+          </div>
+        </div>
+        <div class="space-card">
+          <div class="space-card-image">
+            <div class="slider-container" data-slider="570">
+              <div class="slider-track">
+                <img src="images/570-1.jpg" alt="Помещение 570 м²" />
+                <img src="images/570-2.jpg" alt="Помещение 570 м² — вид 2" />
+              </div>
+              <button class="slider-btn slider-btn-prev" onclick="slideTo(this,'prev')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <button class="slider-btn slider-btn-next" onclick="slideTo(this,'next')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div class="slider-dots">
+                <span class="slider-dot active" onclick="slideToIndex(this.closest('.slider-container'),0)"></span>
+                <span class="slider-dot" onclick="slideToIndex(this.closest('.slider-container'),1)"></span>
+              </div>
+            </div>
+          </div>
+          <div class="space-card-body">
+            <p class="space-size">570 м&sup2;</p>
+            <h3>Высокий трафик</h3>
+            <p>Первый этаж с витринным остеклением. Идеально для ритейла, шоурума или кафе. Высокая проходимость.</p>
+          </div>
+        </div>
+        <div class="space-card">
+          <div class="space-card-image">
+            <div class="slider-container" data-slider="370">
+              <div class="slider-track">
+                <img src="images/370-1.jpg" alt="Помещение 370 м²" />
+                <img src="images/370-2.jpg" alt="Помещение 370 м² — вид 2" />
+              </div>
+              <button class="slider-btn slider-btn-prev" onclick="slideTo(this,'prev')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <button class="slider-btn slider-btn-next" onclick="slideTo(this,'next')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div class="slider-dots">
+                <span class="slider-dot active" onclick="slideToIndex(this.closest('.slider-container'),0)"></span>
+                <span class="slider-dot" onclick="slideToIndex(this.closest('.slider-container'),1)"></span>
+              </div>
+            </div>
+          </div>
+          <div class="space-card-body">
+            <p class="space-size">370 м&sup2;</p>
+            <h3>Свободного назначения</h3>
+            <p>Компактное помещение с отдельным входом. Подходит для офиса, сервисного центра или небольшого производства.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LOCATION ========== -->
+  <section class="section" id="location">
+    <div class="container location-grid">
+      <div class="location-info reveal">
+        <p class="section-eyebrow">Расположение</p>
+        <h3>Сущевский Вал, 46</h3>
+        <p>
+          Торговый центр &laquo;Универмаг Марьинский&raquo; в СВАО Москвы.
+          Развитая инфраструктура, удобные подъездные пути, парковка.
+          Рядом —  Марьина Роща, Савёловская, Менделеевская.
+        </p>
+        <div class="location-details">
+          <div class="location-detail">
+            <div class="location-detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            </div>
+            <span>3 минуты до метро &laquo;Марьина Роща&raquo;</span>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <span>Высокий автомобильный и пешеходный трафик</span>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <span>Развитая инфраструктура: магазины, кафе, парковка</span>
+          </div>
+        </div>
+      </div>
+      <div class="location-image reveal">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.5888%2C55.7948&mode=search&text=%D0%A1%D1%83%D1%89%D0%B5%D0%B2%D1%81%D0%BA%D0%B8%D0%B9+%D0%92%D0%B0%D0%BB+46+%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0&z=17&pt=37.5888,55.7948,pm2grm"
+          width="100%" height="100%" style="border:0;border-radius:var(--radius);" allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="cta-section" id="contact">
+    <div class="container">
+      <h2>Готовы посмотреть помещения?</h2>
+      <p>Приезжайте на осмотр в любое удобное время. Покажем каждый метр, расскажем о возможностях.</p>
+      <div class="cta-actions">
+        <a href="tel:+74950000000" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +7 (495) 000-00-00
+        </a>
+        <a href="#" class="btn-secondary">Написать на почту</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 rent.msk.ru — Сущевский Вал 46, Москва</p>
+      <div class="footer-links">
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Договор аренды</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // Slider functions
+    window.slideTo = (btn, dir) => {
+      const container = btn.closest('.slider-container');
+      const track = container.querySelector('.slider-track');
+      const dots = container.querySelectorAll('.slider-dot');
+      const imgW = track.querySelector('img').offsetWidth || track.offsetWidth;
+      const current = Math.round(track.scrollLeft / imgW);
+      const target = dir === 'next' ? current + 1 : current - 1;
+      slideToIndex(container, Math.max(0, Math.min(target, dots.length - 1)));
+    };
+    window.slideToIndex = (container, idx) => {
+      const track = container.querySelector('.slider-track');
+      const dots = container.querySelectorAll('.slider-dot');
+      const imgW = track.querySelector('img').offsetWidth || track.offsetWidth;
+      track.style.transform = `translateX(-${idx * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    };
+
+    // Navbar scroll
+    const nav = document.getElementById('navbar');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          nav.classList.toggle('scrolled', window.scrollY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // Scroll reveal (IntersectionObserver)
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

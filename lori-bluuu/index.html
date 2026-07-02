@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Larisa Ervandyan | UGC Creator & Reels Producer</title>
+  <meta name="description" content="UGC-контент и Reels под ключ. Снимаю, монтирую и создаю контент полного цикла для блогеров, брендов и бизнеса." />
+  <meta name="keywords" content="UGC, Reels, контент, съемка, монтаж, блогер, бренд, TikTok, Instagram" />
+  <meta property="og:title" content="Larisa Ervandyan | UGC Creator & Reels Producer" />
+  <meta property="og:description" content="UGC-контент и Reels под ключ, которые привлекают внимание и продают." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://xep.qzz.io/weblending/projects/lori-bluuu/" />
+
+  <!-- Font: Geist (jsdelivr) -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/font/css/geist.min.css" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            cream: {
+              50: '#fafaf9',
+              100: '#f5f2ed',
+              200: '#e8e0d0',
+              300: '#d6ccb8',
+              400: '#bfb29a',
+              500: '#a8987c',
+            },
+            espresso: {
+              50: '#f5f4f3',
+              100: '#e7e5e4',
+              200: '#d6d3d1',
+              300: '#a8a29e',
+              400: '#78716c',
+              500: '#57534e',
+              600: '#44403c',
+              700: '#292524',
+              800: '#1c1917',
+              900: '#0c0a09',
+            },
+          },
+          borderRadius: {
+            'xl': '0.75rem',
+            '2xl': '1rem',
+            '3xl': '1.25rem',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* ===== CSS Variables for Light / Dark ===== */
+    :root {
+      --bg-primary: #fafaf9;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f5f2ed;
+      --text-primary: #1c1917;
+      --text-secondary: #57534e;
+      --text-muted: #a8a29e;
+      --accent-beige: #e8e0d0;
+      --accent-beige-strong: #d6ccb8;
+      --accent-dark: #1c1917;
+      --accent-dark-hover: #292524;
+      --border-color: #e7e5e4;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+      --card-shadow-hover: 0 4px 16px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.04);
+      --nav-bg: rgba(250, 250, 249, 0.85);
+      --overlay-light: rgba(28, 25, 23, 0.03);
+      --hero-overlay: linear-gradient(135deg, rgba(250,250,249,0.95) 0%, rgba(250,250,249,0.4) 100%);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0c0a09;
+      --bg-secondary: #1c1917;
+      --bg-tertiary: #292524;
+      --text-primary: #f5f4f3;
+      --text-secondary: #a8a29e;
+      --text-muted: #57534e;
+      --accent-beige: #44403c;
+      --accent-beige-strong: #57534e;
+      --accent-dark: #f5f4f3;
+      --accent-dark-hover: #e7e5e4;
+      --border-color: #292524;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+      --card-shadow-hover: 0 4px 16px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.2);
+      --nav-bg: rgba(12, 10, 9, 0.85);
+      --overlay-light: rgba(245, 244, 243, 0.03);
+      --hero-overlay: linear-gradient(135deg, rgba(12,10,9,0.95) 0%, rgba(12,10,9,0.4) 100%);
+    }
+
+    /* ===== Reset & Base ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Geist', system-ui, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: background-color 0.4s ease, color 0.4s ease;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== Utility ===== */
+    .section-padding { padding: 5rem 1.25rem; }
+    .container-wide { max-width: 1200px; margin: 0 auto; }
+
+    /* ===== Navigation ===== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 0.75rem 1.25rem;
+      background: transparent;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    .site-header.scrolled {
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px) saturate(1.8);
+      -webkit-backdrop-filter: blur(16px) saturate(1.8);
+      box-shadow: 0 1px 0 var(--border-color);
+    }
+
+    /* ===== Theme toggle ===== */
+    .theme-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      color: var(--text-primary);
+    }
+    .theme-btn:hover {
+      border-color: var(--accent-beige-strong);
+      transform: scale(1.05);
+    }
+    .theme-btn .icon-sun { display: block; }
+    .theme-btn .icon-moon { display: none; }
+    [data-theme="dark"] .theme-btn .icon-sun { display: none; }
+    [data-theme="dark"] .theme-btn .icon-moon { display: block; }
+
+    /* ===== Mobile nav ===== */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 380px;
+      height: 100dvh;
+      background: var(--bg-secondary);
+      z-index: 60;
+      padding: 5rem 2rem 2rem;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -8px 0 32px rgba(0,0,0,0.08);
+    }
+    .mobile-menu.open { right: 0; }
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 55;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-overlay.open { opacity: 1; pointer-events: all; }
+
+    /* ===== Buttons ===== */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      border-radius: 999px;
+      background: var(--accent-dark);
+      color: var(--bg-primary);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all 0.35s ease;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .btn-outline:hover {
+      border-color: var(--accent-dark);
+      background: var(--overlay-light);
+      transform: translateY(-2px);
+    }
+    .btn-cta-footer {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 1rem 2.5rem;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #1c1917;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      text-decoration: none;
+    }
+    .btn-cta-footer:hover {
+      background: #f5f2ed;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .btn-cta-footer-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 1rem 2.5rem;
+      border-radius: 999px;
+      background: transparent;
+      color: #ffffff;
+      font-weight: 500;
+      font-size: 1rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: all 0.35s ease;
+      text-decoration: none;
+    }
+    .btn-cta-footer-outline:hover {
+      border-color: #ffffff;
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-2px);
+    }
+
+    /* ===== Scroll animations (Reveal) ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ===== Service cards ===== */
+    .service-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      padding: 2rem;
+      transition: all 0.4s ease;
+      cursor: default;
+    }
+    .service-card:hover {
+      border-color: var(--accent-beige-strong);
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-4px);
+    }
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--accent-beige);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+      transition: background 0.3s ease;
+    }
+    .service-card:hover .service-icon {
+      background: var(--accent-beige-strong);
+    }
+
+    /* ===== Advantage cards (bento) ===== */
+    .advantage-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      transition: all 0.4s ease;
+    }
+    .advantage-card:hover {
+      border-color: var(--accent-beige-strong);
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-3px);
+    }
+    .advantage-card .check {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--accent-beige);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.3s ease;
+    }
+    .advantage-card:hover .check {
+      background: var(--accent-dark);
+      color: var(--bg-primary);
+    }
+
+    /* ===== Process steps ===== */
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      background: var(--accent-beige);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      flex-shrink: 0;
+      transition: all 0.4s ease;
+    }
+    .step-item:hover .step-number {
+      background: var(--accent-dark);
+      color: var(--bg-primary);
+    }
+    .step-line {
+      width: 1px;
+      flex-grow: 1;
+      background: var(--border-color);
+      margin: 0 auto;
+    }
+
+    /* ===== Testimonials slider ===== */
+    .testimonials-track {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 1rem;
+    }
+    .testimonials-track::-webkit-scrollbar { display: none; }
+    .testimonial-card {
+      flex: 0 0 340px;
+      scroll-snap-align: start;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+    @media (min-width: 768px) {
+      .testimonial-card { flex: 0 0 380px; }
+    }
+    @media (min-width: 1024px) {
+      .testimonial-card { flex: 0 0 400px; }
+    }
+    .testimonial-card:hover {
+      border-color: var(--accent-beige-strong);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    /* ===== FAQ ===== */
+    .faq-item {
+      border-bottom: 1px solid var(--border-color);
+    }
+    .faq-question {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.0625rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-align: left;
+      transition: color 0.3s ease;
+    }
+    .faq-question:hover { color: var(--accent-beige-strong); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-answer-inner {
+      padding-bottom: 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-icon { transition: transform 0.4s ease; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    /* ===== For whom cards ===== */
+    .whom-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.4s ease;
+      cursor: default;
+    }
+    .whom-card:hover {
+      border-color: var(--accent-beige-strong);
+      box-shadow: var(--card-shadow);
+      transform: translateY(-2px);
+    }
+    .whom-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.375rem;
+      margin: 0 auto 1rem;
+      transition: background 0.3s ease;
+    }
+    .whom-card:hover .whom-icon {
+      background: var(--accent-beige);
+    }
+
+    /* ===== Case cards ===== */
+    .case-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    .case-card:hover {
+      border-color: var(--accent-beige-strong);
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-4px);
+    }
+    .case-thumb {
+      aspect-ratio: 9/16;
+      background: var(--accent-beige);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .case-thumb .play-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .case-card:hover .play-btn {
+      transform: scale(1.1);
+      background: #ffffff;
+    }
+    .case-stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .case-stat {
+      font-size: 0.8125rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+    }
+
+    /* ===== CTA section ===== */
+    .cta-section {
+      background: var(--accent-dark);
+      color: #ffffff;
+    }
+
+    /* ===== Footer ===== */
+    .site-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 1.25rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* ===== Stats bar ===== */
+    .stat-item { text-align: center; }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+    }
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+    .stat-divider {
+      width: 1px;
+      height: 48px;
+      background: var(--border-color);
+      align-self: center;
+    }
+
+    /* ===== Hero image placeholder ===== */
+    .hero-image-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      background: linear-gradient(135deg, #e8e0d0 0%, #d6ccb8 40%, #bfb29a 100%);
+    }
+    .hero-image-wrap .placeholder-figure {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #292524;
+      font-weight: 500;
+    }
+    .hero-image-wrap .placeholder-figure svg {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      .section-padding { padding: 3rem 1rem; }
+      .stat-divider { display: none; }
+      .hero-image-wrap { min-height: 300px; }
+    }
+
+    /* ===== Instagram icon inline ===== */
+    .icon-social { width: 20px; height: 20px; }
+    .icon-arrow { width: 16px; height: 16px; }
+
+    /* ===== 3-column stats on mobile ===== */
+    @media (max-width: 640px) {
+      .stats-grid { grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+      .stat-value { font-size: 1.5rem; }
+      .stat-label { font-size: 0.75rem; }
+    }
+
+    /* ===== Smooth section labels ===== */
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    @media (min-width: 768px) {
+      .section-title { font-size: 2.75rem; }
+    }
+    @media (min-width: 1024px) {
+      .section-title { font-size: 3rem; }
+    }
+    .section-desc {
+      font-size: 1.0625rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    /* ===== Dark mode image adjustments ===== */
+    [data-theme="dark"] .hero-image-wrap {
+      background: #1c1917;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Mobile Overlay ===== -->
+  <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+  <!-- ===== Mobile Menu ===== -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button onclick="closeMobileMenu()" class="absolute top-5 right-5 p-2" aria-label="Close menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    <nav class="flex flex-col gap-6 text-lg">
+      <a href="#about" onclick="closeMobileMenu()" class="hover:opacity-60 transition-opacity">Почему я</a>
+      <a href="#services" onclick="closeMobileMenu()" class="hover:opacity-60 transition-opacity">Услуги</a>
+      <a href="#process" onclick="closeMobileMenu()" class="hover:opacity-60 transition-opacity">Как работаю</a>
+      <a href="#cases" onclick="closeMobileMenu()" class="hover:opacity-60 transition-opacity">Кейсы</a>
+      <a href="#whom" onclick="closeMobileMenu()" class="hover:opacity-60 transition-opacity">Для кого</a>
+      <a href="#reviews" onclick="closeMobileMenu()" class="hover:opacity-60 transition-opacity">Отзывы</a>
+      <a href="#faq" onclick="closeMobileMenu()" class="hover:opacity-60 transition-opacity">FAQ</a>
+      <a href="#contact" onclick="closeMobileMenu()" class="btn-primary text-center mt-4">Обсудить проект</a>
+    </nav>
+  </div>
+
+  <!-- ===== Header / Nav ===== -->
+  <header class="site-header" id="siteHeader">
+    <div class="container-wide flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="text-lg font-semibold tracking-tight no-underline" style="color:var(--text-primary);">
+        <span class="hidden sm:inline">Larisa Ervandyan</span>
+        <span class="sm:hidden">Lori Bluuu</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium" style="color:var(--text-secondary);">
+        <a href="#about" class="hover:text-[var(--text-primary)] transition-colors no-underline">Почему я</a>
+        <a href="#services" class="hover:text-[var(--text-primary)] transition-colors no-underline">Услуги</a>
+        <a href="#process" class="hover:text-[var(--text-primary)] transition-colors no-underline">Процесс</a>
+        <a href="#cases" class="hover:text-[var(--text-primary)] transition-colors no-underline">Кейсы</a>
+        <a href="#faq" class="hover:text-[var(--text-primary)] transition-colors no-underline">FAQ</a>
+      </nav>
+
+      <!-- Right actions -->
+      <div class="flex items-center gap-3">
+        <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <a href="#contact" class="hidden sm:inline-flex btn-primary text-sm px-5 py-2.5">Обсудить проект</a>
+        <button class="md:hidden p-2" onclick="openMobileMenu()" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="min-h-[100dvh] flex items-center section-padding pt-28 md:pt-32" id="hero">
+    <div class="container-wide w-full">
+      <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+        <!-- Left: Text -->
+        <div class="reveal visible">
+          <p class="section-label" style="color:var(--text-muted);">UGC Creator & Reels Producer</p>
+          <h1 class="text-[2.2rem] sm:text-[2.75rem] md:text-[3.25rem] lg:text-[3.75rem] font-semibold leading-[1.08] tracking-[-0.035em] mb-6" style="color:var(--text-primary);">
+            UGC-контент и Reels под ключ, которые привлекают внимание и продают
+          </h1>
+          <p class="text-base sm:text-lg md:text-xl leading-relaxed mb-10" style="color:var(--text-secondary); max-width:540px;">
+            Снимаю, монтирую и создаю контент полного цикла для блогеров, брендов и бизнеса. От идеи до готового ролика.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#contact" class="btn-primary text-sm sm:text-base">Обсудить проект</a>
+            <a href="#cases" class="btn-outline text-sm sm:text-base">Посмотреть кейсы</a>
+          </div>
+        </div>
+
+        <!-- Right: Image -->
+        <div class="reveal visible reveal-delay-2">
+          <div class="hero-image-wrap">
+            <img src="hero-photo.jpg" alt="Larisa Ervandyan - UGC Creator & Reels Producer" class="w-full h-full object-cover absolute inset-0" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 md:flex md:justify-start gap-6 md:gap-10 mt-12 md:mt-16 stats-grid" style="max-width:600px;">
+        <div class="stat-item text-left md:text-center">
+          <div class="stat-value">7 000+</div>
+          <div class="stat-label">подписчиков</div>
+        </div>
+        <div class="stat-divider hidden md:block"></div>
+        <div class="stat-item text-left md:text-center">
+          <div class="stat-value">2.3M</div>
+          <div class="stat-label">просмотров вирусного ролика</div>
+        </div>
+        <div class="stat-divider hidden md:block"></div>
+        <div class="stat-item text-left md:text-center">
+          <div class="stat-value">Beauty / Fashion / Lifestyle</div>
+          <div class="stat-label">основные ниши</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY ME (Advantages) ===== -->
+  <section class="section-padding" id="about">
+    <div class="container-wide">
+      <div class="text-center mb-14 md:mb-16 reveal">
+        <p class="section-label">Преимущества</p>
+        <h2 class="section-title">Почему выбирают меня</h2>
+        <p class="section-desc mx-auto">Сочетаю креативный подход с четкой organizational  и профессиональным оборудованием для максимального результата.</p>
+      </div>
+
+      <!-- Bento grid: 6 cards, asymmetric layout -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+        <!-- Card 1: spans 2 cols on md -->
+        <div class="advantage-card reveal reveal-delay-1 md:col-span-2 md:flex md:gap-5 items-start">
+          <div class="check mb-4 md:mb-0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Полный цикл производства</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">От идеи и сценария до финального монтажа. Вы получаете готовый контент, который осталось только опубликовать.</p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="advantage-card reveal reveal-delay-2">
+          <div class="check mb-4">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Контент, который удерживает внимание</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Использую современные механики удержания и вовлечения: hook в первые 3 секунды, динамичный монтаж, трендовые форматы.</p>
+        </div>
+
+        <!-- Card 3: spans 2 cols on md -->
+        <div class="advantage-card reveal reveal-delay-3 md:col-span-2 md:flex md:gap-5 items-start">
+          <div class="check mb-4 md:mb-0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Опыт работы с брендами</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Сотрудничество с MIXIT и другими компаниями. Понимаю требования брендов к контенту: от ТЗ до финального согласования.</p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="advantage-card reveal reveal-delay-4">
+          <div class="check mb-4">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Быстрые сроки</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Четкая организация работы и соблюдение дедлайнов. От 2 до 7 дней в зависимости от сложности задачи.</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="advantage-card reveal reveal-delay-1">
+          <div class="check mb-4">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Профессиональная съемка</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Качественное оборудование, профессиональный свет и чистый звук. Каждый ролик выглядит дорого.</p>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="advantage-card reveal reveal-delay-2">
+          <div class="check mb-4">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Монтаж под алгоритмы соцсетей</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Динамичный монтаж, субтитры, эффекты и тренды. Адаптирую контент под алгоритмы Instagram, TikTok и YouTube.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="section-padding" id="services" style="background:var(--bg-tertiary);">
+    <div class="container-wide">
+      <div class="text-center mb-14 md:mb-16 reveal">
+        <p class="section-label">Услуги</p>
+        <h2 class="section-title">Что я предлагаю</h2>
+        <p class="section-desc mx-auto">Формат работы подбирается индивидуально под ваши задачи и бюджет.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Service 1 -->
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <rect x="2" y="2" width="20" height="20" rx="2.18"/><path d="M7 2v20M17 2v20M2 12h20"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-3">UGC Видео</h3>
+          <ul class="space-y-2 text-sm" style="color:var(--text-secondary);">
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> обзоры товаров
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> распаковки
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> демонстрация продукта
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> lifestyle интеграции
+            </li>
+          </ul>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-3">Reels для блогеров</h3>
+          <ul class="space-y-2 text-sm" style="color:var(--text-secondary);">
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> съемка контента
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> сценарии
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> монтаж
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> оформление
+            </li>
+          </ul>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card reveal reveal-delay-3">
+          <div class="service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-3">Монтаж видео</h3>
+          <ul class="space-y-2 text-sm" style="color:var(--text-secondary);">
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> Reels
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> TikTok
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> Shorts
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> рекламные ролики
+            </li>
+          </ul>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-card reveal reveal-delay-4">
+          <div class="service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-3">Контент под ключ</h3>
+          <ul class="space-y-2 text-sm" style="color:var(--text-secondary);">
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> стратегия
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> сценарий
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> съемка
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> монтаж
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color:var(--accent-beige-strong);">&#8226;</span> публикация
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESS ===== -->
+  <section class="section-padding" id="process">
+    <div class="container-wide">
+      <div class="text-center mb-14 md:mb-16 reveal">
+        <p class="section-label">Процесс</p>
+        <h2 class="section-title">Как проходит работа</h2>
+        <p class="section-desc mx-auto">Прозрачный и отлаженный процесс от брифинга до готового контента.</p>
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        <div class="flex flex-col gap-0">
+          <!-- Step 1 -->
+          <div class="step-item flex gap-6 reveal reveal-delay-1">
+            <div class="flex flex-col items-center">
+              <div class="step-number">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="pb-10 pt-1">
+              <h3 class="text-lg font-semibold mb-2">Брифинг и обсуждение задач</h3>
+              <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Знакомимся, обсуждаем цели, целевую аудиторию и формат контента. Определяем бюджет и сроки.</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-item flex gap-6 reveal reveal-delay-2">
+            <div class="flex flex-col items-center">
+              <div class="step-number">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="pb-10 pt-1">
+              <h3 class="text-lg font-semibold mb-2">Разработка идеи и сценария</h3>
+              <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Готовлю концепцию, сценарий и визуальный референс. Согласовываем и утверждаем направление.</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-item flex gap-6 reveal reveal-delay-3">
+            <div class="flex flex-col items-center">
+              <div class="step-number">3</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="pb-10 pt-1">
+              <h3 class="text-lg font-semibold mb-2">Съемка материала</h3>
+              <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Провожу съемку с профессиональным оборудованием, светом и звуком. Работаю в студии или на выезде.</p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-item flex gap-6 reveal reveal-delay-4">
+            <div class="flex flex-col items-center">
+              <div class="step-number">4</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="pb-10 pt-1">
+              <h3 class="text-lg font-semibold mb-2">Монтаж и согласование</h3>
+              <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Монтирую с учетом трендов и алгоритмов. Отправляю на согласование, вношу правки при необходимости.</p>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="step-item flex gap-6 reveal reveal-delay-1">
+            <div class="flex flex-col items-center">
+              <div class="step-number">5</div>
+            </div>
+            <div class="pt-1">
+              <h3 class="text-lg font-semibold mb-2">Передача готового контента</h3>
+              <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Вы получаете готовые файлы в нужном формате. При необходимости помогаю с публикацией и продвижением.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CASES ===== -->
+  <section class="section-padding" id="cases" style="background:var(--bg-tertiary);">
+    <div class="container-wide">
+      <div class="text-center mb-14 md:mb-16 reveal">
+        <p class="section-label">Портфолио</p>
+        <h2 class="section-title">Кейсы и результаты</h2>
+        <p class="section-desc mx-auto">Примеры работ с реальными показателями. Для загрузки видео используются ссылки на Instagram.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Case 1 -->
+        <div class="case-card reveal reveal-delay-1">
+          <div class="case-thumb">
+            <div class="play-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1c1917"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold mb-2">Обзор косметики MIXIT</h3>
+            <div class="case-stats mb-3">
+              <span class="case-stat">Beauty</span>
+              <span class="case-stat">UGC обзор</span>
+            </div>
+            <div class="text-sm space-y-1" style="color:var(--text-secondary);">
+              <p>Просмотры: <strong style="color:var(--text-primary);">145K</strong></p>
+              <p>Результат: рост подписчиков на 12% за неделю</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Case 2 -->
+        <div class="case-card reveal reveal-delay-2">
+          <div class="case-thumb">
+            <div class="play-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1c1919"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold mb-2">Lifestyle Reels для блогера</h3>
+            <div class="case-stats mb-3">
+              <span class="case-stat">Lifestyle</span>
+              <span class="case-stat">Reels</span>
+              <span class="case-stat">2.3M</span>
+            </div>
+            <div class="text-sm space-y-1" style="color:var(--text-secondary);">
+              <p>Просмотры: <strong style="color:var(--text-primary);">2.3M</strong></p>
+              <p>Результат: самый вирусный ролик в портфолио</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Case 3 -->
+        <div class="case-card reveal reveal-delay-3">
+          <div class="case-thumb">
+            <div class="play-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1c1919"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold mb-2">Fashion lookbook</h3>
+            <div class="case-stats mb-3">
+              <span class="case-stat">Fashion</span>
+              <span class="case-stat">Съемка</span>
+            </div>
+            <div class="text-sm space-y-1" style="color:var(--text-secondary);">
+              <p>Просмотры: <strong style="color:var(--text-primary);">89K</strong></p>
+              <p>Результат: 3 сотрудничества после публикации</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-10 reveal">
+        <p class="text-sm mb-4" style="color:var(--text-secondary);">Хотите увидеть больше работ?</p>
+        <a href="https://www.instagram.com/lori_bluuu/" target="_blank" rel="noopener" class="btn-outline">Перейти в Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOR WHOM ===== -->
+  <section class="section-padding" id="whom">
+    <div class="container-wide">
+      <div class="text-center mb-14 md:mb-16 reveal">
+        <p class="section-label">Аудитория</p>
+        <h2 class="section-title">Для кого мои услуги</h2>
+        <p class="section-desc mx-auto">Работаю с разными нишами и форматами. Нахожу подход к каждому проекту.</p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        <div class="whom-card reveal reveal-delay-1">
+          <div class="whom-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/>
+            </svg>
+          </div>
+          <h3 class="text-sm sm:text-base font-semibold">Блогеры</h3>
+        </div>
+        <div class="whom-card reveal reveal-delay-2">
+          <div class="whom-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <h3 class="text-sm sm:text-base font-semibold">Эксперты</h3>
+        </div>
+        <div class="whom-card reveal reveal-delay-3">
+          <div class="whom-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-sm sm:text-base font-semibold">Онлайн-школы</h3>
+        </div>
+        <div class="whom-card reveal reveal-delay-4">
+          <div class="whom-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+          </div>
+          <h3 class="text-sm sm:text-base font-semibold">Интернет-магазины</h3>
+        </div>
+        <div class="whom-card reveal reveal-delay-1">
+          <div class="whom-icon">
+            <span role="img" aria-label="beauty">&#x2728;</span>
+          </div>
+          <h3 class="text-sm sm:text-base font-semibold">Beauty бренды</h3>
+        </div>
+        <div class="whom-card reveal reveal-delay-2">
+          <div class="whom-icon">
+            <span role="img" aria-label="fashion">&#x1F455;</span>
+          </div>
+          <h3 class="text-sm sm:text-base font-semibold">Fashion бренды</h3>
+        </div>
+        <div class="whom-card reveal reveal-delay-3">
+          <div class="whom-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <h3 class="text-sm sm:text-base font-semibold">Стартапы</h3>
+        </div>
+        <div class="whom-card reveal reveal-delay-4">
+          <div class="whom-icon">
+            <span role="img" aria-label="personal brand">&#x1F4A1;</span>
+          </div>
+          <h3 class="text-sm sm:text-base font-semibold">Личный бренд</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section-padding" id="reviews" style="background:var(--bg-tertiary);">
+    <div class="container-wide">
+      <div class="text-center mb-14 reveal">
+        <p class="section-label">Отзывы</p>
+        <h2 class="section-title">Что говорят клиенты</h2>
+        <p class="section-desc mx-auto">Более 30 довольных клиентов в beauty, fashion и lifestyle нишах.</p>
+      </div>
+
+      <div class="testimonials-track reveal" style="padding-bottom:0.5rem;">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-full bg-[var(--accent-beige)] flex items-center justify-center text-sm font-semibold shrink-0">АН</div>
+            <div>
+              <p class="font-semibold text-sm">Анна Н.</p>
+              <p class="text-xs" style="color:var(--text-muted);">Beauty блогер, 150K подписчиков</p>
+            </div>
+          </div>
+          <div class="flex gap-0.5 mb-3">
+            <span style="color:#d6ccb8;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Лариса сняла для меня серию Reels, которые залетели в рекомендации. Очень профессиональный подход, быстро поняла мою эстетику и сделала контент даже лучше, чем я представляла. Обязательно буду работать еще!</p>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-full bg-[var(--accent-beige)] flex items-center justify-center text-sm font-semibold shrink-0">MIX</div>
+            <div>
+              <p class="font-semibold text-sm">MIXIT</p>
+              <p class="text-xs" style="color:var(--text-muted);">Бренд косметики</p>
+            </div>
+          </div>
+          <div class="flex gap-0.5 mb-3">
+            <span style="color:#d6ccb8;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Сотрудничали на нескольких проектах. Лариса отлично понимает задачи бренда, соблюдает ТЗ и дедлайны. Контент получается живым, естественным и вовлекающим. Рекомендуем!</p>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-full bg-[var(--accent-beige)] flex items-center justify-center text-sm font-semibold shrink-0">ЕК</div>
+            <div>
+              <p class="font-semibold text-sm">Екатерина К.</p>
+              <p class="text-xs" style="color:var(--text-muted);">Fashion-стилист</p>
+            </div>
+          </div>
+          <div class="flex gap-0.5 mb-3">
+            <span style="color:#d6ccb8;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Очень рада знакомству с Ларисой! Сделала монтаж моих Reels так, что подписчики думают, будто у меня своя съемочная команда. Чувство стиля, качество картинки, динамика - все на высшем уровне.</p>
+        </div>
+
+        <!-- Testimonial 4 -->
+        <div class="testimonial-card">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-full bg-[var(--accent-beige)] flex items-center justify-center text-sm font-semibold shrink-0">ДМ</div>
+            <div>
+              <p class="font-semibold text-sm">Дмитрий М.</p>
+              <p class="text-xs" style="color:var(--text-muted);">Эксперт, онлайн-школа</p>
+            </div>
+          </div>
+          <div class="flex gap-0.5 mb-3">
+            <span style="color:#d6ccb8;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Заказал серию Reels для продвижения своего курса. Лариса не просто смонтировала, а предложила классную концепцию подачи материала. Результат - рост охватов в 3 раза за месяц. Спасибо!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section-padding" id="faq">
+    <div class="container-wide">
+      <div class="text-center mb-14 reveal">
+        <p class="section-label">FAQ</p>
+        <h2 class="section-title">Часто задаваемые вопросы</h2>
+      </div>
+
+      <div class="max-w-2xl mx-auto reveal">
+        <!-- FAQ 1 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Сколько стоит съемка?</span>
+            <span class="faq-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Стоимость рассчитывается индивидуально под задачу. Она зависит от формата, объема работы, необходимости выезда и сложности монтажа. Свяжитесь со мной для бесплатной консультации и расчета.</div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Сколько длится работа?</span>
+            <span class="faq-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Обычно от 2 до 7 дней в зависимости от сложности задачи. Простой Reels могу сделать за 1-2 дня, полноценный проект под ключ занимает до недели. Точные сроки оговариваем на брифинге.</div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Можно ли работать удаленно?</span>
+            <span class="faq-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Да, сотрудничаю с клиентами по всему миру. Для удаленной работы вы отправляете товары/продукцию, я снимаю и монтирую контент. Весь процесс согласовывается онлайн.</div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Помогаете со сценарием?</span>
+            <span class="faq-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Да, сценарий входит в большинство пакетов услуг. Я разрабатываю концепцию, пишу текст и продумываю визуальный ряд под ваш бренд и целевую аудиторию. Вам не нужно думать о контенте - просто согласовать готовую идею.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FINAL CTA ===== -->
+  <section class="cta-section section-padding" id="contact">
+    <div class="container-wide text-center reveal">
+      <p class="text-xs font-semibold tracking-widest uppercase mb-4" style="color:rgba(255,255,255,0.4);">Свяжитесь со мной</p>
+      <h2 class="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] font-semibold leading-[1.1] tracking-[-0.03em] mb-5 max-w-3xl mx-auto">
+        Готовы увеличить охваты и получить качественный контент?
+      </h2>
+      <p class="text-lg md:text-xl max-w-xl mx-auto mb-10" style="color:rgba(255,255,255,0.7);">
+        Напишите мне и получите консультацию по вашему проекту.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="https://t.me/lori_bluuu" target="_blank" rel="noopener" class="btn-cta-footer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.127.087.497.122.626.338 2.008-1.157 7.423-1.157 7.423s-.184.584-.677.667c-.492.083-1.092-.306-1.292-.419-.246-.139-1.94-1.28-2.372-1.487-.432-.208-.276-.672-.067-.782.083-.044 1.302-1.21 1.984-1.819.21-.188.46-.41.26-.7-.2-.29-2.334-1.64-2.583-1.8-.251-.16-.49-.245-.103-.35.73-.203 2.028-.626 2.993-.77.483-.073.926.025 1.036.198.05.077.057.179.044.283-.013.104-.338 1.393-.532 2.127-.192.727-.362 1.445-.52 2.087-.524-.278-1.048-.56-1.474-.788-.126-.068-.674-.362-.675-.365-.006-.004-.01-.01-.014-.017-.133-.19-.23-.302-.014-.456.152-.11 1.48-.88 2.575-1.52.96-.565 1.16-.66 1.305-.66l.1-.008z"/></svg>
+          Telegram
+        </a>
+        <a href="https://www.instagram.com/lori_bluuu/" target="_blank" rel="noopener" class="btn-cta-footer-outline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          Instagram
+        </a>
+        <a href="https://wa.me/79000000000" target="_blank" rel="noopener" class="btn-cta-footer-outline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container-wide flex flex-col md:flex-row items-center justify-between gap-4">
+      <p>&copy; 2026 Larisa Ervandyan. All rights reserved.</p>
+      <div class="flex items-center gap-6">
+        <a href="https://www.instagram.com/lori_bluuu/" target="_blank" rel="noopener" class="hover:opacity-60 transition-opacity" style="color:var(--text-muted);">Instagram</a>
+        <a href="https://t.me/lori_bluuu" target="_blank" rel="noopener" class="hover:opacity-60 transition-opacity" style="color:var(--text-muted);">Telegram</a>
+        <span class="text-xs" style="color:var(--text-muted);">@lori_bluuu</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // --- Theme toggle ---
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+
+    // Load saved theme
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+
+    // --- Mobile menu ---
+    function openMobileMenu() {
+      document.getElementById('mobileMenu').classList.add('open');
+      document.getElementById('mobileOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileMenu').classList.remove('open');
+      document.getElementById('mobileOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // --- Header scroll ---
+    const header = document.getElementById('siteHeader');
+    let lastScroll = 0;
+    window.addEventListener('scroll', function() {
+      const y = window.scrollY;
+      if (y > 60) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      lastScroll = y;
+    }, { passive: true });
+
+    // --- Scroll reveal (IntersectionObserver) ---
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // --- FAQ accordion ---
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      // Toggle current
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    }
+
+    // --- Smooth scroll for anchor links ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const offset = 80;
+          const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

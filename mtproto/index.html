@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MTProto — Криптографический протокол Telegram</title>
+  <meta name="description" content="MTProto — криптографический протокол, разработанный Telegram. Скорость, безопасность, open source. Используется миллионами ежедневно." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist Mono';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist Mono';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Geist', sans-serif;
+      background: #03050a;
+      color: #e2e8f0;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      --cyan: #06d6d6;
+      --cyan-dim: rgba(6, 214, 214, 0.12);
+      --blue-deep: #0a1628;
+      --blue-mid: #112240;
+      --slate: #94a3b8;
+      --radius: 0px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========== NOISE OVERLAY ========== */
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ========== GRID BG ========== */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(6, 214, 214, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6, 214, 214, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 20px 0;
+      transition: background 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(3, 5, 10, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--slate);
+      transition: color 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    /* ========== NAV TOGGLE (BURGER) ========== */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 110;
+      position: relative;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      border-radius: 0;
+      transition: all 0.3s ease;
+      position: absolute;
+    }
+    .nav-toggle span:nth-child(1) { transform: translateY(-7px); }
+    .nav-toggle span:nth-child(2) { transform: translateY(0); }
+    .nav-toggle span:nth-child(3) { transform: translateY(7px); }
+    .nav-toggle.active span:nth-child(1) {
+      transform: translateY(0) rotate(45deg);
+    }
+    .nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+    .nav-toggle.active span:nth-child(3) {
+      transform: translateY(0) rotate(-45deg);
+    }
+
+    /* ========== MOBILE NAV OVERLAY ========== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      pointer-events: none;
+      visibility: hidden;
+      opacity: 0;
+      background: rgba(3, 5, 10, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: visibility 0.35s ease, opacity 0.35s ease;
+    }
+    .nav-overlay.active {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      padding-top: 80px;
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-content { position: relative; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--cyan);
+      margin-bottom: 24px;
+      font-family: 'Geist Mono', monospace;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--cyan);
+      display: inline-block;
+      animation: pulse-dot 2s ease infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--cyan) 0%, #0891b2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero h1 .outline {
+      -webkit-text-stroke: 1px var(--cyan);
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.0625rem;
+      color: var(--slate);
+      max-width: 44ch;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-prime {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--cyan);
+      color: #03050a;
+      padding: 14px 28px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      border: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .btn-prime:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 rgba(6, 214, 214, 0.3);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: #fff;
+      padding: 14px 28px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: border-color 0.3s ease;
+    }
+    .btn-ghost:hover { border-color: var(--cyan); }
+
+    /* ========== HERO VISUAL ========== */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cyber-ring {
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      border: 1px solid rgba(6, 214, 214, 0.15);
+      position: relative;
+      animation: rotate-ring 20s linear infinite;
+    }
+    .cyber-ring-inner {
+      position: absolute;
+      inset: 40px;
+      border-radius: 50%;
+      border: 1px dashed rgba(6, 214, 214, 0.1);
+      animation: rotate-ring 30s linear infinite reverse;
+    }
+    .cyber-ring-dot {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--cyan);
+      border-radius: 50%;
+    }
+    .cyber-ring-dot:nth-child(1) { top: -2px; left: 50%; }
+    .cyber-ring-dot:nth-child(2) { top: 50%; right: -2px; }
+    .cyber-ring-dot:nth-child(3) { bottom: -2px; left: 50%; }
+    .cyber-ring-dot:nth-child(4) { top: 50%; left: -2px; }
+    .cyber-ring-center {
+      position: absolute;
+      inset: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 214, 214, 0.06) 0%, transparent 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cyber-ring-center span {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.625rem;
+      color: rgba(6, 214, 214, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-align: center;
+    }
+
+    @keyframes rotate-ring {
+      to { transform: rotate(360deg); }
+    }
+
+    /* floating particles */
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--cyan);
+      border-radius: 50%;
+      opacity: 0.3;
+    }
+
+    /* ========== SECTIONS COMMON ========== */
+    .section {
+      padding: 120px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .section-header {
+      margin-bottom: 64px;
+    }
+    .section-eyebrow {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: #fff;
+    }
+    .section h2 .gradient {
+      background: linear-gradient(135deg, var(--cyan) 0%, #0891b2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-desc {
+      font-size: 1rem;
+      color: var(--slate);
+      max-width: 48ch;
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+
+    /* ========== ARCHITECTURE ========== */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2px;
+      background: rgba(6, 214, 214, 0.06);
+    }
+    .arch-card {
+      background: var(--blue-deep);
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease;
+    }
+    .arch-card:hover {
+      background: var(--blue-mid);
+    }
+    .arch-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 0;
+      background: var(--cyan);
+      transition: height 0.4s ease;
+    }
+    .arch-card:hover::before { height: 100%; }
+    .arch-num {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      opacity: 0.5;
+      margin-bottom: 16px;
+    }
+    .arch-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .arch-card p {
+      font-size: 0.875rem;
+      color: var(--slate);
+      line-height: 1.7;
+    }
+
+    /* ========== FEATURES ========== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: rgba(6, 214, 214, 0.06);
+    }
+    .feature-card {
+      background: var(--blue-deep);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, rgba(6, 214, 214, 0.04) 0%, transparent 70%);
+    }
+    .feature-icon {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: var(--cyan);
+    }
+    .feature-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 0.875rem;
+      color: var(--slate);
+      line-height: 1.7;
+    }
+    .feature-stat {
+      font-family: 'Geist Mono', monospace;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    /* ========== TIMELINE ========== */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(6, 214, 214, 0.2);
+    }
+    .timeline-item {
+      position: relative;
+      padding: 24px 0 24px 32px;
+      border-bottom: 1px solid rgba(6, 214, 214, 0.05);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-dot {
+      position: absolute;
+      left: -36px;
+      top: 28px;
+      width: 8px;
+      height: 8px;
+      background: var(--cyan);
+    }
+    .timeline-date {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      opacity: 0.6;
+      margin-bottom: 6px;
+    }
+    .timeline-item h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .timeline-item p {
+      font-size: 0.875rem;
+      color: var(--slate);
+    }
+
+    /* ========== CTA ========== */
+    .cta-section {
+      padding: 120px 0;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(6, 214, 214, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      max-width: 600px;
+      margin: 0 auto 16px;
+    }
+    .cta-section p {
+      color: var(--slate);
+      font-size: 1.0625rem;
+      max-width: 44ch;
+      margin: 0 auto 32px;
+    }
+    .cta-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      border-top: 1px solid rgba(6, 214, 214, 0.06);
+      padding: 32px 0;
+      position: relative;
+      z-index: 1;
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p { font-size: 0.8125rem; color: rgba(255,255,255,0.3); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.4);
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover { color: var(--cyan); }
+
+    /* ========== SCROLL REVEAL ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-l {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-l.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+      .hero-content { text-align: center; }
+      .hero-sub { max-width: none; }
+      .hero-actions { justify-content: center; }
+      .cyber-ring { width: 280px; height: 280px; }
+      .cyber-ring-inner { inset: 30px; }
+      .cyber-ring-center { inset: 60px; }
+      .arch-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-overlay { pointer-events: none; }
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 100;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        background: rgba(3, 5, 10, 0.96);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        width: 280px;
+        height: 100dvh;
+        padding: 100px 32px 40px;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        border-left: 1px solid rgba(6, 214, 214, 0.12);
+      }
+      .nav-links.open {
+        transform: translateX(0);
+      }
+      .nav-links a {
+        font-size: 0.9375rem;
+        padding: 14px 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        letter-spacing: 0.08em;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="grid-bg"></div>
+
+  <!-- ========== NAV ========== -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">MT<span>Proto</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#arch">Архитектура</a>
+        <a href="#features">Возможности</a>
+        <a href="#history">История</a>
+        <a href="#docs">Документация</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">v2.0 Актуальная версия</div>
+        <h1>
+          Криптографический<br />
+          <span class="gradient">протокол</span><br />
+          <span class="outline">Telegram</span>
+        </h1>
+        <p class="hero-sub">
+          MTProto — собственный криптографический протокол Telegram. Сочетает
+          скорость доставки сообщений с многослойным шифрованием. Никаких
+          компромиссов между производительностью и безопасностью.
+        </p>
+        <div class="hero-actions">
+          <a href="#arch" class="btn-prime">
+            Изучить протокол
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </a>
+          <a href="https://core.telegram.org/mtproto" target="_blank" class="btn-ghost">Документация</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="cyber-ring">
+          <span class="cyber-ring-dot"></span>
+          <span class="cyber-ring-dot"></span>
+          <span class="cyber-ring-dot"></span>
+          <span class="cyber-ring-dot"></span>
+          <div class="cyber-ring-inner"></div>
+          <div class="cyber-ring-center">
+            <span>MTProto 2.0<br />AES-256<br />SHA-512</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ARCHITECTURE ========== -->
+  <section class="section" id="arch">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">01 Архитектура</p>
+        <h2>Три уровня <span class="gradient">защиты</span></h2>
+        <p class="section-desc">MTProto построен как многослойная криптосистема. Каждый уровень решает свою задачу, вместе они формируют защищённый канал.</p>
+      </div>
+      <div class="arch-grid reveal">
+        <div class="arch-card">
+          <p class="arch-num">01 / 03</p>
+          <h3>Уровень авторизации</h3>
+          <p>Протокол Диффи-Хеллмана с простым числом фиксированной длины. Клиент и сервер договариваются о ключе шифрования без передачи его по сети.</p>
+        </div>
+        <div class="arch-card">
+          <p class="arch-num">02 / 03</p>
+          <h3>Транспортный уровень</h3>
+          <p>Потоковое шифрование AES-256 в режиме IGE. Каждое сообщение получает уникальный ключ, производный от общего сессионного ключа.</p>
+        </div>
+        <div class="arch-card">
+          <p class="arch-num">03 / 03</p>
+          <h3>Сообщения и RPC</h3>
+          <p>Сериализация через бинарный формат. Сообщения группируются в HTTP-подобные запросы. Шифрование с аутентификацией через SHA-256.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURES ========== -->
+  <section class="section" id="features" style="background: rgba(6,214,214,0.01);">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">02 Возможности</p>
+        <h2>Почему <span class="gradient">MTProto</span></h2>
+      </div>
+      <div class="features-grid reveal">
+        <div class="feature-card">
+          <div class="feature-stat">&lt;200ms</div>
+          <h3>Скорость доставки</h3>
+          <p>Протокол оптимизирован для низкой задержки. Сообщения доставляются за миллисекунды благодаря минимальному оверхеду.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-stat">256-bit</div>
+          <h3>AES-256 шифрование</h3>
+          <p>Военный стандарт шифрования. Ключи уникальны для каждой сессии и не могут быть восстановлены при компрометации одной из сторон.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-stat">2 слоя</div>
+          <h3>Двухфакторная защита</h3>
+          <p>Комбинация асимметричного шифрования (обмен ключами) и симметричного (потоковая передача). Компрометация одного слоя не раскрывает второй.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-stat">900M+</div>
+          <h3>Пользователей</h3>
+          <p>Более 900 миллионов человек ежедневно используют MTProto в Telegram. Протокол доказал свою надёжность в production-среде.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HISTORY ========== -->
+  <section class="section" id="history">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">03 История</p>
+        <h2>Эволюция <span class="gradient">протокола</span></h2>
+        <p class="section-desc">MTProto прошёл путь от внутреннего протокола мессенджера до открытой криптографической платформы.</p>
+      </div>
+      <div class="timeline reveal-l">
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <p class="timeline-date">2013</p>
+          <h4>MTProto 1.0</h4>
+          <p>Первая версия протокола вместе с запуском Telegram. Базовая схема: обмен ключами через DH, AES-256 IGE, SHA-1.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <p class="timeline-date">2014</p>
+          <h4>Аудит NCC Group</h4>
+          <p>Независимый аудит безопасности выявил незначительные уязвимости. Все были исправлены до публикации отчёта.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <p class="timeline-date">2016</p>
+          <h4>Secret Chats v2.0</h4>
+          <p>Запуск сквозного шифрования (E2EE) для секретных чатов. Аудио- и видеозвонки также получили E2EE.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <p class="timeline-date">2017</p>
+          <h4>MTProto 2.0</h4>
+          <p>Переход на SHA-256, исправление уязвимости PAKE (защита от офлайн-перебора паролей). Версия стала стандартом.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <p class="timeline-date">2021</p>
+          <h4>MTProto для сторонних разработчиков</h4>
+          <p>Публикация официальной документации, примеров реализации и открытие протокола для интеграции.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="cta-section" id="docs">
+    <div class="container">
+      <h2>Изучите протокол <span class="gradient">в деталях</span></h2>
+      <p>MTProto — открытый протокол. Исходный код, спецификация и примеры доступны на официальном сайте Telegram.</p>
+      <div class="cta-actions">
+        <a href="https://core.telegram.org/mtproto" target="_blank" class="btn-prime">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Документация
+        </a>
+        <a href="https://github.com/telegramdesktop/tdesktop" target="_blank" class="btn-ghost">Исходный код</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 MTProto — Обзор протокола. Неофициальный лендинг.</p>
+      <div class="footer-links">
+        <a href="https://core.telegram.org/mtproto" target="_blank">core.telegram.org</a>
+        <a href="https://telegram.org" target="_blank">Telegram</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    const nav = document.getElementById('navbar');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          nav.classList.toggle('scrolled', window.scrollY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // Mobile nav toggle
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    const overlay = document.getElementById('navOverlay');
+    const navLinks = links.querySelectorAll('a');
+
+    function openMenu() {
+      toggle.classList.add('active');
+      links.classList.add('open');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      toggle.classList.remove('active');
+      links.classList.remove('open');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', () => {
+      links.classList.contains('open') ? closeMenu() : openMenu();
+    });
+    overlay.addEventListener('click', closeMenu);
+    navLinks.forEach(a => a.addEventListener('click', closeMenu));
+
+    // Reveal
+    const reveals = document.querySelectorAll('.reveal, .reveal-l');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+  </script>
+</body>
+</html>

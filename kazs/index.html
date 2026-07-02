@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>КАЗС — Контейнерные автозаправочные станции</title>
+  <meta name="description" content="Проектирование, производство и поставка модульных автозаправочных комплексов под ключ. Мобильные АЗС для бизнеса." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Geist', sans-serif;
+      background: #0b0b14;
+      color: #e2e4ea;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      --gold: #d4a447;
+      --gold-dim: rgba(212, 164, 71, 0.10);
+      --gold-glow: rgba(212, 164, 71, 0.06);
+      --card: #12121e;
+      --border: rgba(255, 255, 255, 0.05);
+      --muted: #8888a0;
+      --radius: 0px;
+    }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed; top: 0; left: 0;
+      width: 100%; z-index: 100;
+      padding: 18px 0;
+      transition: background 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(11, 11, 20, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700; font-size: 1.1rem;
+      letter-spacing: -0.02em; color: #fff; text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a {
+      font-size: 0.8125rem; font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-toggle {
+      display: none; flex-direction: column; justify-content: center;
+      align-items: center; width: 40px; height: 40px;
+      background: none; border: none; cursor: pointer;
+      z-index: 110; position: relative;
+    }
+    .nav-toggle span {
+      display: block; width: 24px; height: 2px;
+      background: #fff; border-radius: 0;
+      transition: all 0.3s ease; position: absolute;
+    }
+    .nav-toggle span:nth-child(1) { transform: translateY(-7px); }
+    .nav-toggle span:nth-child(2) { transform: translateY(0); }
+    .nav-toggle span:nth-child(3) { transform: translateY(7px); }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(0) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(10px); }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(0) rotate(-45deg); }
+
+    .nav-overlay {
+      position: fixed; inset: 0; z-index: 90;
+      pointer-events: none; visibility: hidden; opacity: 0;
+      background: rgba(11, 11, 20, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: visibility 0.35s ease, opacity 0.35s ease;
+    }
+    .nav-overlay.active { visibility: visible; opacity: 1; pointer-events: all; }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 100dvh;
+      display: flex; align-items: center;
+      position: relative; padding-top: 80px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: center;
+    }
+    .hero-content { position: relative; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.6875rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--gold); margin-bottom: 24px;
+      font-family: 'Geist Mono', monospace;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--gold); display: inline-block;
+      animation: pulse-dot 2s ease infinite;
+    }
+    @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -0.03em; color: #fff;
+      margin-bottom: 20px;
+    }
+    .hero h1 .gold { color: var(--gold); }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 500px; margin-bottom: 32px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-prime {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 30px;
+      background: var(--gold); color: #0b0b14;
+      font-weight: 600; font-size: 0.875rem;
+      text-decoration: none; letter-spacing: 0.02em;
+      transition: opacity 0.3s ease;
+    }
+    .btn-prime:hover { opacity: 0.85; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 30px;
+      background: transparent; color: #fff;
+      font-weight: 500; font-size: 0.875rem;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      letter-spacing: 0.02em;
+      transition: border-color 0.3s ease;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.3); }
+
+    .hero-visual {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-visual img {
+      width: 100%; max-width: 500px;
+      border: 1px solid var(--border);
+    }
+
+    /* ========== SECTIONS ========== */
+    .section { padding: 100px 0; }
+    .section-alt { background: var(--card); }
+    .section-header { max-width: 640px; margin-bottom: 48px; }
+    .section-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.6875rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--gold); margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      color: #fff; line-height: 1.15; margin-bottom: 14px;
+    }
+    .section-desc {
+      font-size: 1rem; color: var(--muted); line-height: 1.7;
+    }
+
+    /* ========== SPECS GRID ========== */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .spec-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      transition: border-color 0.3s ease;
+    }
+    .spec-card:hover { border-color: rgba(212, 164, 71, 0.2); }
+    .spec-card-title {
+      font-size: 0.6875rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--gold); margin-bottom: 10px;
+      font-family: 'Geist Mono', monospace;
+    }
+    .spec-card h3 {
+      font-size: 1.05rem; font-weight: 600;
+      color: #fff; margin-bottom: 8px;
+    }
+    .spec-card p {
+      font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+    }
+
+    @media (max-width: 700px) {
+      .specs-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ========== ADVANTAGES ========== */
+    .adv-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .adv-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      padding: 32px 24px;
+    }
+    .adv-card-icon {
+      font-size: 1.5rem; margin-bottom: 14px;
+      color: var(--gold);
+    }
+    .adv-card h3 {
+      font-size: 1rem; font-weight: 600;
+      color: #fff; margin-bottom: 10px;
+    }
+    .adv-card p {
+      font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .adv-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 580px) {
+      .adv-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ========== ECONOMY ========== */
+    .econ-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .econ-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      display: flex; gap: 18px; align-items: flex-start;
+    }
+    .econ-num {
+      font-size: 2rem; font-weight: 700;
+      color: var(--gold); line-height: 1;
+      min-width: 44px;
+      text-align: center;
+    }
+    .econ-card h3 {
+      font-size: 1rem; font-weight: 600;
+      color: #fff; margin-bottom: 6px;
+    }
+    .econ-card p {
+      font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+    }
+
+    @media (max-width: 700px) {
+      .econ-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ========== GALLERY ========== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .gallery-item {
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .gallery-item img {
+      width: 100%; height: 240px;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+    .gallery-item img:hover { opacity: 0.85; }
+
+    @media (max-width: 900px) {
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 540px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+    }
+    footer .container {
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+    footer p { font-size: 0.8125rem; color: var(--muted); }
+
+    /* ========== REVEAL ========== */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translate(0); }
+    .reveal-l { opacity: 0; transform: translateX(-24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal-l.visible { opacity: 1; transform: translate(0); }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-content { text-align: center; }
+      .hero-sub { max-width: none; }
+      .hero-actions { justify-content: center; }
+      .hero-visual { order: -1; }
+      .hero-visual img { max-width: 380px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-overlay { pointer-events: none; }
+      .nav-links {
+        position: fixed; top: 0; right: 0; z-index: 100;
+        flex-direction: column; align-items: flex-start; gap: 0;
+        width: 280px; height: 100dvh;
+        padding: 100px 32px 40px;
+        background: rgba(11, 11, 20, 0.96);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        border-left: 1px solid rgba(212, 164, 71, 0.12);
+      }
+      .nav-links.open { transform: translateX(0); }
+      .nav-links a {
+        font-size: 0.9375rem; padding: 14px 0; width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.04);
+        letter-spacing: 0.08em;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+      .section { padding: 60px 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-l { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">КА<span>ЗС</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#specs">Комплектация</a>
+        <a href="#advantages">Преимущества</a>
+        <a href="#economy">Выгода</a>
+        <a href="#gallery">Фото</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content reveal">
+        <div class="hero-badge">Под ключ</div>
+        <h1>
+          Контейнерные<br />
+          <span class="gold">автозаправочные</span><br />
+          станции
+        </h1>
+        <p class="hero-sub">
+          Проектирование, производство и поставка модульных АЗС под ключ.
+          Автономное и мобильное снабжение топливом с учётом всех норм безопасности.
+        </p>
+        <div class="hero-actions">
+          <a href="#specs" class="btn-prime">Характеристики</a>
+          <a href="#gallery" class="btn-ghost">Фото</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal-l">
+        <img src="images/photo-03.jpg" alt="КАЗС - контейнерная автозаправочная станция" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Specs -->
+  <section class="section section-alt" id="specs">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Основные комплектующие</div>
+        <h2 class="section-title">Характеристики и состав</h2>
+        <p class="section-desc">
+          Каждая КАЗС собирается из сертифицированных компонентов, 
+          соответствующих ТР ТС 012/2011 и требованиям пожарной безопасности.
+        </p>
+      </div>
+      <div class="specs-grid">
+        <div class="spec-card reveal">
+          <div class="spec-card-title">01</div>
+          <h3>Контейнер</h3>
+          <p>От 10 до 60 футов, с теплоизоляцией, антикоррозионным покрытием и системой вентиляции.</p>
+        </div>
+        <div class="spec-card reveal-l">
+          <div class="spec-card-title">02</div>
+          <h3>Резервуар</h3>
+          <p>Прямоугольный резервуар объёмом от 5 до 60 м&sup3; с датчиком утечки и уровня топлива.</p>
+        </div>
+        <div class="spec-card reveal">
+          <div class="spec-card-title">03</div>
+          <h3>Топливораздаточная колонка (ТРК)</h3>
+          <p>Профессиональная колонка производительностью 50-80 л/мин, с фильтрацией и автоматическим пистолетом.</p>
+        </div>
+        <div class="spec-card reveal-l">
+          <div class="spec-card-title">04</div>
+          <h3>Система учёта</h3>
+          <p>Электронная система контроля выдачи топлива с удалённым мониторингом через GSM/интернет.</p>
+        </div>
+        <div class="spec-card reveal">
+          <div class="spec-card-title">05</div>
+          <h3>Электрооборудование</h3>
+          <p>Взрывозащищённая проводка, освещение, система обогрева для эксплуатации при низких температурах.</p>
+        </div>
+        <div class="spec-card reveal-l">
+          <div class="spec-card-title">06</div>
+          <h3>Дополнительно</h3>
+          <p>Лестницы, площадки обслуживания, переливные клапаны, люки для обслуживания резервуара.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advantages -->
+  <section class="section" id="advantages">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Преимущества</div>
+        <h2 class="section-title">Почему выбирают КАЗС</h2>
+      </div>
+      <div class="adv-grid">
+        <div class="adv-card reveal">
+          <div class="adv-card-icon">&#9881;</div>
+          <h3>Мобильность</h3>
+          <p>Быстрая установка и демонтаж. Можно перевезти на новый объект без сложной логистики.</p>
+        </div>
+        <div class="adv-card reveal-l">
+          <div class="adv-card-icon">&#9889;</div>
+          <h3>Независимость</h3>
+          <p>Круглосуточная работа без подключения к централизованным сетям.</p>
+        </div>
+        <div class="adv-card reveal">
+          <div class="adv-card-icon">&#8987;</div>
+          <h3>Экономия времени</h3>
+          <p>Не нужно строить капитальную АЗС, получать сложные разрешения и ждать месяцы.</p>
+        </div>
+        <div class="adv-card reveal-l">
+          <div class="adv-card-icon">&#10003;</div>
+          <h3>Безопасность</h3>
+          <p>Все комплектующие сертифицированы, соответствуют ТР ТС 012/2011 и требованиям ПБ.</p>
+        </div>
+        <div class="adv-card reveal">
+          <div class="adv-card-icon">&#9783;</div>
+          <h3>Автоматизация</h3>
+          <p>Контроль выдачи топлива сотрудникам с детализацией по объёму и времени.</p>
+        </div>
+        <div class="adv-card reveal-l">
+          <div class="adv-card-icon">&#9998;</div>
+          <h3>Гибкая конфигурация</h3>
+          <p>Объём резервуара, количество постов и типы топлива подбираются индивидуально.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Economy -->
+  <section class="section section-alt" id="economy">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Экономическая выгода</div>
+        <h2 class="section-title">Считаем деньги</h2>
+      </div>
+      <div class="econ-grid">
+        <div class="econ-card reveal">
+          <div class="econ-num">💰</div>
+          <div>
+            <h3>Снижение расходов на топливо</h3>
+            <p>Покупка оптом дешевле, чем заправка на сетевых АЗС. Экономия до 15-20% на каждом литре.</p>
+          </div>
+        </div>
+        <div class="econ-card reveal-l">
+          <div class="econ-num">⚡</div>
+          <div>
+            <h3>Сокращение простоя техники</h3>
+            <p>Техника заправляется прямо на объекте. Нет затрат времени и пробега до ближайшей АЗС.</p>
+          </div>
+        </div>
+        <div class="econ-card reveal">
+          <div class="econ-num">📦</div>
+          <div>
+            <h3>Минимум капитальных затрат</h3>
+            <p>Не требуется строительство дорогостоящих зданий и инженерных коммуникаций.</p>
+          </div>
+        </div>
+        <div class="econ-card reveal-l">
+          <div class="econ-num">♻️</div>
+          <div>
+            <h3>Долгий срок службы</h3>
+            <p>Срок службы КАЗС — 10 лет. При изменении задач её можно продать или перевезти.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Application -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal" style="max-width:100%;">
+        <div class="section-label">Применение</div>
+        <h2 class="section-title">Где используется</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+        <div style="background:var(--card);border:1px solid var(--border);padding:24px 20px;" class="reveal">
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.7;">Сельскохозяйственная и строительная техника</p>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:24px 20px;" class="reveal-l">
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.7;">Розничная реализация топлива в населённых пунктах</p>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:24px 20px;" class="reveal">
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.7;">Корпоративные автопарки</p>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:24px 20px;" class="reveal-l">
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.7;">Удалённые объекты и базы</p>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:24px 20px;" class="reveal">
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.7;">Временные и сезонные площадки</p>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:24px 20px;" class="reveal-l">
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.7;">АЗС самообслуживания</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GALLERY ========== -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <div class="section-header reveal" style="margin-bottom:32px;">
+        <div class="section-label">Примеры</div>
+        <h2 class="section-title">Реализованные проекты</h2>
+      </div>
+      <div class="gallery-grid gallery-2 reveal">
+        <div class="gallery-item"><img src="images/photo-01.jpg" alt="КАЗС вид 1" /></div>
+        <div class="gallery-item"><img src="images/photo-02.jpg" alt="КАЗС вид 2" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 КАЗС — Контейнерные автозаправочные станции под ключ</p>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('navbar');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          nav.classList.toggle('scrolled', window.scrollY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    const overlay = document.getElementById('navOverlay');
+    const navLinks = links.querySelectorAll('a');
+    function openMenu() {
+      toggle.classList.add('active'); links.classList.add('open');
+      overlay.classList.add('active'); document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      toggle.classList.remove('active'); links.classList.remove('open');
+      overlay.classList.remove('active'); document.body.style.overflow = '';
+    }
+    toggle.addEventListener('click', () => {
+      links.classList.contains('open') ? closeMenu() : openMenu();
+    });
+    overlay.addEventListener('click', closeMenu);
+    navLinks.forEach(a => a.addEventListener('click', closeMenu));
+
+    const reveals = document.querySelectorAll('.reveal, .reveal-l');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3X-UI — все версии лендинга</title>
+<meta name="description" content="Лендинги для 3X-UI — панель управления Xray-core. Две версии: Claude Design и Materialize CSS.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' rx='8' fill='%230ea5e9'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='system-ui' font-weight='800' font-size='18' fill='%23fff'%3E3X%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a14;
+  --bg-card: #12121f;
+  --bg-elevated: #1c1c30;
+  --fg: #eeeef5;
+  --fg-secondary: #8888a0;
+  --fg-muted: #55556a;
+  --accent: #0ea5e9;
+  --accent-dim: rgba(14,165,233,0.1);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+.bg-glow {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.bg-glow::before {
+  content: ''; position: absolute;
+  width: 600px; height: 600px;
+  top: -200px; right: -100px;
+  background: radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%);
+  animation: float 20s ease-in-out infinite;
+}
+.bg-glow::after {
+  content: ''; position: absolute;
+  width: 500px; height: 500px;
+  bottom: -150px; left: -100px;
+  background: radial-gradient(circle, rgba(14,165,233,0.06) 0%, transparent 70%);
+  animation: float 25s ease-in-out infinite reverse;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(30px,-30px) scale(1.05); }
+  66% { transform: translate(-20px,20px) scale(0.95); }
+}
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+header {
+  padding: 60px 0 40px;
+  text-align: center;
+}
+header .logo {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 22px;
+  color: #fff;
+}
+header h1 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+header h1 .accent { color: var(--accent); }
+header p {
+  color: var(--fg-secondary);
+  font-size: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 20px 0 80px;
+}
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(14,165,233,0.2);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.card .preview {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.card .preview.claude {
+  background: #060610;
+}
+.card .preview.claude::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.card .preview.materialize {
+  background: #0f172a;
+}
+.card .preview .badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(14,165,233,0.15);
+  color: #7dd3fc;
+  border: 1px solid rgba(14,165,233,0.2);
+}
+.card .preview .preview-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  z-index: 1;
+  text-align: center;
+  line-height: 1.2;
+}
+.card .preview .preview-text small {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--fg-secondary);
+  margin-top: 8px;
+}
+
+.card .info {
+  padding: 24px;
+}
+.card .info h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.card .info .meta {
+  font-size: 13px;
+  color: var(--fg-secondary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.card .info .tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.card .info .tech span {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--fg-secondary);
+}
+.card .info .links {
+  display: flex;
+  gap: 10px;
+}
+.card .info .links a {
+  flex: 1;
+  text-align: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+}
+.card .info .links a.primary {
+  background: var(--accent);
+  color: #fff;
+}
+.card .info .links a.primary:hover { background: #0284c7; }
+.card .info .links a.secondary {
+  background: rgba(255,255,255,0.04);
+  color: var(--fg-secondary);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.card .info .links a.secondary:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--fg);
+}
+
+.repo-link {
+  text-align: center;
+  padding-bottom: 60px;
+}
+.repo-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg);
+  text-decoration: none;
+  transition: background .2s, border-color .2s;
+}
+.repo-link a:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(14,165,233,0.3);
+}
+
+footer {
+  text-align: center;
+  padding: 24px 0 40px;
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<header>
+  <div class="container">
+    <div class="logo">3X</div>
+    <h1>3<span class="accent">X</span>-UI · Лендинги</h1>
+    <p>Две версии лендинга для панели управления Xray-core. Выбери стиль.</p>
+  </div>
+</header>
+
+<main class="container">
+  <div class="grid">
+    <!-- Version 1: Claude Design -->
+    <div class="card">
+      <div class="preview claude">
+        <span class="badge">v1 · Claude Design</span>
+        <div class="preview-text">
+          3X-UI
+          <small>Панель управления Xray-core</small>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Claude Design</h3>
+        <div class="meta">Тёмная тема, dot-grid фон, spotlight-курсор, stagger-анимации, Material Symbols иконки</div>
+        <div class="tech">
+          <span>Чистый HTML/CSS/JS</span>
+          <span>Material Symbols</span>
+          <span>PT Sans</span>
+          <span>DM Sans</span>
+          <span>JetBrains Mono</span>
+        </div>
+        <div class="links">
+          <a href="https://xep.qzz.io/weblending/projects/3x-ui/v1/" target="_blank" class="primary">Смотреть →</a>
+          <a href="https://github.com/MHSanaei/3x-ui" target="_blank" class="secondary">GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Version 2: Materialize CSS -->
+    <div class="card">
+      <div class="preview materialize">
+        <span class="badge">v2 · Materialize</span>
+        <div class="preview-text">
+          3X-UI
+          <small>Панель управления Xray-core</small>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Materialize CSS</h3>
+        <div class="meta">Material Design, сетка 12 колонок, navbar + sidenav, cards, chips, scrollspy. Material Icons</div>
+        <div class="tech">
+          <span>Materialize CSS</span>
+          <span>Material Icons</span>
+          <span>Inter</span>
+          <span>Scrollspy</span>
+          <span>Sidenav</span>
+        </div>
+        <div class="links">
+          <a href="https://xep.qzz.io/weblending/projects/3x-ui/v2/" target="_blank" class="primary">Смотреть →</a>
+          <a href="https://github.com/MHSanaei/3x-ui" target="_blank" class="secondary">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="repo-link">
+    <a href="https://github.com/MHSanaei/3x-ui" target="_blank">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      MHSanaei/3x-ui на GitHub
+    </a>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    3X-UI · Open Source · GPL-3.0
+  </div>
+</footer>
+</body>
+</html>

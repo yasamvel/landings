@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samvel Ervandian — AI Agent Engineering</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --linkedin-blue: #0A66C2;
+      --linkedin-dark: #000000e6;
+      --linkedin-bg: #f3f2ef;
+      --linkedin-card: #ffffff;
+      --linkedin-gray: #666666;
+      --linkedin-border: #e0dfdc;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      background: var(--linkedin-bg);
+      color: #191919;
+      padding-top: 52px;
+    }
+    /* Navbar */
+    .ln-navbar {
+      background: var(--linkedin-blue);
+      height: 52px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+      box-shadow: 0 1px 3px rgba(0,0,0,.15);
+    }
+    .ln-navbar .container { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .ln-logo { color: #fff; font-weight: 700; font-size: 1.25rem; letter-spacing: -.5px; display: flex; align-items: center; gap: 8px; }
+    .ln-logo i { font-size: 1.5rem; }
+    .ln-nav-right { display: flex; align-items: center; gap: 12px; }
+    .ln-lang-btn {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: .8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ln-lang-btn:hover { background: rgba(255,255,255,.25); }
+    .ln-lang-btn .badge-lang { font-weight: 700; }
+    .ln-nav-icon { color: rgba(255,255,255,.8); font-size: .9rem; cursor: pointer; padding: 6px; border-radius: 4px; transition: all .2s; display: none; }
+    .ln-nav-icon:hover { background: rgba(255,255,255,.15); color: #fff; }
+
+    /* Layout */
+    .ln-layout { max-width: 1128px; margin: 24px auto; padding: 0 16px; display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
+    @media (max-width: 768px) { .ln-layout { grid-template-columns: 1fr; } }
+
+    /* Sidebar Profile */
+    .ln-sidebar { position: sticky; top: 80px; align-self: start; }
+    .ln-profile-card {
+      background: var(--linkedin-card);
+      border-radius: 12px;
+      border: 1px solid var(--linkedin-border);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .ln-profile-banner {
+      height: 56px;
+      background: linear-gradient(135deg, #0A66C2, #004182);
+    }
+    .ln-profile-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: #0A66C2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      margin: -36px auto 0 16px;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .ln-profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .ln-post-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: #0A66C2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .ln-post-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .ln-profile-body { padding: 12px 16px 16px; }
+    .ln-profile-name { font-size: 1rem; font-weight: 700; color: #191919; margin: 0; }
+    .ln-profile-title { font-size: .82rem; color: #666; margin: 2px 0 8px; line-height: 1.3; }
+    .ln-profile-tagline { font-size: .78rem; color: #666; border-top: 1px solid var(--linkedin-border); padding-top: 10px; margin-top: 4px; display: flex; align-items: center; gap: 6px; }
+    .ln-profile-tagline i { color: var(--linkedin-blue); }
+
+    /* Feed */
+    .ln-feed { }
+    .ln-post {
+      background: var(--linkedin-card);
+      border-radius: 12px;
+      border: 1px solid var(--linkedin-border);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: box-shadow .15s;
+    }
+    .ln-post:hover { box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+    .ln-post-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .ln-post-author { font-weight: 700; font-size: .88rem; color: #191919; margin: 0; line-height: 1.2; }
+    .ln-post-meta { font-size: .75rem; color: #666; margin: 0; display: flex; align-items: center; gap: 4px; }
+    .ln-post-badge { background: #e8f4fd; color: var(--linkedin-blue); font-size: .7rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin: 6px 0 8px; display: inline-block; }
+    .ln-post-content { font-size: .92rem; line-height: 1.55; color: #333; margin-bottom: 14px; }
+    .ln-post-content p { margin-bottom: 8px; }
+    .ln-post-content strong { font-weight: 600; color: #191919; }
+    .ln-post-content ul { padding-left: 18px; margin: 6px 0 10px; }
+    .ln-post-content ul li { margin-bottom: 4px; }
+    .ln-post-footer {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding-top: 12px;
+      border-top: 1px solid var(--linkedin-border);
+      font-size: .8rem;
+      color: #666;
+    }
+    .ln-post-footer i { font-size: 1.1rem; }
+    .ln-post-footer span { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: background .15s; }
+    .ln-post-footer span:hover { background: #f0f0f0; }
+
+    /* Language visibility */
+    [data-lang="ru"] .ln-en-only { display: none !important; }
+    [data-lang="en"] .ln-ru-only { display: none !important; }
+
+    .ln-section-title { font-size: 1rem; font-weight: 700; color: #191919; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--linkedin-blue); display: flex; align-items: center; gap: 8px; }
+
+    /* Empty state */
+    .ln-empty { text-align: center; padding: 40px 20px; color: #666; }
+    .ln-empty i { font-size: 2.5rem; color: #bbb; margin-bottom: 12px; }
+    .ln-empty p { font-size: .9rem; }
+
+    /* Utils */
+    .text-linkedin { color: var(--linkedin-blue) !important; }
+
+    /* Scroll animation */
+    .ln-post { opacity: 0; transform: translateY(20px); animation: fadeUp .5s ease forwards; }
+    .ln-post:nth-child(1) { animation-delay: .05s; }
+    .ln-post:nth-child(2) { animation-delay: .1s; }
+    .ln-post:nth-child(3) { animation-delay: .15s; }
+    .ln-post:nth-child(4) { animation-delay: .2s; }
+    .ln-post:nth-child(5) { animation-delay: .25s; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* Footer */
+    .ln-footer { text-align: center; padding: 24px 0 40px; color: #888; font-size: .78rem; border-top: 1px solid var(--linkedin-border); margin-top: 16px; max-width: 1128px; margin-left: auto; margin-right: auto; }
+  </style>
+</head>
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<nav class="ln-navbar">
+  <div class="container">
+    <div class="ln-logo">
+      <i class="fab fa-linkedin"></i>
+      <span class="ln-ru-only">Samvel Ervandian</span>
+      <span class="ln-en-only">Samvel Ervandian</span>
+    </div>
+    <div class="ln-nav-right">
+      <button class="ln-lang-btn" onclick="toggleLang()">
+        <i class="fas fa-globe"></i>
+        <span class="badge-lang ln-ru-only">EN</span>
+        <span class="badge-lang ln-en-only">RU</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ====== MAIN LAYOUT ====== -->
+<div class="ln-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="ln-sidebar">
+    <div class="ln-profile-card">
+      <div class="ln-profile-banner"></div>
+      <div class="ln-profile-avatar"><img src="avatar_72.jpg" alt="Samvel Ervandian"></div>
+      <div class="ln-profile-body">
+        <h1 class="ln-profile-name">Samvel Ervandian</h1>
+        <p class="ln-profile-title ln-ru-only">AI-инженер • Автономные агенты • Hermes Agent</p>
+        <p class="ln-profile-title ln-en-only">AI Engineer • Autonomous Agents • Hermes Agent</p>
+        <div class="ln-profile-tagline">
+          <i class="fas fa-newspaper"></i>
+          <span class="ln-ru-only">Пишу про AI агентов, MCP, автоматизацию</span>
+          <span class="ln-en-only">Writing about AI agents, MCP, automation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ln-profile-card" style="padding:16px;">
+      <div class="ln-section-title" style="margin-bottom:8px; border:none; padding:0;">
+        <i class="fas fa-hashtag text-linkedin"></i>
+        <span class="ln-ru-only">Темы</span>
+        <span class="ln-en-only">Topics</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="ln-post-badge" style="background:#e8f4fd; color:#0A66C2;">AI Agents</span>
+        <span class="ln-post-badge" style="background:#e8f4fd; color:#0A66C2;">MCP</span>
+        <span class="ln-post-badge" style="background:#e8f4fd; color:#0A66C2;">Automation</span>
+        <span class="ln-post-badge" style="background:#e8f4fd; color:#0A66C2;">LLMs</span>
+        <span class="ln-post-badge" style="background:#e8f4fd; color:#0A66C2;">DevOps</span>
+        <span class="ln-post-badge" style="background:#e8f4fd; color:#0A66C2;">Bootstrap</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- FEED -->
+  <main class="ln-feed">
+
+    <!-- Section title -->
+    <div class="ln-section-title ln-ru-only">
+      <i class="fas fa-pen-fancy"></i> Статьи и заметки
+    </div>
+    <div class="ln-section-title ln-en-only">
+      <i class="fas fa-pen-fancy"></i> Articles & Posts
+    </div>
+
+    <!-- ====== POST 1 ====== -->
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">18 июня 2026</span><span class="ln-en-only">June 18, 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · MCP</div>
+      <div class="ln-post-content ln-ru-only">
+        <strong>5 навыков, которые я реально использую в работе с AI-агентами</strong>
+        <p>После нескольких месяцев эксплуатации Hermes Agent в продакшене — вот что реально важно:</p>
+        <p><strong>1. Знать характер модели.</strong> Не все LLM одинаковы. DeepSeek V4 Flash — для кода. Nemotron — для анализа. Qwen — для ежедневных крон-задач. Выбор правильной модели сокращает расходы в 10 раз.</p>
+        <p><strong>2. Изолируй всё.</strong> Агент с pty=true может удалить проект. Отдельные терминалы для каждого саб-агента — это выживание.</p>
+        <p><strong>3. Делегируй агрессивно.</strong> Разбить задачу «лендинг» на: исследование → генерация HTML → тест → деплой — в 3 раза быстрее.</p>
+        <p><strong>4. Cron — твой напарник.</strong> Автоматические дайджесты убирают когнитивную нагрузку. Агент без присмотра ценнее того, с кем ты говоришь весь день.</p>
+        <p><strong>5. MCP меняет всё.</strong> Model Context Protocol — динамическое подключение инструментов одной строкой в конфиге.</p>
+        <p><em>Суть: лучший AI-агент — не самая умная модель, а та, вокруг которой построена надёжная экосистема инструментов.</em></p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+        <strong>5 Skills I Actually Use Daily Working With AI Agents</strong>
+        <p>After months running Hermes Agent in production — here's what actually matters:</p>
+        <p><strong>1. Know your model's shape.</strong> DeepSeek V4 Flash for code. Nemotron for analysis. Qwen for cron jobs. Picking the right model cuts costs by 10x.</p>
+        <p><strong>2. Sandbox everything.</strong> An agent with pty=true can delete your project. Per-task terminal sessions aren't optional.</p>
+        <p><strong>3. Delegate aggressively.</strong> Breaking "build a landing page" into research → HTML → test → deploy, each as a subagent, finishes 3x faster.</p>
+        <p><strong>4. Cron is your co-pilot.</strong> Automated daily digests remove cognitive load. An agent that runs unattended is worth more.</p>
+        <p><strong>5. MCP changes everything.</strong> Model Context Protocol — connect tools dynamically with one config line.</p>
+        <p><em>Bottom line: the best AI agent isn't the smartest model. It's the one with the most reliable tool ecosystem.</em></p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <!-- ====== POST 2 ====== -->
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">17 июня 2026</span><span class="ln-en-only">June 17, 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">MCP · Architecture</div>
+      <div class="ln-post-content ln-ru-only">
+        <strong>Что такое MCP и почему это важно для AI-агентов</strong>
+        <p>Model Context Protocol (MCP) — это стандарт, который позволяет LLM динамически находить и использовать инструменты. Вместо жёстко прописанных плагинов — одна строка конфига открывает доступ к базе данных, файловой системе или API.</p>
+        <p>До MCP: каждый инструмент — отдельная интеграция, отдельный код.</p>
+        <p>После MCP: агент сам понимает, какие инструменты доступны, и выбирает нужный по контексту.</p>
+        <p>В Hermes Agent MCP работает «из коробки» — подключил сервер в config.yaml, и агент уже знает о новых возможностях.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+        <strong>What is MCP and Why It Matters for AI Agents</strong>
+        <p>Model Context Protocol (MCP) is a standard that lets LLMs dynamically discover and use tools. Instead of hardcoded plugins — one config line opens access to a database, filesystem, or API.</p>
+        <p>Before MCP: every tool needs custom integration code.</p>
+        <p>After MCP: the agent understands what tools are available and picks the right one by context.</p>
+        <p>In Hermes Agent, MCP works out of the box — add a server in config.yaml, and the agent immediately knows about new capabilities.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <!-- ====== POST 3 ====== -->
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">15 июня 2026</span><span class="ln-en-only">June 15, 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">Automation · DevOps</div>
+      <div class="ln-post-content ln-ru-only">
+        <strong>Как я автоматизировал доменные дайджесты с бесплатными LLM</strong>
+        <p>Управляю ~100 доменами через REG.RU. Ручная проверка дат истечения каждый день — бессмысленная трата времени.</p>
+        <p>Решение: скрипт Python собирает данные через API REG.RU → cron раз в неделю → Nemotron (бесплатный) делает человекочитаемый обзор.</p>
+        <p>Итог: воскресное утро начинается с дайджеста: какие домены скоро истекают, какие уже просрочены, какие в порядке. 5 секунд чтения вместо 30 минут проверки.</p>
+        <p>Бесплатные модели (Qwen 3.5 Flash, Nemotron через OpenRouter) отлично справляются с анализом структурированных данных.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+        <strong>How I Automated Domain Digests With Free LLMs</strong>
+        <p>Managing ~100 domains via REG.RU. Manual expiry date checks every day — a waste of time.</p>
+        <p>Solution: Python script fetches data via REG.RU API → weekly cron → Nemotron (free tier) produces a human-readable summary.</p>
+        <p>Result: Sunday morning starts with a digest — which domains expire soon, which are overdue, which are fine. 5 seconds of reading instead of 30 minutes of checking.</p>
+        <p>Free models (Qwen 3.5 Flash, Nemotron via OpenRouter) handle structured data analysis perfectly.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <!-- ====== POST 4 ====== -->
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">12 июня 2026</span><span class="ln-en-only">June 12, 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">Bootstrap · No-Code</div>
+      <div class="ln-post-content ln-ru-only">
+        <strong>Почему я делаю лендинги на Bootstrap, а не Next.js</strong>
+        <p>На сервере 1 vCPU и 2GB RAM. Next.js с SSR жрёт память. Bootstrap 5 CDN — ноль потребления ресурсов, моментальная загрузка, работает без Node.js.</p>
+        <p>Плюс: готовые компоненты, адаптивность из коробки, можно быстро прототипировать.</p>
+        <p>Единственный инструмент, который реально нужен — AI агент (Codex), который генерирует HTML + проверяет перед деплоем. Всё остальное — лишнее.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+        <strong>Why I Build Landing Pages With Bootstrap, Not Next.js</strong>
+        <p>On a server with 1 vCPU and 2GB RAM. Next.js with SSR eats memory. Bootstrap 5 CDN — zero resource consumption, instant load, runs without Node.js.</p>
+        <p>Plus: ready components, responsive out of the box, fast prototyping.</p>
+        <p>The only tool you actually need — an AI agent (Codex) that generates HTML + validates before deploy. Everything else is overhead.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">19 июня 2026</span><span class="ln-en-only">19 June 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Engineering</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Скрытая сложность tool calling: что происходит, когда агент вызывает функцию</strong>
+                        <p>На словах «агент вызвал инструмент» звучит просто. На практике — это цепочка из 6+ шагов, каждый из которых может упасть. Вот как это выглядит в production.</p>
+                        <p><strong>1. LLM решает, что пора вызвать инструмент.</strong> Модель генерирует JSON с именем функции и аргументами. Проблема: DeepSeek V4 Flash иногда генерирует &lt;tool_call&gt; вместо корректного JSON. Nemotron — пропускает обязательные поля. В Hermes Agent мы используем Multi-Turn Tool Use — до 3 попыток перегенерировать, если парсинг упал.</p>
+                        <p><strong>2. Валидация схемы.</strong> Аргументы должны соответствовать JSON Schema. Ошибка: модель передаёт строку вместо числа, или наоборот. Простое решение — Pydantic-валидация на входе. До появления MCP это был ручной код. Сейчас — автоматически.</p>
+                        <p><strong>3. Выполнение.</strong> Инструмент идёт в БД, файловую систему или внешний API. Таймауты. Rate limits. Сетевые ошибки. Мы в Hermes ставим таймаут 30 секунд на tool call и возвращаем агент в цикл с сообщением об ошибке. Агент сам решает — повторять или менять стратегию.</p>
+                        <p><strong>4. Возврат результата.</strong> LLM получает сырой вывод инструмента — часто килобайты JSON. Concatenation — следующая проблема. Если результат больше 8K токенов, модель начинает галлюцинировать. Решение: тримминг — обрезать до ключевых полей, агрегировать, summarise.</p>
+                        <p><strong>5. Цикл.</strong> Агент может вызвать 10+ инструментов последовательно. Каждый шаг удваивает контекст. Cпустя 5 вызовов модель забывает начало задачи. Hermes использует context window compression — выбрасывает старые tool results, сохраняя суть.</p>
+                        <p><strong>Вывод:</strong> 80% времени в production AI-агента тратится не на «думание», а на обработку ошибок tool calling. Инструментарий, который делает это надёжно — важнее, чем выбор модели.</p>
+                        <p><em>Хороший агент — не тот, кто всегда вызывает инструмент правильно. А тот, кто корректно восстанавливается после ошибки.</em></p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>The Hidden Complexity of Tool Calling: What Actually Happens When Your Agent Invokes a Function</strong>
+                        <p>"The agent called a tool" sounds simple. In production, it's a 6-step chain where every link can break. Here's what really happens.</p>
+                        <p><strong>1. The LLM decides to call a tool.</strong> It generates JSON with function name + arguments. Reality check: DeepSeek V4 Flash sometimes emits &lt;tool_call&gt; instead of valid JSON. Nemotron drops required fields. In Hermes Agent we use Multi-Turn Tool Use — up to 3 regeneration attempts when parsing fails.</p>
+                        <p><strong>2. Schema validation.</strong> Arguments must match JSON Schema. Common failure: model passes a string where a number is expected (or vice versa). Pydantic validation at the entry point handles this. Before MCP, this was custom code. Now it's automatic.</p>
+                        <p><strong>3. Execution.</strong> The tool hits a database, filesystem, or external API. Timeouts. Rate limits. Network errors. In Hermes we set a 30-second timeout per tool call and route errors back to the agent loop — the agent decides whether to retry or switch strategies.</p>
+                        <p><strong>4. Returning results.</strong> The LLM receives raw tool output — often kilobytes of JSON. Context concatenation is the next bottleneck. Beyond ~8K tokens of tool output, models start hallucinating. Solution: result trimming — strip to key fields, aggregate, or summarise before injecting back.</p>
+                        <p><strong>5. The loop.</strong> An agent may chain 10+ tool calls. Each step doubles context. After 5 rounds, the model forgets the original task. Hermes uses context window compression — discarding old tool results while preserving semantics.</p>
+                        <p><strong>Bottom line:</strong> 80% of production AI agent runtime is spent not on "thinking" but on tool-calling error handling. A reliable tooling framework matters more than model selection.</p>
+                        <p><em>A good agent isn't one that always calls tools correctly. It's one that recovers gracefully when things go wrong.</em></p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">21 июня 2026</span><span class="ln-en-only">21 June 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Orchestration</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Параллельная оркестрация агентов: когда запускать 10 агентов вместо одного</strong>
+                        <p>В production AI-агентов есть неочевидный порог: пока задача линейная — один агент справляется отлично. Но как только появляются независимые подзадачи (опрос 5 источников, проверка 10 доменов, генерация 3 вариантов лендинга), последовательный вызов становится узким горлышком.</p>
+                        <p>В Hermes Agent мы используем <strong>delegate_task</strong> для параллельного запуска дочерних агентов. Каждый получает изолированный терминал, свой контекст и полный набор инструментов. Родитель собирает результаты и синтезирует финальный ответ.</p>
+                        <p><strong>Когда это реально нужно:</strong></p>
+                        <ul>
+                        <li><strong>Исследование.</strong> Собрать информацию из 5 источников. Один агент на источник — в 5 раз быстрее.</li>
+                        <li><strong>Генерация.</strong> Три варианта лендинга с разными стилями — запускаем параллельно, выбираем лучший.</li>
+                        <li><strong>QA.</strong> Проверить код на безопасность, производительность и стиль — три независимых ревью.</li>
+                        </ul>
+                        <p><strong>Но есть нюансы:</strong></p>
+                        <ul>
+                        <li><strong>Лимиты API.</strong> 10 параллельных агентов × 10 запросов = 100 RPS. DeepSeek и OpenRouter могут начать дропать. Решение: throttling на уровне оркестратора — не больше N параллельных.</li>
+                        <li><strong>Контекстная целостность.</strong> Дочерние агенты не видят контекст друг друга. Нельзя делегировать подзадачи, которые зависят от промежуточных результатов. Только независимые.</li>
+                        <li><strong>Стоимость ошибки.</strong> Один неправильный промпт у дочернего агента = N перезапусков. Прототипируйте последовательно, прод запускайте параллельно.</li>
+                        </ul>
+                        <p><strong>Практическое правило:</strong> если подзадачи не обмениваются данными — параллель. Если обмениваются — последовательно, но с кэшированием промежуточных результатов.</p>
+                        <p>В продакшене мы держим лимит 3 параллельных агента для пользовательских запросов и до 10 для batch-задач. Этого хватает, чтобы утилизировать все ядра сервера, не упираясь в rate limits провайдера.</p>
+                        <p><em>Параллелизация агентов — не про скорость. Это про утилизацию: пока один агент ждёт ответ от API, другой уже обрабатывает результат.</em></p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Parallel Agent Orchestration: When to Run 10 Agents Instead of 1</strong>
+                        <p>In production AI agent systems, there's an invisible threshold: for linear tasks, a single agent works perfectly. But once you have independent subtasks — polling 5 sources, checking 10 domains, generating 3 landing page variants — sequential execution becomes the bottleneck.</p>
+                        <p>In Hermes Agent, we use <strong>delegate_task</strong> to run child agents in parallel. Each gets an isolated terminal, its own context, and the full toolset. The parent collects results and synthesizes the final output.</p>
+                        <p><strong>When it actually makes sense:</strong></p>
+                        <ul>
+                        <li><strong>Research.</strong> Gather information from 5 sources. One agent per source → 5x faster.</li>
+                        <li><strong>Generation.</strong> Three landing page variants with different styles — run in parallel, pick the best.</li>
+                        <li><strong>QA.</strong> Security, performance, and style review — three independent checks at once.</li>
+                        </ul>
+                        <p><strong>The tradeoffs nobody talks about:</strong></p>
+                        <ul>
+                        <li><strong>API limits.</strong> 10 parallel agents × 10 calls = 100 RPS. Providers like DeepSeek or OpenRouter start dropping requests. Solution: throttling at the orchestrator level.</li>
+                        <li><strong>Context isolation.</strong> Child agents don't share context. You can't delegate tasks that depend on intermediate results. Only truly independent subtasks qualify.</li>
+                        <li><strong>Error cost.</strong> One bad prompt in a child agent = N restarts. Prototype sequentially, parallelize only in production after validation.</li>
+                        </ul>
+                        <p><strong>Rule of thumb:</strong> if subtasks don't share data — parallelize. If they share data — keep sequential but cache intermediate results aggressively.</p>
+                        <p>In production, we cap at 3 parallel agents for user-facing requests and up to 10 for batch jobs. This saturates server resources without hitting provider rate limits.</p>
+                        <p><em>Parallelizing agents isn't about speed. It's about utilization: while one agent waits for an API response, another is already processing results.</em></p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">26 июня 2026</span><span class="ln-en-only">26 June 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">LLMs · Prompt Engineering</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Prompt Caching в проде: как мы сократили latency LLM в 4 раза без смены модели</strong>
+                        <p>Когда вы запускаете AI-агента в production, 70–90% времени уходит на вызов LLM. Можно сменить модель, можно поставить быстрее железа. А можно просто перестать платить за одни и те же токены дважды.</p>
+                        <p>Prompt caching — это не магия. Это KV-кэш на уровне трансформера: если начало промпта совпадает с предыдущим запросом, модель пропускает пересчёт ключей и значений для повторяющегося префикса. Anthropic, OpenAI и Google Gemini поддерживают это нативно, но с разными условиями.</p>
+                        <p>Вот что мы реально внедрили:</p>
+                        <ul>
+                        <li><strong>Системные промпты — главный кандидат.</strong> Убедитесь, что system prompt идёт первым блоком. Anthropic кэширует первые 1024 токена автоматически, но только если они стабильны. OpenAI требует явный header <em>system_fingerprint</em>. Gemini даёт 50% скидку на повторяющиеся токены в промпте.</li>
+                        <li><strong>Контекстная база — static prefix.</strong> Если каждый запрос начинается с одинакового набора инструкций (формат ответа, правила безопасности, метаданные), вынесите это в начало. У нас 800-токенный префикс кэшируется в 95% случаев.</li>
+                        <li><strong>Агентские циклы — идеальный use case.</strong> В multi-turn agent loop каждый шаг начинается с history + нового user message. History неизменна — кэшируем. Экономия 40–60% токенов на каждом turn, кроме первого.</li>
+                        <li><strong>Batch-обработка однотипных запросов.</strong> Если агент обрабатывает 100 email с одинаковыми инструкциями, первые 90% промпта идентичны. Сгруппируйте запросы по общей структуре.</li>
+                        </ul>
+                        <p>Цифры с нашего продакшена: после внедрения prompt caching latency упала с 2.3s до 650ms (p50) на повторяющиеся запросы. Стоимость inference снизилась на 35% при сохранении той же модели. Единственный нюанс — нужно проектировать промпты так, чтобы стабильный префикс был как можно больше и менялся как можно реже.</p>
+                        <p>Не меняйте модель ради скорости. Меняйте то, как вы посылаете ей данные.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Prompt Caching in Production: How We Cut LLM Latency 4x Without Changing Models</strong>
+                        <p>When you run an AI agent in production, 70-90% of the wall-clock time goes to LLM inference. You can switch to a faster model. You can throw better hardware at it. Or you can simply stop paying for the same tokens twice.</p>
+                        <p>Prompt caching isn't magic — it's transformer KV-cache at the application level. When the prefix of your prompt matches a previous request, the model skips recomputing keys and values for the repeated prefix. Anthropic, OpenAI, and Google Gemini all support this natively, each with slightly different mechanics (Anthropic auto-caches the first 1024 stable tokens, OpenAI requires a <em>system_fingerprint</em> header, Gemini discounts repeated prompt tokens at 50%).</p>
+                        <p>Here's what we actually shipped:</p>
+                        <ul>
+                        <li><strong>System prompts are the prime candidate.</strong> Push your system prompt to the very first block and keep it stable across calls. Most providers match prefixes — a stable, long system prompt is free after the first request.</li>
+                        <li><strong>Static prefix pattern.</strong> Every request in our system starts with the same 800-token preamble: response format, safety rules, context metadata. We see ~95% cache hit rate on that prefix alone.</li>
+                        <li><strong>Agent loops are the ideal use case.</strong> In multi-turn agent loops, each step appends one new message to a growing history. The history is immutable — cache it. You save 40-60% of tokens on every turn after the first.</li>
+                        <li><strong>Batch similar requests together.</strong> When processing 100 emails with identical processing instructions, group them by prompt structure. The first 90% of every prompt is identical — one compute, 100 responses.</li>
+                        </ul>
+                        <p>Production numbers: after implementing prompt caching, p50 latency dropped from 2.3s to 650ms on repeated requests. Inference cost fell 35% using the same model. The catch: you must design prompts with a large, stable prefix that changes infrequently.</p>
+                        <p>Don't swap models to go faster. Change how you feed them data instead.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <article class="ln-post" id="new-post-placeholder">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
+        <div>
+          <p class="ln-post-author ln-ru-only">Следующая статья</p>
+          <p class="ln-post-author ln-en-only">Next Article</p>
+          <p class="ln-post-meta">···</p>
+        </div>
+      </div>
+      <div class="ln-post-content" style="text-align:center; padding:20px 0; color:#999;">
+        <i class="fas fa-pen-fancy" style="font-size:1.5rem; display:block; margin-bottom:8px;"></i>
+        <span class="ln-ru-only">Скоро здесь появится новая статья ✨</span>
+        <span class="ln-en-only">New article coming soon ✨</span>
+      </div>
+    </article>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<div class="ln-footer">
+  <i class="fab fa-linkedin text-linkedin"></i>
+  <span class="ln-ru-only"> Samvel Ervandian · Публикую про AI-агентов, MCP и автоматизацию</span>
+  <span class="ln-en-only"> Samvel Ervandian · AI Agents, MCP & Automation</span>
+</div>
+
+<script>
+function toggleLang() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-lang');
+  const next = current === 'ru' ? 'en' : 'ru';
+  html.setAttribute('data-lang', next);
+  html.lang = next;
+  localStorage.setItem('lang', next);
+}
+// Restore saved language
+(function() {
+  const saved = localStorage.getItem('lang');
+  if (saved) {
+    document.documentElement.setAttribute('data-lang', saved);
+    document.documentElement.lang = saved;
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Одни из нас | The Last of Us - лендинг сериала HBO</title>
+  <meta name="description" content="Одностраничный лендинг сериала Одни из нас: сюжет первого сезона, актеры, эпизоды и награды постапокалиптической драмы HBO.">
+  <meta name="keywords" content="Одни из нас, The Last of Us, HBO, Педро Паскаль, Белла Рамзи, сериал, постапокалипсис">
+  <meta name="author" content="Landing page">
+  <meta name="theme-color" content="#050705">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Одни из нас | The Last of Us">
+  <meta property="og:description" content="Премиальный темный лендинг о первом сезоне сериала HBO.">
+  <meta property="og:image" content="images/hero-bg.jpg">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Одни из нас | The Last of Us">
+  <meta name="twitter:description" content="История Джоэла и Элли через постапокалиптическую Америку.">
+  <meta name="twitter:image" content="images/hero-bg.jpg">
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Bebas Neue"', 'Impact', 'Arial Narrow', 'sans-serif'],
+            body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+          },
+          colors: {
+            ash: '#050705',
+            moss: '#7f8d60',
+            rust: '#b06a3c',
+            bone: '#eee8dc'
+          },
+          boxShadow: {
+            infected: '0 0 70px rgba(176, 106, 60, .22), 0 0 140px rgba(127, 141, 96, .15)'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      color-scheme: dark;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(176, 106, 60, .16), transparent 28rem),
+        radial-gradient(circle at 84% 24%, rgba(127, 141, 96, .14), transparent 30rem),
+        linear-gradient(180deg, #050705 0%, #0b100d 48%, #050705 100%);
+      color: #eee8dc;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 30;
+      opacity: .13;
+      background-image:
+        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .grain {
+      position: fixed;
+      inset: -20%;
+      z-index: 31;
+      pointer-events: none;
+      opacity: .08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      animation: drift 9s steps(8) infinite;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-title {
+      letter-spacing: .04em;
+      text-shadow: 0 0 48px rgba(238, 232, 220, .16), 0 8px 40px rgba(0, 0, 0, .85);
+    }
+
+    .infected-border {
+      border: 1px solid rgba(238, 232, 220, .11);
+      background:
+        linear-gradient(135deg, rgba(238, 232, 220, .09), rgba(238, 232, 220, .025)),
+        linear-gradient(180deg, rgba(127, 141, 96, .08), rgba(176, 106, 60, .05));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 20px 90px rgba(0,0,0,.32);
+      backdrop-filter: blur(16px);
+    }
+
+    .spore {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(238, 232, 220, .45);
+      filter: blur(.5px);
+      animation: spore 12s linear infinite;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate3d(0,0,0); }
+      50% { transform: translate3d(-4%, 3%, 0); }
+    }
+
+    @keyframes spore {
+      from { transform: translate3d(0, 34px, 0); opacity: 0; }
+      18% { opacity: .55; }
+      to { transform: translate3d(30px, -92vh, 0); opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body class="font-body antialiased selection:bg-rust/40 selection:text-bone">
+  <div class="grain"></div>
+
+  <header class="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-ash/72 backdrop-blur-xl">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8" aria-label="Главная навигация">
+      <a href="#hero" class="font-display text-2xl tracking-wide text-bone">THE LAST OF US</a>
+      <div class="hidden items-center gap-7 text-sm font-semibold text-bone/70 md:flex">
+        <a class="transition hover:text-bone" href="#plot">Сюжет</a>
+        <a class="transition hover:text-bone" href="#cast">Актеры</a>
+        <a class="transition hover:text-bone" href="#episodes">Сезон</a>
+        <a class="transition hover:text-bone" href="#awards">Награды</a>
+      </div>
+      <a href="#plot" class="rounded-sm border border-moss/50 px-4 py-2 text-xs font-bold uppercase tracking-[.22em] text-moss transition hover:border-rust hover:text-bone">20 лет спустя</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="relative isolate flex min-h-screen items-end overflow-hidden px-4 pb-14 pt-28 sm:px-6 lg:px-8">
+      <img
+        src="images/hero-bg.jpg"
+        alt="Постер сериала The Last of Us с Джоэлом и Элли"
+        class="absolute inset-0 -z-20 h-full w-full object-cover opacity-58"
+      >
+      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_32%,rgba(176,106,60,.22),transparent_28rem),linear-gradient(90deg,rgba(5,7,5,.96)_0%,rgba(5,7,5,.72)_45%,rgba(5,7,5,.34)_100%),linear-gradient(0deg,rgba(5,7,5,1)_0%,transparent_46%)]"></div>
+      <span class="spore left-[14%] top-[88%]" style="animation-delay: -1s"></span>
+      <span class="spore left-[42%] top-[92%]" style="animation-delay: -5s"></span>
+      <span class="spore left-[79%] top-[86%]" style="animation-delay: -8s"></span>
+
+      <div class="mx-auto grid w-full max-w-7xl items-end gap-10 lg:grid-cols-[1.08fr_.92fr]">
+        <div class="reveal max-w-4xl">
+          <p class="mb-5 inline-flex border-l-2 border-rust bg-black/30 px-4 py-2 text-xs font-bold uppercase tracking-[.28em] text-rust">HBO Original Series</p>
+          <h1 class="hero-title font-display text-[clamp(5rem,18vw,13rem)] leading-[.78] text-bone">
+            Одни<br>из нас
+          </h1>
+          <p class="mt-7 max-w-2xl text-lg leading-8 text-bone/78 sm:text-xl">
+            «Когда ты потерян во тьме, ищи свет». История о цене надежды, доверии и дороге через страну, которую почти полностью забрала инфекция.
+          </p>
+          <div class="mt-9 flex flex-wrap gap-3 text-sm font-semibold text-bone/75">
+            <span class="infected-border rounded-sm px-4 py-3">2023</span>
+            <span class="infected-border rounded-sm px-4 py-3">9 эпизодов</span>
+            <span class="infected-border rounded-sm px-4 py-3">Драма / хоррор</span>
+          </div>
+        </div>
+
+        <aside class="reveal infected-border rounded-md p-5 shadow-infected lg:mb-6" style="transition-delay:.12s">
+          <div class="grid grid-cols-3 gap-3 text-center">
+            <div class="rounded-sm bg-white/[.04] p-4">
+              <div class="font-display text-5xl text-bone">20</div>
+              <div class="mt-1 text-xs uppercase tracking-[.18em] text-bone/50">лет</div>
+            </div>
+            <div class="rounded-sm bg-white/[.04] p-4">
+              <div class="font-display text-5xl text-bone">01</div>
+              <div class="mt-1 text-xs uppercase tracking-[.18em] text-bone/50">сезон</div>
+            </div>
+            <div class="rounded-sm bg-white/[.04] p-4">
+              <div class="font-display text-5xl text-bone">24</div>
+              <div class="mt-1 text-xs uppercase tracking-[.18em] text-bone/50">Emmy</div>
+            </div>
+          </div>
+          <p class="mt-5 text-sm leading-7 text-bone/68">
+            Первый сезон переносит основу игры 2013 года на экран: путь из карантинной зоны Бостона к Цикадам превращается в моральный выбор без чистых ответов.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="plot" class="relative px-4 py-20 sm:px-6 lg:px-8">
+      <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[.8fr_1.2fr] lg:gap-14">
+        <div class="reveal">
+          <p class="text-sm font-bold uppercase tracking-[.28em] text-rust">Сюжет</p>
+          <h2 class="mt-4 font-display text-6xl leading-none text-bone sm:text-7xl">Америка после падения</h2>
+        </div>
+        <div class="reveal infected-border rounded-md p-6 sm:p-8" style="transition-delay:.08s">
+          <p class="text-lg leading-9 text-bone/78">
+            Через двадцать лет после вспышки кордицепс-инфекции общество распалось на карантинные зоны, военные режимы, контрабандистов и выживших, которые держатся за любую форму порядка. Джоэл Миллер получает задание вывезти Элли из Бостона. Она не просто подросток с острым языком: ее иммунитет может стать ключом к вакцине.
+          </p>
+          <p class="mt-6 text-lg leading-9 text-bone/78">
+            Дорога через постапокалиптическую Америку меняет сделку на связь, а связь на выбор, от которого зависит не только их будущее. Первый сезон держится на контрасте: жестокий мир вокруг и почти невозможная нежность между двумя людьми, которые давно перестали ждать спасения.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cast" class="px-4 py-20 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="reveal max-w-3xl">
+          <p class="text-sm font-bold uppercase tracking-[.28em] text-rust">Главные актеры</p>
+          <h2 class="mt-4 font-display text-6xl leading-none text-bone sm:text-7xl">Лица выживания</h2>
+        </div>
+
+        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <article class="reveal group overflow-hidden rounded-md border border-white/10 bg-white/[.035]">
+            <img src="images/pedro-pascal.jpg" alt="Педро Паскаль" class="h-72 w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0">
+            <div class="p-5">
+              <h3 class="text-xl font-bold text-bone">Педро Паскаль</h3>
+              <p class="mt-1 text-sm font-semibold text-rust">Джоэл Миллер</p>
+            </div>
+          </article>
+          <article class="reveal group overflow-hidden rounded-md border border-white/10 bg-white/[.035]" style="transition-delay:.05s">
+            <img src="images/bella-ramsey.jpg" alt="Белла Рамзи" class="h-72 w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0">
+            <div class="p-5">
+              <h3 class="text-xl font-bold text-bone">Белла Рамзи</h3>
+              <p class="mt-1 text-sm font-semibold text-rust">Элли Уильямс</p>
+            </div>
+          </article>
+          <article class="reveal group overflow-hidden rounded-md border border-white/10 bg-white/[.035]" style="transition-delay:.1s">
+            <img src="images/gabriel-luna.jpg" alt="Гэбриел Луна" class="h-72 w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0">
+            <div class="p-5">
+              <h3 class="text-xl font-bold text-bone">Гэбриел Луна</h3>
+              <p class="mt-1 text-sm font-semibold text-rust">Томми Миллер</p>
+            </div>
+          </article>
+          <article class="reveal group overflow-hidden rounded-md border border-white/10 bg-white/[.035]" style="transition-delay:.15s">
+            <img src="images/merle-dandridge.jpg" alt="Мерил Дэндридж" class="h-72 w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0">
+            <div class="p-5">
+              <h3 class="text-xl font-bold text-bone">Мерил Дэндридж</h3>
+              <p class="mt-1 text-sm font-semibold text-rust">Марлин</p>
+            </div>
+          </article>
+          <article class="reveal group overflow-hidden rounded-md border border-white/10 bg-white/[.035]" style="transition-delay:.2s">
+            <img src="images/anna-torv.jpg" alt="Анна Торв" class="h-72 w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0">
+            <div class="p-5">
+              <h3 class="text-xl font-bold text-bone">Анна Торв</h3>
+              <p class="mt-1 text-sm font-semibold text-rust">Тесс</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="episodes" class="px-4 py-20 sm:px-6 lg:px-8">
+      <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
+        <div class="reveal overflow-hidden rounded-md border border-white/10 shadow-infected">
+          <img src="images/backdrop-2.jpg" alt="Постер первого сезона The Last of Us" class="h-full max-h-[720px] w-full object-cover">
+        </div>
+        <div class="reveal" style="transition-delay:.08s">
+          <p class="text-sm font-bold uppercase tracking-[.28em] text-rust">Сезон / эпизоды</p>
+          <h2 class="mt-4 font-display text-6xl leading-none text-bone sm:text-7xl">Первый сезон</h2>
+          <div class="mt-8 space-y-4">
+            <div class="infected-border rounded-md p-5">
+              <div class="flex items-center justify-between gap-4">
+                <h3 class="text-lg font-bold text-bone">9 эпизодов</h3>
+                <span class="text-sm font-bold text-moss">январь - март 2023</span>
+              </div>
+              <p class="mt-3 leading-7 text-bone/70">Сезон адаптирует события первой игры и историю Left Behind, расширяя линии Билла и Фрэнка, Генри и Сэма, Райли, Томми и Марии.</p>
+            </div>
+            <div class="infected-border rounded-md p-5">
+              <h3 class="text-lg font-bold text-bone">Тон</h3>
+              <p class="mt-3 leading-7 text-bone/70">Не аттракцион про зараженных, а камерная драма о доверии: экшен появляется резко, но эмоциональный удар почти всегда важнее масштаба.</p>
+            </div>
+            <div class="infected-border rounded-md p-5">
+              <h3 class="text-lg font-bold text-bone">Финал</h3>
+              <p class="mt-3 leading-7 text-bone/70">Финальная дилемма оставляет зрителя в серой зоне: любовь, страх потери и надежда на лекарство сталкиваются без простого ответа.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="awards" class="px-4 py-20 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="reveal max-w-3xl">
+          <p class="text-sm font-bold uppercase tracking-[.28em] text-rust">Награды</p>
+          <h2 class="mt-4 font-display text-6xl leading-none text-bone sm:text-7xl">Признание индустрии</h2>
+        </div>
+        <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div class="reveal infected-border rounded-md p-6">
+            <div class="font-display text-6xl text-bone">24</div>
+            <h3 class="mt-3 text-lg font-bold text-bone">Primetime Emmy</h3>
+            <p class="mt-3 leading-7 text-bone/68">Номинации первого сезона, включая актерские, сценарные и режиссерские категории.</p>
+          </div>
+          <div class="reveal infected-border rounded-md p-6" style="transition-delay:.05s">
+            <div class="font-display text-6xl text-bone">8</div>
+            <h3 class="mt-3 text-lg font-bold text-bone">Creative Arts Emmy</h3>
+            <p class="mt-3 leading-7 text-bone/68">Победы за ремесло, грим, звук, визуальные эффекты и гостевые роли.</p>
+          </div>
+          <div class="reveal infected-border rounded-md p-6" style="transition-delay:.1s">
+            <div class="font-display text-6xl text-bone">SAG</div>
+            <h3 class="mt-3 text-lg font-bold text-bone">Actor Awards</h3>
+            <p class="mt-3 leading-7 text-bone/68">Победы за мужскую роль Педро Паскаля и работу каскадерского ансамбля.</p>
+          </div>
+          <div class="reveal infected-border rounded-md p-6" style="transition-delay:.15s">
+            <div class="font-display text-6xl text-bone">AFI</div>
+            <h3 class="mt-3 text-lg font-bold text-bone">Top 10 TV</h3>
+            <p class="mt-3 leading-7 text-bone/68">Сериал вошел в список лучших телевизионных программ года по версии AFI.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 px-4 py-10 sm:px-6 lg:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col gap-6 text-sm text-bone/56 md:flex-row md:items-center md:justify-between">
+      <p>© 2026 Fan landing page. The Last of Us является собственностью правообладателей HBO, Sony и Naughty Dog.</p>
+      <div class="flex gap-5 font-semibold">
+        <a class="transition hover:text-bone" href="#hero">Наверх</a>
+        <a class="transition hover:text-bone" href="#cast">Каст</a>
+        <a class="transition hover:text-bone" href="#awards">Награды</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    reveals.forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>

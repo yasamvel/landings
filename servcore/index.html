@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ServCore — VPS/VDS хостинг с высокой производительностью</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0a0c10;--bg2:#0f1218;--card:#151920;
+      --border:#1e2430;--border-light:#2a3140;
+      --text:#e8ecf0;--text2:#9aa4b5;--text3:#556070;
+      --accent:#3b82f6;--accent2:#06b6d4;
+      --grad:linear-gradient(135deg,#3b82f6,#06b6d4);
+      --radius:12px;--radius-sm:8px;
+    }
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+    h1,h2,h3,h4{font-weight:700;letter-spacing:-0.3px}
+    .text-accent{color:var(--accent)}
+    .text-accent2{color:var(--accent2)}
+    .bg-card{background:var(--card)}
+    .border-card{border-color:var(--border)!important}
+    .btn-primary-custom{
+      background:var(--grad);color:#fff;border:none;
+      box-shadow:0 4px 20px rgba(59,130,246,0.25);
+      transition:all .3s
+    }
+    .btn-primary-custom:hover{
+      transform:translateY(-2px);
+      box-shadow:0 8px 32px rgba(59,130,246,0.35);
+      color:#fff
+    }
+    .btn-outline-custom{
+      background:transparent;color:var(--text);
+      border:1px solid var(--border-light);
+      transition:all .3s
+    }
+    .btn-outline-custom:hover{
+      border-color:var(--accent);color:var(--accent);
+      background:rgba(59,130,246,0.06)
+    }
+    .section-pad{padding:100px 0}
+    @media(max-width:768px){.section-pad{padding:60px 0}}
+    .card-hover{
+      transition:all .3s;cursor:default
+    }
+    .card-hover:hover{
+      transform:translateY(-4px);
+      border-color:rgba(59,130,246,0.3)!important;
+      box-shadow:0 12px 48px rgba(0,0,0,0.3)
+    }
+    .icon-circle{
+      width:48px;height:48px;border-radius:12px;
+      background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(6,182,212,0.06));
+      border:1px solid rgba(59,130,246,0.2);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--accent2);flex-shrink:0
+    }
+    .glow{
+      position:absolute;border-radius:50%;
+      filter:blur(80px);pointer-events:none
+    }
+    header{
+      background:rgba(10,12,16,0.85);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border)
+    }
+    .pricing-card.popular{
+      border-color:var(--accent)!important;
+      background:linear-gradient(180deg,rgba(59,130,246,0.06),var(--card))
+    }
+    .pricing-card.popular .badge-popular{
+      position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+      background:var(--grad);color:#fff;padding:4px 16px;
+      border-radius:50px;font-size:12px;font-weight:600
+    }
+    .faq-question{cursor:pointer;user-select:none;transition:color .2s}
+    .faq-question:hover{color:var(--accent)}
+    .faq-question::after{
+      content:'+';font-size:20px;color:var(--text3);
+      transition:transform .3s
+    }
+    .faq-item.active .faq-question::after{transform:rotate(45deg);color:var(--accent)}
+    .faq-answer{max-height:0;overflow:hidden;transition:all .3s}
+    .faq-item.active .faq-answer{max-height:200px;padding-top:12px}
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:var(--text3)}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="sticky-top">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg px-0">
+      <a class="navbar-brand fw-bold fs-4 text-white py-2" href="#">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#g)" stroke-width="2" stroke-linecap="round" style="margin-right:8px;vertical-align:-4px">
+          <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs>
+          <rect x="2" y="2" width="20" height="8" rx="2"/><rect x="4" y="14" width="16" height="8" rx="2"/>
+        </svg>ServCore
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <i class="bi bi-list fs-3 text-white"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto gap-lg-3">
+          <li class="nav-item"><a class="nav-link text-secondary" href="#features">Возможности</a></li>
+          <li class="nav-item"><a class="nav-link text-secondary" href="#plans">Тарифы</a></li>
+          <li class="nav-item"><a class="nav-link text-secondary" href="#compare">VPS vs VDS</a></li>
+          <li class="nav-item"><a class="nav-link text-secondary" href="#faq">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link btn btn-primary-custom btn-sm px-4 rounded-pill text-white" href="#cta">Начать</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="position-relative overflow-hidden" style="background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%)">
+  <div class="glow" style="width:600px;height:600px;background:rgba(59,130,246,0.06);top:-200px;right:-100px"></div>
+  <div class="container position-relative" style="z-index:1">
+    <div class="row align-items-center text-center" style="min-height:65vh;padding:120px 0 80px">
+      <div class="col-lg-9 mx-auto">
+        <span class="badge bg-card text-accent border border-card px-4 py-2 rounded-pill mb-4 fs-6 fw-normal">
+          <i class="bi bi-cpu me-2"></i>Виртуальные серверы NVMe
+        </span>
+        <h1 class="display-4 fw-bold mb-3">
+          Мощные VPS / VDS<br>
+          <span style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">с нулевой задержкой</span>
+        </h1>
+        <p class="lead text-secondary mb-5 mx-auto" style="max-width:600px">
+          Выделенные ресурсы, NVMe-накопители, защита от DDoS и круглосуточная поддержка. 
+          Разверни сервер за 60 секунд.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="#plans" class="btn btn-primary-custom btn-lg px-5 rounded-pill">
+            Выбрать тариф <i class="bi bi-arrow-right ms-2"></i>
+          </a>
+          <a href="#features" class="btn btn-outline-custom btn-lg px-5 rounded-pill">
+            <i class="bi bi-play-circle me-2"></i>Как это работает
+          </a>
+        </div>
+        <div class="d-flex justify-content-center gap-5 mt-5 flex-wrap">
+          <div class="text-center">
+            <div class="fs-3 fw-bold" style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">99.9%</div>
+            <div class="text3 small">Uptime</div>
+          </div>
+          <div class="text-center">
+            <div class="fs-3 fw-bold" style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">15</div>
+            <div class="text3 small">Дата-центров</div>
+          </div>
+          <div class="text-center">
+            <div class="fs-3 fw-bold" style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">60с</div>
+            <div class="text3 small">Развёртывание</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="section-pad" style="background:var(--bg2)">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="text-uppercase small fw-semibold text-accent mb-1">Почему ServCore</p>
+      <h2 class="display-5 fw-bold mb-3">Возможности платформы</h2>
+      <p class="text-secondary mx-auto" style="max-width:600px">Всё необходимое для запуска и управления проектами любой сложности.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card bg-card border-card card-hover h-100 p-4">
+          <div class="icon-circle mb-3"><i class="bi bi-lightning-charge fs-4"></i></div>
+           <h4 class="fs-5 mb-2 text-white">NVMe — до 7500 MB/s</h4>
+          <p class="text-secondary small mb-0">Скоростные накопители NVMe четвёртого поколения. Чтение до 7500 MB/s — в 12 раз быстрее SATA SSD.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card bg-card border-card card-hover h-100 p-4">
+          <div class="icon-circle mb-3"><i class="bi bi-shield-check fs-4"></i></div>
+          <h4 class="fs-5 mb-2 text-white">Защита от DDoS</h4>
+          <p class="text-secondary small mb-0">Встроенная L3-L7 защита до 2 Tbps. Автоматическое обнаружение и фильтрация атак.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card bg-card border-card card-hover h-100 p-4">
+          <div class="icon-circle mb-3"><i class="bi bi-globe2 fs-4"></i></div>
+          <h4 class="fs-5 mb-2 text-white">15 дата-центров</h4>
+          <p class="text-secondary small mb-0">Локации в Европе, Азии и США. Выбирай ближайший к твоей аудитории для минимальной задержки.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card bg-card border-card card-hover h-100 p-4">
+          <div class="icon-circle mb-3"><i class="bi bi-arrow-repeat fs-4"></i></div>
+          <h4 class="fs-5 mb-2 text-white">Мгновенный бэкап</h4>
+          <p class="text-secondary small mb-0">Ежедневные снепшоты с хранением 14 дней. Восстановление в один клик через панель управления.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card bg-card border-card card-hover h-100 p-4">
+          <div class="icon-circle mb-3"><i class="bi bi-headset fs-4"></i></div>
+          <h4 class="fs-5 mb-2 text-white">Поддержка 24/7</h4>
+          <p class="text-secondary small mb-0">Инженеры отвечают за 3 минуты. Поможем с настройкой, миграцией и оптимизацией сервера.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card bg-card border-card card-hover h-100 p-4">
+          <div class="icon-circle mb-3"><i class="bi bi-sliders2 fs-4"></i></div>
+          <h4 class="fs-5 mb-2 text-white">Панель управления</h4>
+          <p class="text-secondary small mb-0">Веб-интерфейс для мониторинга, перезагрузки, переустановки ОС и управления ресурсами.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VPS vs VDS -->
+<section id="compare" class="section-pad">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="text-uppercase small fw-semibold text-accent mb-1">VPS или VDS?</p>
+      <h2 class="display-5 fw-bold mb-3">Что тебе подходит?</h2>
+      <p class="text-secondary mx-auto" style="max-width:600px">Оба варианта дают root-доступ и выделенные ресурсы. Разница — в гарантиях и производительности.</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-5">
+        <div class="card bg-card border-card card-hover h-100 p-4 text-center">
+          <div class="icon-circle mx-auto mb-3" style="width:56px;height:56px"><i class="bi bi-cpu fs-3"></i></div>
+          <h3 class="fs-4 mb-2 text-white">VPS</h3>
+          <p class="text-secondary small mb-3">Виртуальный выделенный сервер с гарантией ресурсов. Подходит для большинства проектов.</p>
+          <ul class="list-unstyled text-start small mb-0">
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>Выделенные vCPU и RAM</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>NVMe-накопитель</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>Root-доступ</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>Выбор ОС (Linux/Windows)</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>Для: сайтов, блогов, CRM, API</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="card bg-card border-card card-hover h-100 p-4 text-center" style="border-color:rgba(59,130,246,0.3)!important">
+          <div class="icon-circle mx-auto mb-3" style="width:56px;height:56px;border-color:rgba(59,130,246,0.4)"><i class="bi bi-server fs-3"></i></div>
+          <h3 class="fs-4 mb-2 text-white">VDS</h3>
+          <p class="text-secondary small mb-3">Абсолютно выделенный сервер без соседей. Максимальная производительность и контроль.</p>
+          <ul class="list-unstyled text-start small mb-0">
+            <li class="py-1 text-white"><i class="bi bi-check-circle text-accent me-2"></i>100% выделенные ядра</li>
+            <li class="py-1 text-white"><i class="bi bi-check-circle text-accent me-2"></i>NVMe + регулярные снепшоты</li>
+            <li class="py-1 text-white"><i class="bi bi-check-circle text-accent me-2"></i>Выделенный IP (можно /29)</li>
+            <li class="py-1 text-white"><i class="bi bi-check-circle text-accent me-2"></i>Кастомизация гипервизора</li>
+            <li class="py-1 text-white"><i class="bi bi-check-circle text-accent me-2"></i>Для: highload, игр, бд, стриминга</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="plans" class="section-pad" style="background:var(--bg2)">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="text-uppercase small fw-semibold text-accent mb-1">Тарифы</p>
+      <h2 class="display-5 fw-bold mb-3">Выбери свой план</h2>
+      <p class="text-secondary mx-auto" style="max-width:600px">От 1 vCPU для старта до 16 vCPU для highload. Все тарифы с NVMe.</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-3 col-md-6">
+        <div class="card bg-card border-card card-hover pricing-card h-100 p-4 text-center position-relative">
+          <h4 class="fs-5 mb-1 text-white">Starter</h4>
+          <p class="text-white-50 small mb-3 opacity-75">Для небольших проектов</p>
+          <div class="fs-1 fw-bold mb-1 text-white">$5</div>
+          <p class="text-white-50 small mb-4 opacity-75">/месяц</p>
+          <ul class="list-unstyled text-start small mb-4">
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>1 vCPU</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>1 GB RAM</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>25 GB NVMe</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>1 TB трафика</li>
+          </ul>
+          <a href="#" class="btn btn-outline-custom w-100 rounded-pill">Выбрать</a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="card bg-card pricing-card popular h-100 p-4 text-center position-relative">
+          <span class="badge-popular text-white">Популярный</span>
+          <h4 class="fs-5 mb-1 text-white">Business</h4>
+          <p class="text-white-50 small mb-3 opacity-75">Для бизнес-проектов</p>
+          <div class="fs-1 fw-bold mb-1 text-white">$15</div>
+          <p class="text-white-50 small mb-4 opacity-75">/месяц</p>
+          <ul class="list-unstyled text-start small mb-4">
+            <li class="py-1 text-white"><i class="bi bi-check-circle text-accent me-2"></i>4 vCPU</li>
+            <li class="py-1 text-white"><i class="bi bi-check-circle text-accent me-2"></i>4 GB RAM</li>
+            <li class="py-1 text-white"><i class="bi bi-check-circle text-accent me-2"></i>80 GB NVMe</li>
+            <li class="py-1 text-white"><i class="bi bi-check-circle text-accent me-2"></i>4 TB трафика</li>
+          </ul>
+          <a href="#" class="btn btn-primary-custom w-100 rounded-pill">Выбрать</a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="card bg-card border-card card-hover pricing-card h-100 p-4 text-center position-relative">
+          <h4 class="fs-5 mb-1 text-white">Enterprise</h4>
+          <p class="text-white-50 small mb-3 opacity-75">Для highload-проектов</p>
+          <div class="fs-1 fw-bold mb-1 text-white">$40</div>
+          <p class="text-white-50 small mb-4 opacity-75">/месяц</p>
+          <ul class="list-unstyled text-start small mb-4">
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>8 vCPU</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>16 GB RAM</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>200 GB NVMe</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>10 TB трафика</li>
+          </ul>
+          <a href="#" class="btn btn-outline-custom w-100 rounded-pill">Выбрать</a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="card bg-card border-card card-hover pricing-card h-100 p-4 text-center position-relative">
+          <h4 class="fs-5 mb-1 text-white">Ultimate</h4>
+          <p class="text-white-50 small mb-3 opacity-75">Максимальная мощность</p>
+          <div class="fs-1 fw-bold mb-1 text-white">$90</div>
+          <p class="text-white-50 small mb-4 opacity-75">/месяц</p>
+          <ul class="list-unstyled text-start small mb-4">
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>16 vCPU</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>32 GB RAM</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>400 GB NVMe</li>
+            <li class="py-1 text-secondary"><i class="bi bi-check-circle text-accent2 me-2"></i>20 TB трафика</li>
+          </ul>
+          <a href="#" class="btn btn-outline-custom w-100 rounded-pill">Выбрать</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section-pad">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <p class="text-uppercase small fw-semibold text-accent mb-1">Почему мы</p>
+        <h2 class="display-5 fw-bold mb-3">Не просто хостинг —<br>инфраструктура</h2>
+        <p class="text-secondary mb-4">Проектируем сеть так, чтобы твой сервер работал без сбоев даже под высокими нагрузками.</p>
+        <div class="d-flex gap-3 mb-3">
+          <div class="icon-circle flex-shrink-0"><i class="bi bi-diagram-3 fs-5"></i></div>
+          <div>
+            <h5 class="fs-6 mb-1 text-white">Сеть 40 Gbps</h5>
+            <p class="text-secondary small mb-0">Пиринг с крупнейшими операторами, отсутствие перегрузок в часы пик.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-3 mb-3">
+          <div class="icon-circle flex-shrink-0"><i class="bi bi-shield-lock fs-5"></i></div>
+          <div>
+            <h5 class="fs-6 mb-1 text-white">Аппаратная виртуализация</h5>
+            <p class="text-secondary small mb-0">KVM — полная изоляция. Твой сервер не зависит от соседей.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-3">
+          <div class="icon-circle flex-shrink-0"><i class="bi bi-clock-history fs-5"></i></div>
+          <div>
+            <h5 class="fs-6 mb-1 text-white">Гарантия 99.9%</h5>
+            <p class="text-secondary small mb-0">Компенсация при простое. Мы отвечаем за стабильность деньгами.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card bg-card border-card p-5 text-center rounded-4">
+          <div class="fs-1 mb-2">⚡</div>
+          <h3 class="fs-4 mb-2 text-white">Запусти сервер за 60 секунд</h3>
+          <p class="text-secondary small mb-4">Выбери конфигурацию, ОС и дата-центр — сервер готов через минуту.</p>
+          <div class="d-flex justify-content-center gap-3 small text-secondary flex-wrap">
+            <span class="text-secondary"><i class="bi bi-ubuntu me-1"></i>Ubuntu</span>
+            <span><i class="bi bi bi-windows me-1"></i>Windows</span>
+            <span><i class="bi bi bi-gear me-1"></i>CentOS</span>
+            <span><i class="bi bi bi-box me-1"></i>Debian</span>
+            <span><i class="bi bi bi-terminal me-1"></i>FreeBSD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section-pad" style="background:var(--bg2)">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="text-uppercase small fw-semibold text-accent mb-1">FAQ</p>
+      <h2 class="display-5 fw-bold mb-3">Частые вопросы</h2>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="faq-item card bg-card border-card p-4 mb-3">
+          <div class="faq-question d-flex justify-content-between align-items-center" onclick="this.parentElement.classList.toggle('active')">
+            <span class="fw-medium text-white">Чем VPS отличается от VDS?</span>
+          </div>
+          <div class="faq-answer text-secondary small">VPS (Virtual Private Server) — виртуальный сервер с гарантией ресурсов. VDS (Virtual Dedicated Server) — полностью выделенный сервер без соседей на гипервизоре. Для 90% задач достаточно VPS. VDS нужен для highload, игр, стриминга.</div>
+        </div>
+        <div class="faq-item card bg-card border-card p-4 mb-3">
+          <div class="faq-question d-flex justify-content-between align-items-center" onclick="this.parentElement.classList.toggle('active')">
+            <span class="fw-medium text-white">Как быстро я получу сервер?</span>
+          </div>
+          <div class="faq-answer text-secondary small">После оплаты сервер создаётся автоматически за 30–60 секунд. Ссылка для подключения (IP, логин, пароль) приходит на email.</div>
+        </div>
+        <div class="faq-item card bg-card border-card p-4 mb-3">
+          <div class="faq-question d-flex justify-content-between align-items-center" onclick="this.parentElement.classList.toggle('active')">
+            <span class="fw-medium text-white">Можно ли обновить тариф позже?</span>
+          </div>
+          <div class="faq-answer text-secondary small">Да. Ты можешь увеличить или уменьшить конфигурацию в любой момент через панель управления. Изменения применяются без перезагрузки.</div>
+        </div>
+        <div class="faq-item card bg-card border-card p-4 mb-3">
+          <div class="faq-question d-flex justify-content-between align-items-center" onclick="this.parentElement.classList.toggle('active')">
+            <span class="fw-medium text-white">Какие ОС доступны?</span>
+          </div>
+          <div class="faq-answer text-secondary small">Ubuntu 20.04/22.04/24.04, CentOS 9, Debian 12, Fedora 40, Windows Server 2019/2022, FreeBSD 14. Можно установить свою ОС через ISO.</div>
+        </div>
+        <div class="faq-item card bg-card border-card p-4">
+          <div class="faq-question d-flex justify-content-between align-items-center" onclick="this.parentElement.classList.toggle('active')">
+            <span class="fw-medium text-white">Есть ли пробный период?</span>
+          </div>
+          <div class="faq-answer text-secondary small">Да. Мы даём 3 дня тестового доступа на тарифе Starter. Полный функционал, без ограничений. Платёжные данные не требуются.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="section-pad" style="background:linear-gradient(180deg,var(--bg),var(--bg2))">
+  <div class="container text-center">
+    <h2 class="display-5 fw-bold mb-3">Готов начать?</h2>
+    <p class="text-secondary mx-auto mb-4" style="max-width:500px">Первый месяц на тарифе Business — со скидкой 30%. Успей, пока предложение актуально.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="#plans" class="btn btn-primary-custom btn-lg px-5 rounded-pill">
+        <i class="bi bi-rocket-takeoff me-2"></i>Выбрать тариф
+      </a>
+      <a href="#" class="btn btn-outline-custom btn-lg px-5 rounded-pill">
+        <i class="bi bi-chat-dots me-2"></i>Спросить в чате
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="d-flex justify-content-center gap-4 mb-2 flex-wrap">
+      <a href="#features" class="text-decoration-none small text-secondary">Возможности</a>
+      <a href="#plans" class="text-decoration-none small text-secondary">Тарифы</a>
+      <a href="#faq" class="text-decoration-none small text-secondary">FAQ</a>
+      <a href="#" class="text-decoration-none small text-secondary">Политика</a>
+      <a href="#" class="text-decoration-none small text-secondary">Договор</a>
+    </div>
+    <p class="text-center small text-secondary mb-0 opacity-50">© 2026 ServCore. Все права защищены.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

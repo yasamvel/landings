@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ДомСтрой — строительство под ключ в Санкт-Петербурге</title>
+  <meta name="description" content="ДомСтрой — генподрядные работы в Санкт-Петербурге: строительство домов, ремонт квартир, фасады, кровля. Работаем под ключ.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ds-blue: #1a3a5c;
+      --ds-blue-dark: #0f2640;
+      --ds-blue-light: #2c5f8a;
+      --ds-accent: #c9952e;
+      --ds-accent-light: #e8b84c;
+      --ds-bg: #ffffff;
+      --ds-bg-alt: #f8f9fc;
+      --ds-text: #1e293b;
+      --ds-text-muted: #64748b;
+    }
+    body {
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ds-text);
+      background: var(--ds-bg);
+    }
+    .navbar {
+      background: var(--ds-blue) !important;
+      padding: 14px 0;
+      box-shadow: 0 2px 20px rgba(26,58,92,0.12);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #fff !important;
+      letter-spacing: -0.5px;
+    }
+    .navbar-brand small {
+      font-weight: 300;
+      font-size: 0.8rem;
+      opacity: 0.7;
+      display: block;
+      line-height: 1.1;
+    }
+    .nav-link {
+      color: rgba(255,255,255,0.85) !important;
+      font-weight: 400;
+      font-size: 0.95rem;
+      padding: 6px 16px !important;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: #fff !important; }
+    .hero-section {
+      background: linear-gradient(135deg, var(--ds-blue-dark) 0%, var(--ds-blue) 50%, var(--ds-blue-light) 100%);
+      padding: 100px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(201,149,46,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.75);
+      max-width: 540px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .hero-stat h3 {
+      color: var(--ds-accent-light);
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .hero-stat p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85rem;
+      margin: 0;
+      font-weight: 300;
+    }
+    .hero-icon-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 16px;
+    }
+    .hero-icon-wrap i { font-size: 28px; color: var(--ds-accent-light); }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ds-blue);
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      color: var(--ds-text-muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+    }
+    .service-card {
+      background: var(--ds-bg);
+      border: 1px solid #e9edf4;
+      border-radius: 16px;
+      padding: 36px 28px;
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+    .service-card:hover {
+      border-color: var(--ds-blue-light);
+      box-shadow: 0 12px 40px rgba(26,58,92,0.08);
+      transform: translateY(-4px);
+    }
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ds-blue);
+      border-radius: 14px;
+      margin-bottom: 20px;
+    }
+    .service-icon i { font-size: 26px; color: #fff; }
+    .service-card h5 {
+      font-weight: 600;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+      color: var(--ds-blue);
+    }
+    .service-card p {
+      font-size: 0.92rem;
+      color: var(--ds-text-muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+    .about-section { background: var(--ds-bg-alt); }
+    .about-text { font-size: 1rem; line-height: 1.7; color: var(--ds-text-muted); }
+    .about-highlight {
+      display: flex;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid #e9edf4;
+    }
+    .about-highlight:last-child { border-bottom: none; }
+    .about-highlight i {
+      font-size: 24px;
+      color: var(--ds-accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .about-highlight h6 {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 4px;
+      color: var(--ds-blue);
+    }
+    .about-highlight p {
+      font-size: 0.9rem;
+      color: var(--ds-text-muted);
+      margin: 0;
+    }
+    .steps-section { background: var(--ds-bg); }
+    .step-card {
+      text-align: center;
+      padding: 32px 20px;
+      position: relative;
+    }
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--ds-blue);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 16px;
+    }
+    .step-card h6 {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: var(--ds-blue);
+    }
+    .step-card p {
+      font-size: 0.88rem;
+      color: var(--ds-text-muted);
+      margin: 0;
+    }
+    .step-line {
+      position: absolute;
+      top: 48px;
+      right: -30px;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(to right, var(--ds-blue), transparent);
+    }
+    .cta-section {
+      background: linear-gradient(135deg, var(--ds-blue-dark) 0%, var(--ds-blue) 100%);
+      padding: 64px 0;
+    }
+    .cta-section h2 {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+    .cta-section p {
+      color: rgba(255,255,255,0.7);
+      font-size: 1rem;
+    }
+    .btn-ds {
+      background: var(--ds-accent);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      padding: 14px 36px;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .btn-ds:hover {
+      background: var(--ds-accent-light);
+      color: var(--ds-blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(201,149,46,0.3);
+    }
+    .btn-ds-outline {
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #fff;
+      background: transparent;
+      font-weight: 500;
+      padding: 12px 32px;
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+    .btn-ds-outline:hover {
+      border-color: #fff;
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+    }
+    .footer-section {
+      background: var(--ds-blue-dark);
+      padding: 48px 0 28px;
+    }
+    .footer-section a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-size: 0.9rem;
+    }
+    .footer-section a:hover { color: #fff; }
+    .footer-copy {
+      color: rgba(255,255,255,0.35);
+      font-size: 0.82rem;
+      text-align: center;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .contact-info i {
+      color: var(--ds-accent);
+      font-size: 1.2rem;
+    }
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2rem; }
+      .hero-stats { gap: 24px; flex-wrap: wrap; }
+      .hero-stat h3 { font-size: 1.5rem; }
+      .section-title { font-size: 1.6rem; }
+      .step-line { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      ДОМСТРОЙ
+      <small>строительная компания</small>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <i class="bi bi-list" style="color:#fff;font-size:1.5rem;"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#about">О компании</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Услуги</a></li>
+        <li class="nav-item"><a class="nav-link" href="#steps">Как мы работаем</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contacts">Контакты</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h1 class="hero-title">Строительство под ключ<br>в Санкт-Петербурге</h1>
+        <p class="hero-sub">
+          Проектируем и строим дома, делаем ремонт, фасады и кровлю.
+          Берём на себя все этапы — от документации до сдачи объекта.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="#contacts" class="btn btn-ds">Связаться</a>
+          <a href="#services" class="btn btn-ds-outline">Наши услуги</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <h3>12+</h3>
+            <p>лет на рынке</p>
+          </div>
+          <div class="hero-stat">
+            <h3>80+</h3>
+            <p>реализованных проектов</p>
+          </div>
+          <div class="hero-stat">
+            <h3>100%</h3>
+            <p>сдача в срок</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-flex justify-content-center">
+        <div style="width:100%;max-width:320px;">
+          <div class="hero-icon-wrap"><i class="bi bi-building"></i></div>
+          <h5 style="color:#fff;font-weight:600;margin-bottom:8px;">Полный цикл работ</h5>
+          <p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6;">
+            От фундамента до чистовой отделки — один подрядчик на весь проект.
+            Никаких посредников, единая гарантия.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about-section py-5" id="about">
+  <div class="container py-4">
+    <div class="row g-5">
+      <div class="col-lg-6">
+        <h2 class="section-title">О компании</h2>
+        <p class="about-text">
+          «ДомСтрой» работает на строительном рынке Санкт-Петербурга с 2013 года.
+          Мы выполняем функции генерального подрядчика на объектах любой сложности —
+          от квартирного ремонта до строительства коттеджей под ключ.
+        </p>
+        <p class="about-text">
+          В штате — собственные прорабы, инженеры и рабочие бригады.
+          Мы не передаём объекты субподрядчикам, а контролируем каждый этап лично.
+        </p>
+        <div class="mt-4">
+          <div class="about-highlight">
+            <i class="bi bi-file-earmark-check"></i>
+            <div>
+              <h6>Проектная документация</h6>
+              <p>Помогаем с согласованиями, разрешениями и технадзором</p>
+            </div>
+          </div>
+          <div class="about-highlight">
+            <i class="bi bi-shield-check"></i>
+            <div>
+              <h6>Гарантия на работы</h6>
+              <p>Даём письменную гарантию на все виды работ до 5 лет</p>
+            </div>
+          </div>
+          <div class="about-highlight">
+            <i class="bi bi-cash-coin"></i>
+            <div>
+              <h6>Прозрачная смета</h6>
+              <p>Без скрытых платежей — фиксируем цену в договоре</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="p-4 rounded-4" style="background:linear-gradient(135deg,var(--ds-blue),var(--ds-blue-light));height:100%;">
+              <i class="bi bi-house-door" style="font-size:32px;color:var(--ds-accent-light);margin-bottom:12px;display:block;"></i>
+              <h6 style="color:#fff;font-weight:600;">Дома и коттеджи</h6>
+              <p style="color:rgba(255,255,255,0.6);font-size:0.82rem;margin:0;">от 3,5 млн ₽</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-4 rounded-4" style="background:var(--ds-bg);border:1px solid #e9edf4;height:100%;">
+              <i class="bi bi-pencil-square" style="font-size:32px;color:var(--ds-blue);margin-bottom:12px;display:block;"></i>
+              <h6 style="color:var(--ds-blue);font-weight:600;">Ремонт</h6>
+              <p style="color:var(--ds-text-muted);font-size:0.82rem;margin:0;">от 8 000 ₽/м²</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-4 rounded-4" style="background:var(--ds-bg);border:1px solid #e9edf4;height:100%;">
+              <i class="bi bi-layers" style="font-size:32px;color:var(--ds-blue);margin-bottom:12px;display:block;"></i>
+              <h6 style="color:var(--ds-blue);font-weight:600;">Фасады</h6>
+              <p style="color:var(--ds-text-muted);font-size:0.82rem;margin:0;">утепление, отделка</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-4 rounded-4" style="background:linear-gradient(135deg,var(--ds-blue),var(--ds-blue-light));height:100%;">
+              <i class="bi bi-shield-exclamation" style="font-size:32px;color:var(--ds-accent-light);margin-bottom:12px;display:block;"></i>
+              <h6 style="color:#fff;font-weight:600;">Кровля</h6>
+              <p style="color:rgba(255,255,255,0.6);font-size:0.82rem;margin:0;">любой сложности</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="py-5" id="services">
+  <div class="container py-4">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Наши услуги</h2>
+      <p class="section-sub mx-auto">Выполняем полный комплекс строительно-монтажных работ в Санкт-Петербурге и области</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="service-card">
+          <div class="service-icon"><i class="bi bi-house-door"></i></div>
+          <h5>Строительство домов</h5>
+          <p>Кирпич, газобетон, каркас. Проектируем и строим дома под ключ с чистовой отделкой и коммуникациями.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="service-card">
+          <div class="service-icon"><i class="bi bi-pencil-square"></i></div>
+          <h5>Ремонт квартир</h5>
+          <p>Косметический, капитальный, евроремонт. Работаем с новостройками и вторичным жильём.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="service-card">
+          <div class="service-icon"><i class="bi bi-layers"></i></div>
+          <h5>Фасадные работы</h5>
+          <p>Утепление, штукатурка, вентилируемые фасады, облицовка. Любая этажность.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="service-card">
+          <div class="service-icon"><i class="bi bi-shield-exclamation"></i></div>
+          <h5>Кровельные работы</h5>
+          <p>Мягкая кровля, металлочерепица, фальцевая. Ремонт и полная замена кровли.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Steps -->
+<section class="steps-section py-5" id="steps">
+  <div class="container py-4">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Как мы работаем</h2>
+      <p class="section-sub mx-auto">Прозрачный процесс от заявки до сдачи объекта</p>
+    </div>
+    <div class="row position-relative">
+      <div class="col-md-3 step-card">
+        <div class="step-number">1</div>
+        <h6>Заявка</h6>
+        <p>Оставляете заявку — мы связываемся в течение часа</p>
+        <div class="step-line d-none d-md-block"></div>
+      </div>
+      <div class="col-md-3 step-card">
+        <div class="step-number">2</div>
+        <h6>Смета</h6>
+        <p>Выезжаем на объект, замеряем, составляем смету и договор</p>
+        <div class="step-line d-none d-md-block"></div>
+      </div>
+      <div class="col-md-3 step-card">
+        <div class="step-number">3</div>
+        <h6>Работы</h6>
+        <p>Выполняем все этапы строго по графику с фотоотчётами</p>
+        <div class="step-line d-none d-md-block"></div>
+      </div>
+      <div class="col-md-3 step-card">
+        <div class="step-number">4</div>
+        <h6>Сдача</h6>
+        <p>Принимаете работу — подписываем акт, выдаём гарантию</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container text-center">
+    <h2>Нужен надёжный подрядчик?</h2>
+    <p class="mx-auto mb-4" style="max-width:520px;">Оставьте заявку — мы подготовим смету бесплатно и в день обращения</p>
+    <a href="tel:+74950000000" class="btn btn-ds btn-lg">
+      <i class="bi bi-telephone me-2"></i>+7 (495) 000-00-00
+    </a>
+    <p class="mt-3" style="color:rgba(255,255,255,0.45);font-size:0.85rem;">Санкт-Петербург и область</p>
+  </div>
+</section>
+
+<!-- Contacts -->
+<section class="py-5" id="contacts">
+  <div class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center mb-5">
+          <h2 class="section-title">Контакты</h2>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="text-center p-4 rounded-4" style="border:1px solid #e9edf4;">
+              <i class="bi bi-telephone" style="font-size:28px;color:var(--ds-blue);margin-bottom:12px;display:block;"></i>
+              <h6 style="font-weight:600;font-size:0.95rem;">Телефон</h6>
+              <p style="font-size:0.9rem;color:var(--ds-text-muted);margin:0;">
+                <a href="tel:+74950000000" style="color:var(--ds-blue);text-decoration:none;">+7 (495) 000-00-00</a>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center p-4 rounded-4" style="border:1px solid #e9edf4;">
+              <i class="bi bi-envelope" style="font-size:28px;color:var(--ds-blue);margin-bottom:12px;display:block;"></i>
+              <h6 style="font-weight:600;font-size:0.95rem;">Почта</h6>
+              <p style="font-size:0.9rem;color:var(--ds-text-muted);margin:0;">
+                <a href="mailto:info@домстрой.спб.рф" style="color:var(--ds-blue);text-decoration:none;">info@домстрой.спб.рф</a>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center p-4 rounded-4" style="border:1px solid #e9edf4;">
+              <i class="bi bi-geo-alt" style="font-size:28px;color:var(--ds-blue);margin-bottom:12px;display:block;"></i>
+              <h6 style="font-weight:600;font-size:0.95rem;">Адрес</h6>
+              <p style="font-size:0.9rem;color:var(--ds-text-muted);margin:0;">Санкт-Петербург</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer-section">
+  <div class="container">
+    <div class="d-flex justify-content-center gap-4 flex-wrap mb-3">
+      <a href="#about">О компании</a>
+      <a href="#services">Услуги</a>
+      <a href="#steps">Как мы работаем</a>
+      <a href="#contacts">Контакты</a>
+    </div>
+    <div class="footer-copy">
+      &copy; 2026 ДомСтрой. Все права защищены.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
