@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlowSync — CRM для командной работы</title>
+  <meta name="description" content="CRM, который понимает, как работают команды. Задачи, сделки, коммуникация — в одном пространстве." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+      --accent: #0066FF;
+      --accent-dark: #0052CC;
+      --accent-light: #E8F0FE;
+    }
+    [data-theme="dark"] {
+      --accent: #3B82F6;
+      --accent-dark: #60A5FA;
+      --accent-light: #1E3A5F;
+    }
+    * { font-family: 'Geist', system-ui, sans-serif; }
+    .font-mono { font-family: 'Geist Mono', monospace; }
+    
+    /* Custom easing from emil-design-eng */
+    .ease-out-custom { transition-timing-function: var(--ease-out); }
+    .ease-in-out-custom { transition-timing-function: var(--ease-in-out); }
+    
+    /* Smooth transitions */
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      transition: transform 160ms var(--ease-out), box-shadow 200ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .btn-primary:hover { background: var(--accent-dark); box-shadow: 0 4px 20px rgba(0,102,255,0.3); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-secondary {
+      border: 1px solid #e2e8f0;
+      transition: transform 160ms var(--ease-out), border-color 200ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .btn-secondary:active { transform: scale(0.97); }
+    [data-theme="dark"] .btn-secondary {
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+    [data-theme="dark"] .btn-secondary:hover {
+      border-color: #475569;
+      background: #1e293b;
+    }
+    
+    /* Stagger animations */
+    .stagger-fade > * {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 400ms var(--ease-out) forwards;
+    }
+    .stagger-fade > *:nth-child(1) { animation-delay: 0ms; }
+    .stagger-fade > *:nth-child(2) { animation-delay: 80ms; }
+    .stagger-fade > *:nth-child(3) { animation-delay: 160ms; }
+    .stagger-fade > *:nth-child(4) { animation-delay: 240ms; }
+    .stagger-fade > *:nth-child(5) { animation-delay: 320ms; }
+    .stagger-fade > *:nth-child(6) { animation-delay: 400ms; }
+    
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Scale-in for feature cards */
+    .card-enter {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
+    }
+    .card-enter.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    /* Scroll-triggered reveal from emil-design-eng clip-path technique */
+    .reveal-clip {
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 800ms var(--ease-in-out);
+    }
+    .reveal-clip.visible {
+      clip-path: inset(0 0 0 0);
+    }
+    
+    /* Hero image pulse */
+    @keyframes softPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    .hero-pulse {
+      animation: softPulse 6s var(--ease-in-out) infinite;
+    }
+    
+    /* Nav blur background */
+    .nav-blur {
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+    }
+    
+    /* Toggle animation */
+    .theme-toggle {
+      transition: transform 200ms var(--ease-out);
+    }
+    .theme-toggle:active { transform: scale(0.92); }
+    
+    /* Gradient mesh for hero */
+    .mesh-gradient {
+      background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,102,255,0.12), transparent),
+                  radial-gradient(ellipse 50% 40% at 80% 20%, rgba(0,102,255,0.06), transparent);
+    }
+    [data-theme="dark"] .mesh-gradient {
+      background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.15), transparent),
+                  radial-gradient(ellipse 50% 40% at 80% 20%, rgba(59,130,246,0.08), transparent);
+    }
+    
+    /* Testimonial card hover */
+    .testimonial-card {
+      transition: transform 300ms var(--ease-out), box-shadow 300ms var(--ease-out);
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+    }
+    
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .stagger-fade > * { opacity: 1; transform: none; animation: none; }
+      .card-enter { opacity: 1; transform: none; }
+      .reveal-clip { clip-path: none; }
+      .hero-pulse { animation: none; }
+      .testimonial-card:hover { transform: none; }
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    [data-theme="dark"] ::-webkit-scrollbar-thumb { background: #475569; }
+  </style>
+  <script>
+    // Theme toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+      
+      // Scroll reveal observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+      
+      document.querySelectorAll('.card-enter, .reveal-clip').forEach(el => observer.observe(el));
+    });
+    
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+  </script>
+</head>
+<body class="bg-white text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
+  
+  <!-- Nav -->
+  <nav class="fixed top-0 inset-x-0 z-50 nav-blur bg-white/70 border-b border-zinc-100 dark:bg-zinc-950/70 dark:border-zinc-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5 font-semibold text-lg tracking-tight">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#0066FF"/>
+          <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        FlowSync
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-500 dark:text-zinc-400">
+        <a href="#features" class="hover:text-zinc-900 dark:hover:text-white transition-colors duration-200">Возможности</a>
+        <a href="#how-it-works" class="hover:text-zinc-900 dark:hover:text-white transition-colors duration-200">Как работает</a>
+        <a href="#testimonials" class="hover:text-zinc-900 dark:hover:text-white transition-colors duration-200">Отзывы</a>
+        <a href="#pricing" class="hover:text-zinc-900 dark:hover:text-white transition-colors duration-200">Тарифы</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleTheme()" class="theme-toggle w-9 h-9 flex items-center justify-center rounded-lg text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors duration-200" aria-label="Переключить тему">
+          <svg class="w-5 h-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+          </svg>
+          <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+          </svg>
+        </button>
+        <a href="#" class="hidden sm:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium btn-secondary">Войти</a>
+        <a href="#" class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium btn-primary">Начать бесплатно</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative min-h-[100dvh] pt-24 pb-16 sm:pb-24 overflow-hidden mesh-gradient">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: copy -->
+        <div class="stagger-fade max-w-xl">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+            Для команд от 2 до 200 человек
+          </span>
+          <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tighter leading-none">
+            CRM, который не тормозит команду
+          </h1>
+          <p class="mt-5 text-base sm:text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-[55ch]">
+            Задачи, сделки и коммуникация в одном пространстве. Без десятка окон, без потери контекста, без уведомлений, которые никто не читает.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#" class="inline-flex items-center px-6 py-3 rounded-xl text-sm font-medium btn-primary text-base">
+              Попробовать бесплатно
+              <svg class="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </a>
+            <a href="#" class="inline-flex items-center px-6 py-3 rounded-xl text-sm font-medium btn-secondary text-base">
+              Смотреть демо
+            </a>
+          </div>
+          <p class="mt-6 text-xs text-zinc-400 dark:text-zinc-500">
+            Не нужна карта · 14 дней бесплатно · Отмена в один клик
+          </p>
+        </div>
+        <!-- Right: visual -->
+        <div class="relative lg:pl-8 stagger-fade">
+          <div class="hero-pulse relative rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-xl shadow-blue-500/5">
+            <div class="aspect-[4/3] bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800 p-4 sm:p-6 flex items-center justify-center">
+              <!-- Dashboard mockup -->
+              <div class="w-full max-w-md space-y-3">
+                <div class="flex items-center gap-2 pb-3 border-b border-zinc-200 dark:border-zinc-700">
+                  <div class="flex gap-1.5">
+                    <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                  </div>
+                  <span class="ml-2 text-xs font-mono text-zinc-400">FlowSync — Команда «Продукт»</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                  <div class="bg-white dark:bg-zinc-800 rounded-lg p-2.5 border border-zinc-100 dark:border-zinc-700">
+                    <div class="text-xs text-zinc-400">Задачи</div>
+                    <div class="text-lg font-bold text-zinc-900 dark:text-white">24</div>
+                  </div>
+                  <div class="bg-white dark:bg-zinc-800 rounded-lg p-2.5 border border-zinc-100 dark:border-zinc-700">
+                    <div class="text-xs text-zinc-400">В работе</div>
+                    <div class="text-lg font-bold text-blue-500">12</div>
+                  </div>
+                  <div class="bg-white dark:bg-zinc-800 rounded-lg p-2.5 border border-zinc-100 dark:border-zinc-700">
+                    <div class="text-xs text-zinc-400">Сделки</div>
+                    <div class="text-lg font-bold text-green-500">1.2M ₽</div>
+                  </div>
+                </div>
+                <div class="bg-white dark:bg-zinc-800 rounded-lg p-3 border border-zinc-100 dark:border-zinc-700 space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-medium text-zinc-700 dark:text-zinc-300">Последние активности</span>
+                    <span class="text-[10px] text-zinc-400">только что</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-[10px] font-medium text-blue-600 dark:text-blue-300">А</div>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-xs text-zinc-700 dark:text-zinc-300 truncate">Анна закрыла сделку «Сайт + CRM»</div>
+                      <div class="text-[10px] text-zinc-400">2 мин назад</div>
+                    </div>
+                    <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300">+340K</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center text-[10px] font-medium text-purple-600 dark:text-purple-300">М</div>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-xs text-zinc-700 dark:text-zinc-300 truncate">Максим добавил задачу «Дизайн эквайринга»</div>
+                      <div class="text-[10px] text-zinc-400">15 мин назад</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Floating badge -->
+          <div class="absolute -bottom-3 -right-3 bg-white dark:bg-zinc-900 rounded-xl px-4 py-2.5 border border-zinc-200 dark:border-zinc-700 shadow-lg stagger-fade">
+            <div class="flex items-center gap-2">
+              <span class="relative flex h-2.5 w-2.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+              </span>
+              <span class="text-xs font-medium text-zinc-700 dark:text-zinc-300">Все системы работают</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social proof -->
+  <section class="py-16 border-t border-zinc-100 dark:border-zinc-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-center text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-8">Доверяют команды из</p>
+      <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
+        <span class="text-zinc-300 dark:text-zinc-700 text-xl font-bold">LINE</span>
+        <span class="text-zinc-300 dark:text-zinc-700 text-xl font-bold">KODE</span>
+        <span class="text-zinc-300 dark:text-zinc-700 text-xl font-bold">STELLA</span>
+        <span class="text-zinc-300 dark:text-zinc-700 text-xl font-bold">NORTH</span>
+        <span class="text-zinc-300 dark:text-zinc-700 text-xl font-bold">PRISMA</span>
+        <span class="text-zinc-300 dark:text-zinc-700 text-xl font-bold">ALPINE</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="py-20 sm:py-28">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-none">
+          Всё, что нужно для управления командой
+        </h2>
+        <p class="mt-4 text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-[55ch]">
+          FlowSync объединяет задачи, воронку продаж и коммуникацию — без десятка кнопок и лишних окон.
+        </p>
+      </div>
+      
+      <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Feature 1: asymmetric - wider -->
+        <div class="sm:col-span-2 lg:col-span-2 card-enter bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800">
+          <div class="flex flex-col lg:flex-row gap-8 items-start">
+            <div class="flex-1">
+              <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                </svg>
+              </div>
+              <h3 class="mt-4 text-xl font-semibold tracking-tight">Задачи и проекты</h3>
+              <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Статусы, дедлайны, приоритеты, ответственные — всё, что нужно чтобы работа не зависала. Доски, список, календарь — три вида на одни и те же задачи.</p>
+            </div>
+            <div class="flex-1 w-full bg-white dark:bg-zinc-800 rounded-xl p-4 border border-zinc-100 dark:border-zinc-700">
+              <div class="space-y-2">
+                <div class="flex items-center gap-3 p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800">
+                  <input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 text-blue-500" />
+                  <span class="flex-1 text-sm text-zinc-700 dark:text-zinc-300"><span class="line-through text-zinc-400">Подготовить макеты</span></span>
+                  <span class="text-[10px] font-mono text-green-600 dark:text-green-400">done</span>
+                </div>
+                <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors">
+                  <input type="checkbox" class="w-4 h-4 rounded border-zinc-300" />
+                  <span class="flex-1 text-sm text-zinc-700 dark:text-zinc-300">Согласовать бюджет</span>
+                  <span class="text-[10px] font-mono text-amber-600 dark:text-amber-400">in review</span>
+                </div>
+                <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors">
+                  <input type="checkbox" class="w-4 h-4 rounded border-zinc-300" />
+                  <span class="flex-1 text-sm text-zinc-700 dark:text-zinc-300">Запустить тест</span>
+                  <span class="text-[10px] font-mono text-zinc-400">todo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Feature 2: narrow -->
+        <div class="card-enter bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center">
+            <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-xl font-semibold tracking-tight">Воронка продаж</h3>
+          <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">От лида до закрытия сделки — все этапы в одном месте. Перетаскивай карточки, меняй статус, фиксируй сумму.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card-enter bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800">
+          <div class="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900 flex items-center justify-center">
+            <svg class="w-5 h-5 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-xl font-semibold tracking-tight">Командный чат</h3>
+          <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Обсуждения, привязанные к задачам. Никакого «напиши в Telegram, я скину файл» — всё в контексте.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="card-enter bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900 flex items-center justify-center">
+            <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-xl font-semibold tracking-tight">Аналитика</h3>
+          <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Дашборды, которые показывают реальную картину: загрузка команды, конверсия воронки, прогноз по выручке.</p>
+        </div>
+
+        <!-- Feature 5: narrow -->
+        <div class="card-enter bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800">
+          <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900 flex items-center justify-center">
+            <svg class="w-5 h-5 text-rose-600 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182M2.985 19.644l7.466-7.466" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-xl font-semibold tracking-tight">Интеграции</h3>
+          <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Telegram, почта, календарь, GitHub — заводи задачи и сделки автоматически из привычных инструментов.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="py-20 sm:py-28 bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-none">
+          Запускается за 10 минут
+        </h2>
+        <p class="mt-4 text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          Никаких внедрений на месяц. Просто создай пространство, пригласи команду и работай.
+        </p>
+      </div>
+      <div class="mt-14 grid sm:grid-cols-3 gap-8 lg:gap-12">
+        <div class="card-enter">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="flex-shrink-0 w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-sm font-bold text-white">1</span>
+            <h3 class="font-semibold text-lg">Создайте пространство</h3>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Выберите шаблон под тип бизнеса или настройте с нуля. Занимает 2 минуты.</p>
+        </div>
+        <div class="card-enter">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="flex-shrink-0 w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-sm font-bold text-white">2</span>
+            <h3 class="font-semibold text-lg">Пригласите команду</h3>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Отправьте ссылку — люди заходят без пароля. Роли и права настраиваются за пару кликов.</p>
+        </div>
+        <div class="card-enter">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="flex-shrink-0 w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-sm font-bold text-white">3</span>
+            <h3 class="font-semibold text-lg">Работайте</h3>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Задачи, сделки, чат — всё сразу готово. Импорт из Excel, Trello, Notion — одной кнопкой.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="py-20 sm:py-28">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-none">
+          Команды, которые уже работают в FlowSync
+        </h2>
+      </div>
+      <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="testimonial-card bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800">
+          <div class="flex items-center gap-2 mb-4">
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">Перестали терять сделки в переписке. FlowSync собрал всё в одном месте — от первого касания до закрытия.</p>
+          <div class="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-700 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-xs font-semibold text-indigo-600 dark:text-indigo-300">ЕК</div>
+            <div>
+              <div class="text-sm font-medium">Екатерина Крылова</div>
+              <div class="text-xs text-zinc-400">CPO, KODE</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800">
+          <div class="flex items-center gap-2 mb-4">
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">Внедрили за день. Через неделю команда перестала спрашивать «а где файл?» — всё само находится в контексте задачи.</p>
+          <div class="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-700 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-800 flex items-center justify-center text-xs font-semibold text-emerald-600 dark:text-emerald-300">АГ</div>
+            <div>
+              <div class="text-sm font-medium">Алексей Громов</div>
+              <div class="text-xs text-zinc-400">Tech Lead, STELLA</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800">
+          <div class="flex items-center gap-2 mb-4">
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">Попробовали как эксперимент — через месяц оплатили год. Аналитика воронки спасла нас от кассового разрыва.</p>
+          <div class="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-700 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-100 dark:bg-rose-900 flex items-center justify-center text-xs font-semibold text-rose-600 dark:text-rose-300">ДМ</div>
+            <div>
+              <div class="text-sm font-medium">Дина Маркова</div>
+              <div class="text-xs text-zinc-400">CEO, PRISMA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="py-20 sm:py-28 bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-none">
+          Прозрачные тарифы
+        </h2>
+        <p class="mt-4 text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          Без скрытых платежей, без накруток за пользователей.
+        </p>
+      </div>
+      <div class="mt-14 grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <!-- Free -->
+        <div class="card-enter bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-200 dark:border-zinc-800 flex flex-col">
+          <h3 class="text-lg font-semibold">Стартовый</h3>
+          <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Для небольших команд</p>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="text-4xl font-bold tracking-tight">0</span>
+            <span class="text-zinc-400">₽</span>
+          </div>
+          <ul class="mt-6 space-y-3 flex-1">
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              До 3 пользователей
+            </li>
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Задачи и доски
+            </li>
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Базовая воронка
+            </li>
+          </ul>
+          <a href="#" class="mt-6 w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-medium btn-secondary">Начать бесплатно</a>
+        </div>
+        <!-- Pro -->
+        <div class="card-enter bg-white dark:bg-zinc-900 rounded-2xl p-8 border-2 border-blue-500 dark:border-blue-400 flex flex-col relative">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[11px] font-semibold bg-blue-600 text-white">Популярное</span>
+          <h3 class="text-lg font-semibold">Профессиональный</h3>
+          <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Для растущих команд</p>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="text-4xl font-bold tracking-tight">990</span>
+            <span class="text-zinc-400">₽/мес</span>
+          </div>
+          <ul class="mt-6 space-y-3 flex-1">
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              До 15 пользователей
+            </li>
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Полная воронка + аналитика
+            </li>
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Интеграции (Telegram, почта, GitHub)
+            </li>
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Приоритетная поддержка
+            </li>
+          </ul>
+          <a href="#" class="mt-6 w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-medium btn-primary text-base">Попробовать 14 дней</a>
+        </div>
+        <!-- Enterprise -->
+        <div class="card-enter bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-200 dark:border-zinc-800 flex flex-col">
+          <h3 class="text-lg font-semibold">Enterprise</h3>
+          <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Для больших организаций</p>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="text-4xl font-bold tracking-tight">Индивидуально</span>
+          </div>
+          <ul class="mt-6 space-y-3 flex-1">
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Неограниченно пользователей
+            </li>
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Выделенный сервер
+            </li>
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Кастомная разработка
+            </li>
+            <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              SLA 99.9%
+            </li>
+          </ul>
+          <a href="#" class="mt-6 w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-medium btn-secondary">Связаться с нами</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-20 sm:py-28 relative overflow-hidden">
+    <div class="mesh-gradient absolute inset-0"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter leading-none max-w-3xl mx-auto">
+        Начните управлять командой, а не перепиской
+      </h2>
+      <p class="mt-4 text-zinc-500 dark:text-zinc-400 max-w-xl mx-auto">
+        14 дней бесплатно. Без карты. Без обязательств.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="#" class="inline-flex items-center px-8 py-3.5 rounded-xl text-base font-medium btn-primary">
+          Попробовать бесплатно
+          <svg class="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-200 dark:border-zinc-800 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2.5 font-semibold text-base">
+          <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="#0066FF"/>
+            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          FlowSync
+        </div>
+        <div class="flex items-center gap-6 text-xs text-zinc-400">
+          <a href="#" class="hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">Документация</a>
+          <a href="#" class="hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">Блог</a>
+          <a href="#" class="hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">Политика</a>
+          <a href="#" class="hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">Поддержка</a>
+        </div>
+        <p class="text-xs text-zinc-400">© 2026 FlowSync. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
