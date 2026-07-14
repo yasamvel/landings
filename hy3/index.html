@@ -13,33 +13,6 @@
    CSS Variables & Theme
    ======================================== */
 :root {
-  --bg-primary: #0b0d0e;
-  --bg-secondary: #121416;
-  --bg-surface: #181b1d;
-  --bg-hover: #1f2326;
-  --border: #262a2e;
-  --border-light: #33383d;
-  --text-primary: #e4e7eb;
-  --text-secondary: #9ca3af;
-  --text-tertiary: #6b7280;
-  --accent: #0d9488;
-  --accent-dim: rgba(13, 148, 136, 0.15);
-  --accent-glow: rgba(13, 148, 136, 0.12);
-  --accent-text: #5eead4;
-  --error: #ef4444;
-  --warning: #f59e0b;
-  --success: #22c55e;
-  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
-  --max-width: 1100px;
-  --nav-height: 64px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-}
-
-
-:root.light {
   --bg-primary: #f8f9fa;
   --bg-secondary: #ffffff;
   --bg-surface: #f0f1f3;
@@ -53,6 +26,33 @@
   --accent-dim: rgba(13, 148, 136, 0.1);
   --accent-glow: rgba(13, 148, 136, 0.06);
   --accent-text: #0f766e;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --success: #22c55e;
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --max-width: 1100px;
+  --nav-height: 64px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+
+:root.dark {
+  --bg-primary: #0b0d0e;
+  --bg-secondary: #121416;
+  --bg-surface: #181b1d;
+  --bg-hover: #1f2326;
+  --border: #262a2e;
+  --border-light: #33383d;
+  --text-primary: #e4e7eb;
+  --text-secondary: #9ca3af;
+  --text-tertiary: #6b7280;
+  --accent: #0d9488;
+  --accent-dim: rgba(13, 148, 136, 0.15);
+  --accent-glow: rgba(13, 148, 136, 0.12);
+  --accent-text: #5eead4;
   --error: #ef4444;
   --warning: #f59e0b;
   --success: #22c55e;
@@ -881,7 +881,7 @@ footer .footer-legal {
     </ul>
     <div class="nav-toggles">
       <a href="#" id="langBtn" onclick="toggleLang()"><i class="bi bi-translate"></i> EN</a>
-      <a href="#" id="themeBtn" onclick="toggleTheme()"><i class="bi bi-sun-fill"></i></a>
+      <a href="#" id="themeBtn" onclick="toggleTheme()"><i class="bi bi-moon-fill"></i></a>
     </div>
   </div>
 </nav>
@@ -1332,8 +1332,8 @@ function toggleLang(){
   document.getElementById('langBtn').innerHTML = en ? '<i class="bi bi-translate"></i> RU' : '<i class="bi bi-translate"></i> EN';
 }
 function toggleTheme(){
-  var light = document.documentElement.classList.toggle('light');
-  document.getElementById('themeBtn').innerHTML = light ? '<i class="bi bi-moon-fill"></i>' : '<i class="bi bi-sun-fill"></i>';
+  var dark = document.documentElement.classList.toggle('dark');
+  document.getElementById('themeBtn').innerHTML = dark ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-fill"></i>';
 }
 </script>
 </body>
