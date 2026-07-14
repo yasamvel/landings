@@ -55,13 +55,6 @@
   }
 }
 
-@media (max-width: 860px) {
-  .nav-links li:not(:last-child):not(:has(.lang-switch)):not(:has(.theme-switch)) {
-    display: none;
-  }
-  .nav-links { gap: 8px; }
-}
-
 /* ========================================
    Reset & Base
    ======================================== */
@@ -182,47 +175,41 @@ nav {
   opacity: 0.85 !important;
 }
 
-.lang-switch {
+.nav-lang, .nav-theme {
   font-family: var(--font-mono);
   font-size: 0.8rem !important;
   font-weight: 700;
-  padding: 5px 12px;
+  padding: 4px 10px;
   border-radius: 6px;
   border: 1.5px solid var(--accent);
   color: var(--accent) !important;
-  transition: all 0.2s;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   background: var(--accent-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
-.lang-switch:hover {
+.nav-lang:hover, .nav-theme:hover {
   background: var(--accent);
   color: #fff !important;
   opacity: 1 !important;
 }
-
-.theme-switch {
-  font-family: var(--font-mono);
-  font-size: 1.1rem !important;
-  font-weight: 500;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  border: 1.5px solid var(--border);
-  transition: all 0.2s;
-  cursor: pointer;
-  color: var(--text-secondary);
-  background: var(--bg-surface);
+.nav-theme {
+  font-size: 1rem !important;
+  border-color: var(--border);
+  background: transparent;
+  padding: 4px 8px;
 }
-.theme-switch:hover {
+.nav-theme:hover {
   border-color: var(--accent);
-  color: var(--accent) !important;
-  opacity: 1 !important;
-  background: var(--accent-dim);
+}
+
+@media (max-width: 860px) {
+  .nav-links li:not(:last-child):not(:has(.nav-lang)):not(:has(.nav-theme)):not(:has(.nav-cta)) {
+    display: none;
+  }
+  .nav-links { gap: 10px; }
+  .nav-links li:has(.nav-cta) { margin-left: auto; }
 }
 
 /* ========================================
@@ -896,12 +883,12 @@ footer .footer-legal {
       Hy3
     </a>
     <ul class="nav-links">
-      <li><a href="#architecture" data-i18n="nav_arch">Architecture</a></li>
-      <li><a href="#benchmarks" data-i18n="nav_bench">Benchmarks</a></li>
-      <li><a href="#specs" data-i18n="nav_specs">Specs</a></li>
-      <li><a href="#" class="lang-switch" onclick="toggleLang();return false;" id="langToggle">RU</a></li>
-      <li><a href="#try" class="nav-cta" data-i18n="nav_try">Try on OpenRouter</a></li>
-      <li><a href="#" class="theme-switch" onclick="toggleTheme();return false;" id="themeToggle" title="Toggle theme">☀️</a></li>
+      <li><a href="#architecture" data-lang="ru">Архитектура <span class="lang-en">Architecture</span></li>
+      <li><a href="#benchmarks" data-lang="ru">Бенчмарки <span class="lang-en">Benchmarks</span></li>
+      <li><a href="#specs" data-lang="ru">Характеристики <span class="lang-en">Specs</span></li>
+      <li><a href="#try" class="nav-cta" data-lang="ru">Попробовать <span class="lang-en">Try on OpenRouter</span></li>
+      <li><a href="#" class="nav-lang" onclick="toggleLang();return false;">RU</a></li>
+      <li><a href="#" class="nav-theme" onclick="toggleTheme();return false;" id="themeIcon">☀️</a></li>
     </ul>
   </div>
 </nav>
@@ -909,18 +896,20 @@ footer .footer-legal {
 <!-- Hero -->
 <section class="hero" id="hero">
   <div class="hero-left">
-    <p class="subtitle" data-i18n="subtitle">Tencent AI Lab / June 2026</p>
+    <p class="subtitle" data-lang="ru">Tencent AI Lab / Июнь 2026 <span class="lang-en">Tencent AI Lab / June 2026</span>
     <h1>Hy3</h1>
-    <p class="tagline" data-i18n="tagline_hero">
+    <p class="tagline" data-lang="ru">295 миллиардов параметров. 192 эксперта. 262k контекст.
+      Создана для рассуждений, кода и длинных задач.
+      Доступна бесплатно на OpenRouter. <span class="lang-en">
       295 billion parameters. 192 experts. 262k context.
       Built for reasoning, code, and long-context tasks.
       Available free on OpenRouter.
-    </p>
+    </span>
     <div class="hero-actions">
-      <a href="https://openrouter.ai/tencent/hy3:free" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="hero_btn1">
+      <a href="https://openrouter.ai/tencent/hy3:free" class="btn btn-primary" target="_blank" rel="noopener" data-lang="ru">Попробовать Hy3 <span class="lang-en">
         Try Hy3 Free
-      </a>
-      <a href="https://openrouter.ai/tencent/hy3" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="hero_btn2">
+      </span>
+      <a href="https://openrouter.ai/tencent/hy3" class="btn btn-secondary" target="_blank" rel="noopener">
         Paid API &rarr;
       </a>
     </div>
@@ -932,15 +921,15 @@ footer .footer-legal {
     <div class="hero-stats">
       <div class="hero-stat">
         <div class="value">295B</div>
-        <div class="label" data-i18n="stat_params">Parameters</div>
+        <div class="label" data-lang="ru">Параметры <span class="lang-en">Parameters</span>
       </div>
       <div class="hero-stat">
         <div class="value">192</div>
-        <div class="label" data-i18n="stat_experts">Experts</div>
+        <div class="label" data-lang="ru">Экспертов <span class="lang-en">Experts</span>
       </div>
       <div class="hero-stat">
         <div class="value">262K</div>
-        <div class="label" data-i18n="stat_context">Context</div>
+        <div class="label" data-lang="ru">Контекст <span class="lang-en">Context</span>
       </div>
     </div>
   </div>
@@ -949,9 +938,9 @@ footer .footer-legal {
 <!-- Architecture -->
 <section id="architecture">
   <div class="section-inner">
-    <p class="section-label" data-i18n="arch_label">Architecture</p>
-    <h2 class="section-title" data-i18n="arch_title">Mixture of Experts,<br>rethought from scratch</h2>
-    <p class="section-desc" data-i18n="arch_desc">
+    <p class="section-label" data-lang="ru">Архитектура <span class="lang-en">Architecture</span>
+    <h2 class="section-title">Mixture of Experts,<br>rethought from scratch</h2>
+    <p class="section-desc">
       Hy3 uses a 295B MoE with 21B active parameters per token.
       Each token activates only 8 of 192 experts through a learned
       top-8 routing mechanism. This keeps inference fast while
@@ -963,8 +952,8 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-        <h3 data-i18n="arch_routing_title">Top-8 Routing</h3>
-        <p data-i18n="arch_routing_desc">
+        <h3 data-lang="ru">Top-8 Routing <span class="lang-en">Top-8 Routing</span>
+        <p>
           Every input token is routed to the 8 most relevant experts
           among 192. The router is jointly trained end-to-end with
           the experts, minimizing load imbalance via auxiliary loss.
@@ -974,8 +963,8 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         </div>
-        <h3 data-i18n="arch_192_title">192 Experts</h3>
-        <p data-i18n="arch_192_desc">
+        <h3 data-lang="ru">192 Эксперта <span class="lang-en">192 Experts</span>
+        <p>
           A large expert pool means each expert can specialize on
           narrower domains. Sparsity (8/192 active) keeps FLOPs per
           token comparable to a dense 21B model.
@@ -985,8 +974,8 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M5 20V8l5-5v17"/><path d="M14 20V3l5 5v12"/></svg>
         </div>
-        <h3 data-i18n="arch_ctx_title">262K Context</h3>
-        <p data-i18n="arch_ctx_desc">
+        <h3 data-lang="ru">262K Контекст <span class="lang-en">262K Context</span>
+        <p>
           Extended context window of 262,144 tokens for processing
           entire codebases, research papers, and long conversations
           without truncation. RoPE scaling applied.
@@ -996,8 +985,8 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
         </div>
-        <h3 data-i18n="arch_inf_title">Efficient Inference</h3>
-        <p data-i18n="arch_inf_desc">
+        <h3 data-lang="ru">Эффективный Инференс <span class="lang-en">Efficient Inference</span>
+        <p>
           With only 21B parameters active per forward pass, Hy3
           delivers low latency and competitive throughput. Free tier
           available on OpenRouter for experimentation.
@@ -1007,7 +996,7 @@ footer .footer-legal {
 
     <!-- MoE visualization -->
     <div class="moe-visual">
-      <h3>Expert activation pattern (sample)</h3>
+      <h3 data-lang="ru">Паттерн активации экспертов (пример) <span class="lang-en">Expert activation pattern (sample)</span>
       <div class="moe-bars">
         <div class="moe-row">
           <span class="moe-label">Token 1</span>
@@ -1061,9 +1050,9 @@ footer .footer-legal {
 <!-- Benchmarks -->
 <section id="benchmarks">
   <div class="section-inner">
-    <p class="section-label" data-i18n="bench_label">Benchmarks</p>
-    <h2 class="section-title" data-i18n="bench_title">Performance across domains</h2>
-    <p class="section-desc" data-i18n="bench_desc">
+    <p class="section-label" data-lang="ru">Бенчмарки <span class="lang-en">Benchmarks</span>
+    <h2 class="section-title" data-lang="ru">Производительность в задачах <span class="lang-en">Performance across domains</span>
+    <p class="section-desc">
       Hy3 achieves competitive results on reasoning, code generation,
       and knowledge benchmarks. Scores shown are from internal
       evaluation on standard splits.
@@ -1073,19 +1062,19 @@ footer .footer-legal {
       <div class="bench-card">
         <div class="bench-value">89%</div>
         <div class="bench-name">MATH-500</div>
-        <div class="bench-desc" data-i18n="bench_math">Mathematical reasoning</div>
+        <div class="bench-desc" data-lang="ru">Математические рассуждения <span class="lang-en">Mathematical reasoning</span>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:89%"></div></div>
       </div>
       <div class="bench-card">
         <div class="bench-value">84%</div>
         <div class="bench-name">HumanEval+</div>
-        <div class="bench-desc" data-i18n="bench_code">Code generation</div>
+        <div class="bench-desc" data-lang="ru">Генерация кода <span class="lang-en">Code generation</span>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:84%"></div></div>
       </div>
       <div class="bench-card">
         <div class="bench-value">76%</div>
         <div class="bench-name">GPQA</div>
-        <div class="bench-desc" data-i18n="bench_gpqa">Graduate-level Q&amp;A</div>
+        <div class="bench-desc">Graduate-level Q&amp;A</div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:76%"></div></div>
       </div>
     </div>
@@ -1095,8 +1084,8 @@ footer .footer-legal {
 <!-- Specs -->
 <section id="specs">
   <div class="section-inner">
-    <p class="section-label" data-i18n="specs_label">Specifications</p>
-    <h2 class="section-title" data-i18n="specs_title">Everything at a glance</h2>
+    <p class="section-label" data-lang="ru">Характеристики <span class="lang-en">Specifications</span>
+    <h2 class="section-title" data-lang="ru">Всё в одном месте <span class="lang-en">Everything at a glance</span>
     <p class="section-desc">
       Full technical specifications for developers evaluating Hy3
       for integration.
@@ -1106,81 +1095,81 @@ footer .footer-legal {
       <table class="specs-table">
         <thead>
           <tr>
-            <th data-i18n="specs_cat">Category</th>
-            <th data-i18n="specs_detail">Detail</th>
-            <th data-i18n="specs_val">Value</th>
+            <th data-lang="ru">Категория <span class="lang-en">Category</span>
+            <th data-lang="ru">Деталь <span class="lang-en">Detail</span>
+            <th data-lang="ru">Значение <span class="lang-en">Value</span>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Total Parameters</td>
+            <td class="spec-cat" data-lang="ru">Модель <span class="lang-en">Model</span>
+            <td data-lang="ru">Всего параметров <span class="lang-en">Total Parameters</span>
             <td class="spec-val">295 billion</td>
           </tr>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Active Parameters</td>
+            <td class="spec-cat" data-lang="ru">Модель <span class="lang-en">Model</span>
+            <td data-lang="ru">Активных параметров <span class="lang-en">Active Parameters</span>
             <td class="spec-val">21 billion</td>
           </tr>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Architecture</td>
+            <td class="spec-cat" data-lang="ru">Модель <span class="lang-en">Model</span>
+            <td data-lang="ru">Архитектура <span class="lang-en">Architecture</span>
             <td class="spec-val">MoE (Mixture of Experts)</td>
           </tr>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Number of Experts</td>
+            <td class="spec-cat" data-lang="ru">Модель <span class="lang-en">Model</span>
+            <td data-lang="ru">Количество экспертов <span class="lang-en">Number of Experts</span>
             <td class="spec-val">192</td>
           </tr>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Experts per Token</td>
+            <td class="spec-cat" data-lang="ru">Модель <span class="lang-en">Model</span>
+            <td data-lang="ru">Экспертов на токен <span class="lang-en">Experts per Token</span>
             <td class="spec-val">8 (top-8 routing)</td>
           </tr>
           <tr>
-            <td class="spec-cat">Context</td>
-            <td>Max Context Length</td>
+            <td class="spec-cat" data-lang="ru">Контекст <span class="lang-en">Context</span>
+            <td data-lang="ru">Макс. длина контекста <span class="lang-en">Max Context Length</span>
             <td class="spec-val">262,144 tokens</td>
           </tr>
           <tr>
-            <td class="spec-cat">Context</td>
-            <td>Positional Encoding</td>
+            <td class="spec-cat" data-lang="ru">Контекст <span class="lang-en">Context</span>
+            <td data-lang="ru">Позиционное кодирование <span class="lang-en">Positional Encoding</span>
             <td class="spec-val">RoPE (extended)</td>
           </tr>
           <tr>
-            <td class="spec-cat">Availability</td>
-            <td>Free Tier</td>
+            <td class="spec-cat" data-lang="ru">Доступность <span class="lang-en">Availability</span>
+            <td data-lang="ru">Бесплатный доступ <span class="lang-en">Free Tier</span>
             <td class="spec-val"><span class="spec-free">tencent/hy3:free</span></td>
           </tr>
           <tr>
-            <td class="spec-cat">Availability</td>
-            <td>Paid API (prompt)</td>
+            <td class="spec-cat" data-lang="ru">Доступность <span class="lang-en">Availability</span>
+            <td data-lang="ru">API (prompt) <span class="lang-en">Paid API (prompt)</span>
             <td class="spec-val">$0.14 / 1M tokens</td>
           </tr>
           <tr>
-            <td class="spec-cat">Availability</td>
-            <td>Paid API (completion)</td>
+            <td class="spec-cat" data-lang="ru">Доступность <span class="lang-en">Availability</span>
+            <td data-lang="ru">API (completion) <span class="lang-en">Paid API (completion)</span>
             <td class="spec-val">$0.58 / 1M tokens</td>
           </tr>
           <tr>
-            <td class="spec-cat">Availability</td>
-            <td>Platform</td>
+            <td class="spec-cat" data-lang="ru">Доступность <span class="lang-en">Availability</span>
+            <td data-lang="ru">Платформа <span class="lang-en">Platform</span>
             <td class="spec-val">OpenRouter</td>
           </tr>
           <tr>
-            <td class="spec-cat">License</td>
-            <td>Type</td>
+            <td class="spec-cat" data-lang="ru">Лицензия <span class="lang-en">License</span>
+            <td data-lang="ru">Тип <span class="lang-en">Type</span>
             <td class="spec-val">Tencent proprietary (free via OpenRouter)</td>
           </tr>
           <tr>
-            <td class="spec-cat">Release</td>
-            <td>Date</td>
-            <td class="spec-val">June 2026</td>
+            <td class="spec-cat" data-lang="ru">Релиз <span class="lang-en">Release</span>
+            <td data-lang="ru">Дата <span class="lang-en">Date</span>
+            <td class="spec-val" data-lang="ru">Июнь 2026 <span class="lang-en">June 2026</span>
           </tr>
           <tr>
-            <td class="spec-cat">Developer</td>
-            <td>Lab</td>
-            <td class="spec-val">Tencent AI Lab</td>
+            <td class="spec-cat" data-lang="ru">Разработчик <span class="lang-en">Developer</span>
+            <td data-lang="ru">Лаборатория <span class="lang-en">Lab</span>
+            <td class="spec-val" data-lang="ru">Tencent AI Lab <span class="lang-en">Tencent AI Lab</span>
           </tr>
         </tbody>
       </table>
@@ -1193,8 +1182,8 @@ footer .footer-legal {
   <div class="section-inner">
     <div class="cta-grid">
       <div class="cta-left">
-        <h2 data-i18n="cta_title">Try Hy3 right now</h2>
-        <p data-i18n="cta_desc">
+        <h2 data-lang="ru">Попробуйте Hy3 сейчас <span class="lang-en">Try Hy3 right now</span>
+        <p>
           Start with the free tier on OpenRouter. No API key setup
           needed for experimentation. When you need more, the paid
           API offers higher rate limits and priority routing.
@@ -1210,23 +1199,23 @@ footer .footer-legal {
       </div>
       <div class="cta-price-box">
         <div class="price-row">
-          <span class="price-label" data-i18n="cta_free_label">Free tier</span>
+          <span class="price-label" data-lang="ru">Бесплатно <span class="lang-en">Free tier</span>
           <span class="price-free">$0.00 / 1M tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label" data-i18n="cta_paid_prompt_label">Paid prompt</span>
+          <span class="price-label" data-lang="ru">Платный prompt <span class="lang-en">Paid prompt</span>
           <span class="price-value">$0.14 / 1M tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label" data-i18n="cta_paid_comp_label">Paid completion</span>
+          <span class="price-label" data-lang="ru">Платный completion <span class="lang-en">Paid completion</span>
           <span class="price-value">$0.58 / 1M tokens</span>
         </div>
         <div class="price-row" style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px;">
-          <span class="price-label" style="color:var(--text-secondary);" data-i18n="cta_window">Context window</span>
+          <span class="price-label" style="color:var(--text-secondary);" data-lang="ru">Окно контекста <span class="lang-en">Context window</span>
           <span class="price-value" style="color:var(--text-primary);">262,144 tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label" style="color:var(--text-secondary);" data-i18n="cta_license_label">License</span>
+          <span class="price-label" style="color:var(--text-secondary);" data-lang="ru">Лицензия <span class="lang-en">License</span>
           <span class="price-value" style="color:var(--text-primary);font-size:0.75rem;">Free inference via OpenRouter</span>
         </div>
       </div>
@@ -1238,13 +1227,13 @@ footer .footer-legal {
 <footer>
   <div class="footer-brand">Hy3</div>
   <div class="footer-tag">
-    <span data-i18n="footer_model">A large-scale mixture-of-experts model by</span>
-    <strong>Tencent AI Lab</strong>. <span data-i18n="footer_avail">Available on</span>
+    A large-scale mixture-of-experts model by
+    <strong data-lang="ru">Tencent AI Lab <span class="lang-en">Tencent AI Lab</span>. Available on
     <a href="https://openrouter.ai/tencent/hy3:free" target="_blank" rel="noopener">OpenRouter</a>.
   </div>
-  <div class="footer-legal" data-i18n="footer_gen">
+  <div class="footer-legal" data-lang="ru">Сгенерировано Hy3 (Tencent) на OpenRouter <span class="lang-en">
     Generated by Hy3 (Tencent) on OpenRouter
-  </div>
+  </span>
 </footer>
 
 <!-- Canvas animation -->
@@ -1355,117 +1344,53 @@ footer .footer-legal {
 })();
 </script>
 
+<style>
+.lang-en { display: none; }
+[data-lang="ru"] { display: inline; }
+</style>
 <script>
-const translations = {
-  nav_arch: { en: 'Architecture', ru: 'Архитектура' },
-  nav_bench: { en: 'Benchmarks', ru: 'Бенчмарки' },
-  nav_specs: { en: 'Specs', ru: 'Характеристики' },
-  nav_try: { en: 'Try on OpenRouter', ru: 'Попробовать' },
-  subtitle: { en: 'Tencent AI Lab / June 2026', ru: 'Tencent AI Lab / Июнь 2026' },
-  tagline: { en: '295 billion parameters. 192 experts. 262k context.\n      Built for reasoning, code, and long-context tasks.\n      Available free on OpenRouter.', ru: '295 миллиардов параметров. 192 эксперта. 262k контекст.\n      Создана для рассуждений, кода и длинных контекстов.\n      Доступна бесплатно на OpenRouter.' },
-  hero_btn1: { en: 'Try Hy3 Free', ru: 'Попробовать Hy3' },
-  hero_btn2: { en: 'Paid API', ru: 'Платная версия' },
-  stat_params: { en: 'Parameters', ru: 'Параметры' },
-  stat_experts: { en: 'Experts', ru: 'Экспертов' },
-  stat_context: { en: 'Context', ru: 'Контекст' },
-  arch_label: { en: 'Architecture', ru: 'Архитектура' },
-  arch_title: { en: 'Mixture of Experts,<br>rethought from scratch', ru: 'Mixture of Experts,<br>спроектирована с нуля' },
-  arch_desc: { en: 'Hy3 uses a 295B MoE with 21B active parameters per token. Each token activates only 8 of 192 experts through a learned top-8 routing mechanism. This keeps inference fast while maintaining the knowledge capacity of a dense 295B model.', ru: 'Hy3 использует 295B MoE с 21B активных параметров на токен. Каждый токен активирует только 8 из 192 экспертов через обученный механизм top-8 routing. Это обеспечивает высокую скорость инференса при сохранении знаний полной 295B модели.' },
-  arch_routing_title: { en: 'Top-8 Routing', ru: 'Top-8 Routing' },
-  arch_routing_desc: { en: 'Every input token is routed to the 8 most relevant experts among 192. The router is jointly trained end-to-end with the experts, minimizing load imbalance via auxiliary loss.', ru: 'Каждый входной токен направляется к 8 наиболее релевантным экспертам из 192. Маршрутизатор обучается сквозно вместе с экспертами.' },
-  arch_192_title: { en: '192 Experts', ru: '192 Эксперта' },
-  arch_192_desc: { en: 'A large expert pool means each expert can specialize on narrower domains. Sparsity (8/192 active) keeps FLOPs per token comparable to a dense 21B model.', ru: 'Большой пул экспертов позволяет каждому специализироваться на узких доменах. Разреженность (8/192 активных) сохраняет FLOPs на уровне плотной 21B модели.' },
-  arch_ctx_title: { en: '262K Context', ru: '262K Контекст' },
-  arch_ctx_desc: { en: 'Extended context window of 262,144 tokens for processing entire codebases, research papers, and long conversations without truncation. RoPE scaling applied.', ru: 'Расширенное окно контекста в 262 144 токена для обработки целых кодбаз, научных статей и длинных диалогов без обрезания.' },
-  arch_inf_title: { en: 'Efficient Inference', ru: 'Эффективный Инференс' },
-  arch_inf_desc: { en: 'With only 21B parameters active per forward pass, Hy3 delivers low latency and competitive throughput. Free tier available on OpenRouter for experimentation.', ru: 'Всего 21B активных параметров обеспечивают низкую задержку. Бесплатный tier доступен на OpenRouter.' },
-  bench_label: { en: 'Benchmarks', ru: 'Бенчмарки' },
-  bench_title: { en: 'Performance across domains', ru: 'Производительность в бенчмарках' },
-  bench_desc: { en: 'Hy3 achieves competitive results on reasoning, code generation, and knowledge benchmarks.', ru: 'Hy3 показывает конкурентоспособные результаты в рассуждениях, генерации кода и знаниях.' },
-  bench_math: { en: 'Mathematical reasoning', ru: 'Математические рассуждения' },
-  bench_code: { en: 'Code generation', ru: 'Генерация кода' },
-  bench_gpqa: { en: 'Graduate-level Q&A', ru: 'Научные вопросы' },
-  specs_label: { en: 'Specifications', ru: 'Характеристики' },
-  specs_title: { en: 'Everything at a glance', ru: 'Всё в одном месте' },
-  specs_cat: { en: 'Category', ru: 'Категория' },
-  specs_detail: { en: 'Detail', ru: 'Деталь' },
-  specs_val: { en: 'Value', ru: 'Значение' },
-  cta_title: { en: 'Try Hy3 right now', ru: 'Попробуйте Hy3 сейчас' },
-  cta_desc: { en: 'Start with the free tier on OpenRouter. No API key setup needed for experimentation. When you need more, the paid API offers higher rate limits and priority routing.', ru: 'Начните с бесплатного tier на OpenRouter. Для экспериментов не нужен API ключ. Платная версия даёт большие лимиты и приоритетный routing.' },
-  cta_free_label: { en: 'Free tier', ru: 'Бесплатно' },
-  cta_paid_prompt_label: { en: 'Paid prompt', ru: 'Платная версия (prompt)' },
-  cta_paid_comp_label: { en: 'Paid completion', ru: 'Платная версия (completion)' },
-  cta_window: { en: 'Context window', ru: 'Окно контекста' },
-  cta_license_label: { en: 'License', ru: 'Лицензия' },
-  footer_model: { en: 'A large-scale mixture-of-experts model by', ru: 'Масштабная MoE-модель от' },
-  footer_avail: { en: 'Available on', ru: 'Доступна на' },
-  footer_gen: { en: 'Generated by Hy3 (Tencent) on OpenRouter', ru: 'Сгенерировано Hy3 (Tencent) на OpenRouter' }
-};
-
-let currentLang = 'ru';
-
-function applyLang(lang) {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.dataset.i18n;
-    if (translations[key] && translations[key][lang]) {
-      el.innerHTML = translations[key][lang];
-    }
-  });
-  document.getElementById('langToggle').textContent = lang === 'en' ? 'RU' : 'EN';
-  document.querySelector('html').lang = lang;
-  currentLang = lang;
-  localStorage.setItem('hy3-lang', lang);
-}
+// Язык: RU по умолчанию
+let lang = 'ru';
 
 function toggleLang() {
-  applyLang(currentLang === 'en' ? 'ru' : 'en');
+  lang = lang === 'ru' ? 'en' : 'ru';
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.style.display = lang === 'ru' ? 'inline' : 'none';
+  });
+  document.querySelectorAll('.lang-en').forEach(el => {
+    el.style.display = lang === 'en' ? 'inline' : 'none';
+  });
+  document.querySelector('.nav-lang').textContent = lang === 'ru' ? 'EN' : 'RU';
 }
 
+// Тема
 function toggleTheme() {
-  const root = document.documentElement;
-  const isDark = getComputedStyle(root).getPropertyValue('--bg-primary').trim() === '#0b0d0e';
-  if (isDark) {
-    root.style.setProperty('--bg-primary', '#f8f9fa');
-    root.style.setProperty('--bg-secondary', '#ffffff');
-    root.style.setProperty('--bg-surface', '#f0f1f3');
-    root.style.setProperty('--bg-hover', '#e6e7ea');
-    root.style.setProperty('--border', '#d1d5db');
-    root.style.setProperty('--border-light', '#e5e7eb');
-    root.style.setProperty('--text-primary', '#111827');
-    root.style.setProperty('--text-secondary', '#4b5563');
-    root.style.setProperty('--text-tertiary', '#9ca3af');
-    root.style.setProperty('--accent', '#0d9488');
-    root.style.setProperty('--accent-dim', 'rgba(13,148,136,0.1)');
-    root.style.setProperty('--accent-glow', 'rgba(13,148,136,0.06)');
-    root.style.setProperty('--accent-text', '#0f766e');
-    document.getElementById('themeToggle').textContent = '🌙';
-    localStorage.setItem('hy3-theme', 'light');
-  } else {
-    root.style.setProperty('--bg-primary', '#0b0d0e');
-    root.style.setProperty('--bg-secondary', '#121416');
-    root.style.setProperty('--bg-surface', '#181b1d');
-    root.style.setProperty('--bg-hover', '#1f2326');
-    root.style.setProperty('--border', '#262a2e');
-    root.style.setProperty('--border-light', '#33383d');
-    root.style.setProperty('--text-primary', '#e4e7eb');
-    root.style.setProperty('--text-secondary', '#9ca3af');
-    root.style.setProperty('--text-tertiary', '#6b7280');
-    root.style.setProperty('--accent', '#0d9488');
-    root.style.setProperty('--accent-dim', 'rgba(13,148,136,0.15)');
-    root.style.setProperty('--accent-glow', 'rgba(13,148,136,0.12)');
-    root.style.setProperty('--accent-text', '#5eead4');
-    document.getElementById('themeToggle').textContent = '☀️';
-    localStorage.setItem('hy3-theme', 'dark');
-  }
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
 }
 
-// Restore saved theme on load
-(function() {
-  const savedTheme = localStorage.getItem('hy3-theme');
-  if (savedTheme === 'light') toggleTheme();
-})();
-
-applyLang('ru');
+// Светлая тема CSS
+const styleLight = document.createElement('style');
+styleLight.textContent = `
+[data-theme="light"] {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-surface: #f0f1f3;
+  --bg-hover: #e6e7ea;
+  --border: #d1d5db;
+  --border-light: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --accent: #0d9488;
+  --accent-dim: rgba(13,148,136,0.1);
+  --accent-glow: rgba(13,148,136,0.06);
+  --accent-text: #0f766e;
+}
+`;
+document.head.appendChild(styleLight);
 </script>
 
 </body>
