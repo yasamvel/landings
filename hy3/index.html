@@ -842,15 +842,17 @@ footer .footer-legal {
 <nav>
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <span class="nav-logo-badge">H3</span>
+      <span class="nav-logo-badge" data-en>H3</span>
       Hy3
     </a>
     <ul class="nav-links">
-      <li><a href="#architecture">Architecture</a></li>
-      <li><a href="#benchmarks">Benchmarks</a></li>
-      <li><a href="#specs">Specs</a></li>
-      <li><a href="#try" class="nav-cta">Try on OpenRouter</a></li>
-    </ul>
+      <li><a href="#architecture" data-en>Architecture</a></li>
+      <li><a href="#benchmarks" data-en>Benchmarks</a></li>
+      <li><a href="#specs" data-en>Specs</a></li>
+      <li><a href="#try" class="nav-cta" data-en>Try on OpenRouter</a></li>
+    <li><a href="#" id="langBtn" onclick="toggleLang()" data-en>EN</a></li>
+<li><a href="#" id="themeBtn" onclick="toggleTheme()">☀️</a></li>
+</ul>
   </div>
 </nav>
 
@@ -858,7 +860,7 @@ footer .footer-legal {
 <section class="hero" id="hero">
   <div class="hero-left">
     <p class="subtitle">Tencent AI Lab / June 2026</p>
-    <h1>Hy3</h1>
+    <h1 data-en>Hy3</h1>
     <p class="tagline">
       295 billion parameters. 192 experts. 262k context.
       Built for reasoning, code, and long-context tasks.
@@ -880,15 +882,15 @@ footer .footer-legal {
     <div class="hero-stats">
       <div class="hero-stat">
         <div class="value">295B</div>
-        <div class="label">Parameters</div>
+        <div class="label" data-en>Parameters</div>
       </div>
       <div class="hero-stat">
         <div class="value">192</div>
-        <div class="label">Experts</div>
+        <div class="label" data-en>Experts</div>
       </div>
       <div class="hero-stat">
         <div class="value">262K</div>
-        <div class="label">Context</div>
+        <div class="label" data-en>Context</div>
       </div>
     </div>
   </div>
@@ -897,8 +899,8 @@ footer .footer-legal {
 <!-- Architecture -->
 <section id="architecture">
   <div class="section-inner">
-    <p class="section-label">Architecture</p>
-    <h2 class="section-title">Mixture of Experts,<br>rethought from scratch</h2>
+    <p class="section-label" data-en>Architecture</p>
+    <h2 class="section-title" data-en>Mixture of Experts,<br data-en>rethought from scratch</h2>
     <p class="section-desc">
       Hy3 uses a 295B MoE with 21B active parameters per token.
       Each token activates only 8 of 192 experts through a learned
@@ -911,7 +913,7 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-        <h3>Top-8 Routing</h3>
+        <h3 data-en>Top-8 Routing</h3>
         <p>
           Every input token is routed to the 8 most relevant experts
           among 192. The router is jointly trained end-to-end with
@@ -944,7 +946,7 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
         </div>
-        <h3>Efficient Inference</h3>
+        <h3 data-en>Efficient Inference</h3>
         <p>
           With only 21B parameters active per forward pass, Hy3
           delivers low latency and competitive throughput. Free tier
@@ -958,7 +960,7 @@ footer .footer-legal {
       <h3>Expert activation pattern (sample)</h3>
       <div class="moe-bars">
         <div class="moe-row">
-          <span class="moe-label">Token 1</span>
+          <span class="moe-label" data-en>Token 1</span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:52%"></div>
             <div class="moe-fill inactive" style="width:4%"></div>
@@ -966,7 +968,7 @@ footer .footer-legal {
           <span class="moe-count">8/192</span>
         </div>
         <div class="moe-row">
-          <span class="moe-label">Token 2</span>
+          <span class="moe-label" data-en>Token 2</span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:38%"></div>
             <div class="moe-fill inactive" style="width:8%"></div>
@@ -974,7 +976,7 @@ footer .footer-legal {
           <span class="moe-count">8/192</span>
         </div>
         <div class="moe-row">
-          <span class="moe-label">Token 3</span>
+          <span class="moe-label" data-en>Token 3</span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:61%"></div>
             <div class="moe-fill inactive" style="width:3%"></div>
@@ -982,7 +984,7 @@ footer .footer-legal {
           <span class="moe-count">8/192</span>
         </div>
         <div class="moe-row">
-          <span class="moe-label">Token 4</span>
+          <span class="moe-label" data-en>Token 4</span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:45%"></div>
             <div class="moe-fill inactive" style="width:5%"></div>
@@ -990,7 +992,7 @@ footer .footer-legal {
           <span class="moe-count">8/192</span>
         </div>
         <div class="moe-row">
-          <span class="moe-label">Token 5</span>
+          <span class="moe-label" data-en>Token 5</span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:33%"></div>
             <div class="moe-fill inactive" style="width:7%"></div>
@@ -1009,8 +1011,8 @@ footer .footer-legal {
 <!-- Benchmarks -->
 <section id="benchmarks">
   <div class="section-inner">
-    <p class="section-label">Benchmarks</p>
-    <h2 class="section-title">Performance across domains</h2>
+    <p class="section-label" data-en>Benchmarks</p>
+    <h2 class="section-title" data-en>Performance across domains</h2>
     <p class="section-desc">
       Hy3 achieves competitive results on reasoning, code generation,
       and knowledge benchmarks. Scores shown are from internal
@@ -1020,19 +1022,19 @@ footer .footer-legal {
     <div class="benchmarks-grid">
       <div class="bench-card">
         <div class="bench-value">89%</div>
-        <div class="bench-name">MATH-500</div>
-        <div class="bench-desc">Mathematical reasoning</div>
+        <div class="bench-name" data-en>MATH-500</div>
+        <div class="bench-desc" data-en>Mathematical reasoning</div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:89%"></div></div>
       </div>
       <div class="bench-card">
         <div class="bench-value">84%</div>
         <div class="bench-name">HumanEval+</div>
-        <div class="bench-desc">Code generation</div>
+        <div class="bench-desc" data-en>Code generation</div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:84%"></div></div>
       </div>
       <div class="bench-card">
         <div class="bench-value">76%</div>
-        <div class="bench-name">GPQA</div>
+        <div class="bench-name" data-en>GPQA</div>
         <div class="bench-desc">Graduate-level Q&amp;A</div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:76%"></div></div>
       </div>
@@ -1043,8 +1045,8 @@ footer .footer-legal {
 <!-- Specs -->
 <section id="specs">
   <div class="section-inner">
-    <p class="section-label">Specifications</p>
-    <h2 class="section-title">Everything at a glance</h2>
+    <p class="section-label" data-en>Specifications</p>
+    <h2 class="section-title" data-en>Everything at a glance</h2>
     <p class="section-desc">
       Full technical specifications for developers evaluating Hy3
       for integration.
@@ -1054,81 +1056,81 @@ footer .footer-legal {
       <table class="specs-table">
         <thead>
           <tr>
-            <th>Category</th>
-            <th>Detail</th>
-            <th>Value</th>
+            <th data-en>Category</th>
+            <th data-en>Detail</th>
+            <th data-en>Value</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Total Parameters</td>
+            <td class="spec-cat" data-en>Model</td>
+            <td data-en>Total Parameters</td>
             <td class="spec-val">295 billion</td>
           </tr>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Active Parameters</td>
+            <td class="spec-cat" data-en>Model</td>
+            <td data-en>Active Parameters</td>
             <td class="spec-val">21 billion</td>
           </tr>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Architecture</td>
+            <td class="spec-cat" data-en>Model</td>
+            <td data-en>Architecture</td>
             <td class="spec-val">MoE (Mixture of Experts)</td>
           </tr>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Number of Experts</td>
+            <td class="spec-cat" data-en>Model</td>
+            <td data-en>Number of Experts</td>
             <td class="spec-val">192</td>
           </tr>
           <tr>
-            <td class="spec-cat">Model</td>
-            <td>Experts per Token</td>
+            <td class="spec-cat" data-en>Model</td>
+            <td data-en>Experts per Token</td>
             <td class="spec-val">8 (top-8 routing)</td>
           </tr>
           <tr>
-            <td class="spec-cat">Context</td>
-            <td>Max Context Length</td>
+            <td class="spec-cat" data-en>Context</td>
+            <td data-en>Max Context Length</td>
             <td class="spec-val">262,144 tokens</td>
           </tr>
           <tr>
-            <td class="spec-cat">Context</td>
-            <td>Positional Encoding</td>
+            <td class="spec-cat" data-en>Context</td>
+            <td data-en>Positional Encoding</td>
             <td class="spec-val">RoPE (extended)</td>
           </tr>
           <tr>
-            <td class="spec-cat">Availability</td>
-            <td>Free Tier</td>
+            <td class="spec-cat" data-en>Availability</td>
+            <td data-en>Free Tier</td>
             <td class="spec-val"><span class="spec-free">tencent/hy3:free</span></td>
           </tr>
           <tr>
-            <td class="spec-cat">Availability</td>
+            <td class="spec-cat" data-en>Availability</td>
             <td>Paid API (prompt)</td>
             <td class="spec-val">$0.14 / 1M tokens</td>
           </tr>
           <tr>
-            <td class="spec-cat">Availability</td>
+            <td class="spec-cat" data-en>Availability</td>
             <td>Paid API (completion)</td>
             <td class="spec-val">$0.58 / 1M tokens</td>
           </tr>
           <tr>
-            <td class="spec-cat">Availability</td>
-            <td>Platform</td>
-            <td class="spec-val">OpenRouter</td>
+            <td class="spec-cat" data-en>Availability</td>
+            <td data-en>Platform</td>
+            <td class="spec-val" data-en>OpenRouter</td>
           </tr>
           <tr>
-            <td class="spec-cat">License</td>
-            <td>Type</td>
+            <td class="spec-cat" data-en>License</td>
+            <td data-en>Type</td>
             <td class="spec-val">Tencent proprietary (free via OpenRouter)</td>
           </tr>
           <tr>
-            <td class="spec-cat">Release</td>
-            <td>Date</td>
-            <td class="spec-val">June 2026</td>
+            <td class="spec-cat" data-en>Release</td>
+            <td data-en>Date</td>
+            <td class="spec-val" data-en>June 2026</td>
           </tr>
           <tr>
-            <td class="spec-cat">Developer</td>
-            <td>Lab</td>
-            <td class="spec-val">Tencent AI Lab</td>
+            <td class="spec-cat" data-en>Developer</td>
+            <td data-en>Lab</td>
+            <td class="spec-val" data-en>Tencent AI Lab</td>
           </tr>
         </tbody>
       </table>
@@ -1141,7 +1143,7 @@ footer .footer-legal {
   <div class="section-inner">
     <div class="cta-grid">
       <div class="cta-left">
-        <h2>Try Hy3 right now</h2>
+        <h2 data-en>Try Hy3 right now</h2>
         <p>
           Start with the free tier on OpenRouter. No API key setup
           needed for experimentation. When you need more, the paid
@@ -1158,24 +1160,24 @@ footer .footer-legal {
       </div>
       <div class="cta-price-box">
         <div class="price-row">
-          <span class="price-label">Free tier</span>
+          <span class="price-label" data-en>Free tier</span>
           <span class="price-free">$0.00 / 1M tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label">Paid prompt</span>
+          <span class="price-label" data-en>Paid prompt</span>
           <span class="price-value">$0.14 / 1M tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label">Paid completion</span>
+          <span class="price-label" data-en>Paid completion</span>
           <span class="price-value">$0.58 / 1M tokens</span>
         </div>
         <div class="price-row" style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px;">
-          <span class="price-label" style="color:var(--text-secondary);">Context window</span>
+          <span class="price-label" style="color:var(--text-secondary);" data-en>Context window</span>
           <span class="price-value" style="color:var(--text-primary);">262,144 tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label" style="color:var(--text-secondary);">License</span>
-          <span class="price-value" style="color:var(--text-primary);font-size:0.75rem;">Free inference via OpenRouter</span>
+          <span class="price-label" style="color:var(--text-secondary);" data-en>License</span>
+          <span class="price-value" style="color:var(--text-primary);font-size:0.75rem;" data-en>Free inference via OpenRouter</span>
         </div>
       </div>
     </div>
@@ -1184,11 +1186,11 @@ footer .footer-legal {
 
 <!-- Footer -->
 <footer>
-  <div class="footer-brand">Hy3</div>
+  <div class="footer-brand" data-en>Hy3</div>
   <div class="footer-tag">
     A large-scale mixture-of-experts model by
-    <strong>Tencent AI Lab</strong>. Available on
-    <a href="https://openrouter.ai/tencent/hy3:free" target="_blank" rel="noopener">OpenRouter</a>.
+    <strong data-en>Tencent AI Lab</strong>. Available on
+    <a href="https://openrouter.ai/tencent/hy3:free" target="_blank" rel="noopener" data-en>OpenRouter</a>.
   </div>
   <div class="footer-legal">
     Generated by Hy3 (Tencent) on OpenRouter
@@ -1303,5 +1305,11 @@ footer .footer-legal {
 })();
 </script>
 
+<script>
+function toggleLang(){var h=document.documentElement;var en=h.classList.toggle("en");document.getElementById("langBtn").textContent=en?"RU":"EN";document.querySelectorAll("[data-en]").forEach(function(e){e.style.display=en?"":"none";});}
+function toggleTheme(){var h=document.documentElement;var l=h.classList.toggle("light");document.getElementById("themeBtn").textContent=l?"🌙":"☀️";}
+var translations={en:{},ru:{}};
+document.querySelectorAll("[data-en]").forEach(function(e){e.style.display="none";});
+</script>
 </body>
 </html>
