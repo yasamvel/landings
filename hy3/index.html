@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hy3 — Tencent AI Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ========================================
+   CSS Variables & Theme
+   ======================================== */
+:root {
+  --bg-primary: #0b0d0e;
+  --bg-secondary: #121416;
+  --bg-surface: #181b1d;
+  --bg-hover: #1f2326;
+  --border: #262a2e;
+  --border-light: #33383d;
+  --text-primary: #e4e7eb;
+  --text-secondary: #9ca3af;
+  --text-tertiary: #6b7280;
+  --accent: #0d9488;
+  --accent-dim: rgba(13, 148, 136, 0.15);
+  --accent-glow: rgba(13, 148, 136, 0.12);
+  --accent-text: #5eead4;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --success: #22c55e;
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --max-width: 1100px;
+  --nav-height: 64px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --bg-surface: #f0f1f3;
+    --bg-hover: #e6e7ea;
+    --border: #d1d5db;
+    --border-light: #e5e7eb;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-tertiary: #9ca3af;
+    --accent: #0d9488;
+    --accent-dim: rgba(13, 148, 136, 0.1);
+    --accent-glow: rgba(13, 148, 136, 0.06);
+    --accent-text: #0f766e;
+  }
+}
+
+/* ========================================
+   Reset & Base
+   ======================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent-text);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+a:hover {
+  opacity: 0.8;
+}
+
+img, svg {
+  display: block;
+}
+
+/* ========================================
+   Navigation
+   ======================================== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  background: color-mix(in srgb, var(--bg-primary) 85%, transparent);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  z-index: 100;
+}
+
+.nav-inner {
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.nav-logo-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+.nav-links a:hover {
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+.nav-cta {
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 0.8rem !important;
+  transition: opacity 0.2s;
+}
+.nav-cta:hover {
+  opacity: 0.85 !important;
+}
+
+/* ========================================
+   Hero
+   ======================================== */
+.hero {
+  padding: calc(var(--nav-height) + 60px) 24px 80px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.hero-left h1 {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.hero-left .subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--accent-text);
+  font-weight: 500;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+.hero-left .tagline {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover {
+  opacity: 0.88;
+}
+
+.btn-secondary {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-light);
+}
+
+/* Hero visual — MoE node grid */
+.hero-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.node-grid {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 420px;
+}
+
+.node-grid canvas {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-lg);
+}
+
+/* Hero stats bar below the grid */
+.hero-stats {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  max-width: 420px;
+}
+
+.hero-stat {
+  background: var(--bg-surface);
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.hero-stat .value {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+.hero-stat .label {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* ========================================
+   Section base
+   ======================================== */
+section {
+  padding: 80px 24px;
+}
+
+.section-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--accent-text);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+/* ========================================
+   Architecture
+   ======================================== */
+.arch-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.arch-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.arch-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.arch-card .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--accent-dim);
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.arch-card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.arch-card p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.arch-card .spec-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.arch-card .spec-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.arch-card .spec-item:last-child {
+  border-bottom: none;
+}
+
+.arch-card .spec-key {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.arch-card .spec-val {
+  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+/* ========================================
+   MoE Visual
+   ======================================== */
+.moe-visual {
+  margin-top: 40px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.moe-visual h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.moe-bars {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.moe-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.moe-row .moe-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  width: 42px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.moe-track {
+  flex: 1;
+  height: 18px;
+  background: var(--bg-hover);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.moe-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.moe-fill.active {
+  background: var(--accent);
+  opacity: 0.9;
+}
+
+.moe-fill.inactive {
+  background: var(--border-light);
+  opacity: 0.35;
+}
+
+.moe-row .moe-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  width: 30px;
+  flex-shrink: 0;
+}
+
+.moe-legend {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.moe-legend span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.moe-legend .swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* ========================================
+   Benchmarks
+   ======================================== */
+.benchmarks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.bench-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  text-align: center;
+  transition: border-color 0.25s, transform 0.2s;
+}
+
+.bench-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.bench-card .bench-value {
+  font-family: var(--font-mono);
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: var(--accent-text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.bench-card .bench-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.bench-card .bench-desc {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+.bench-bar {
+  margin-top: 16px;
+  height: 4px;
+  background: var(--bg-hover);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bench-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+}
+
+/* ========================================
+   Specs Table
+   ======================================== */
+.specs-table-wrap {
+  overflow-x: auto;
+  margin-top: 40px;
+}
+
+.specs-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.88rem;
+}
+
+.specs-table th {
+  text-align: left;
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+
+.specs-table th:first-child {
+  border-radius: var(--radius-sm) 0 0 0;
+}
+
+.specs-table th:last-child {
+  border-radius: 0 var(--radius-sm) 0 0;
+}
+
+.specs-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.specs-table .spec-cat {
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.specs-table .spec-val {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.specs-table .spec-free {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 99px;
+  background: var(--accent-dim);
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+/* ========================================
+   CTA Section
+   ======================================== */
+.cta {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.cta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.cta-left h2 {
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+
+.cta-left p {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.cta-price-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.price-row .price-label {
+  color: var(--text-tertiary);
+}
+
+.price-row .price-value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.price-row .price-free {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--success);
+  font-size: 0.82rem;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* ========================================
+   Footer
+   ======================================== */
+footer {
+  padding: 48px 24px 40px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+footer .footer-brand {
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+footer .footer-tag {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+footer .footer-legal {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  opacity: 0.6;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    min-height: auto;
+    padding-top: calc(var(--nav-height) + 40px);
+  }
+
+  .hero-right {
+    order: -1;
+  }
+
+  .node-grid {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .hero-stats {
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-left h1 {
+    font-size: clamp(2rem, 8vw, 2.6rem);
+  }
+
+  .arch-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .benchmarks-grid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding: 60px 16px;
+  }
+
+  .hero {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    justify-content: center;
+  }
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero, .arch-card, .bench-card, .specs-table, .moe-visual, .cta-grid {
+  animation: fadeIn 0.6s ease-out both;
+}
+
+.arch-card:nth-child(1) { animation-delay: 0.05s; }
+.arch-card:nth-child(2) { animation-delay: 0.1s; }
+.bench-card:nth-child(1) { animation-delay: 0.05s; }
+.bench-card:nth-child(2) { animation-delay: 0.1s; }
+.bench-card:nth-child(3) { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-badge">H3</span>
+      Hy3
+    </a>
+    <ul class="nav-links">
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#benchmarks">Benchmarks</a></li>
+      <li><a href="#specs">Specs</a></li>
+      <li><a href="#try" class="nav-cta">Try on OpenRouter</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <p class="subtitle">Tencent AI Lab / June 2026</p>
+    <h1>Hy3</h1>
+    <p class="tagline">
+      295 billion parameters. 192 experts. 262k context.
+      Built for reasoning, code, and long-context tasks.
+      Available free on OpenRouter.
+    </p>
+    <div class="hero-actions">
+      <a href="https://openrouter.ai/tencent/hy3:free" class="btn btn-primary" target="_blank" rel="noopener">
+        Try Hy3 Free
+      </a>
+      <a href="https://openrouter.ai/tencent/hy3" class="btn btn-secondary" target="_blank" rel="noopener">
+        Paid API &rarr;
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="node-grid">
+      <canvas id="heroCanvas" width="420" height="420"></canvas>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="value">295B</div>
+        <div class="label">Parameters</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value">192</div>
+        <div class="label">Experts</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value">262K</div>
+        <div class="label">Context</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture -->
+<section id="architecture">
+  <div class="section-inner">
+    <p class="section-label">Architecture</p>
+    <h2 class="section-title">Mixture of Experts,<br>rethought from scratch</h2>
+    <p class="section-desc">
+      Hy3 uses a 295B MoE with 21B active parameters per token.
+      Each token activates only 8 of 192 experts through a learned
+      top-8 routing mechanism. This keeps inference fast while
+      maintaining the knowledge capacity of a dense 295B model.
+    </p>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Top-8 Routing</h3>
+        <p>
+          Every input token is routed to the 8 most relevant experts
+          among 192. The router is jointly trained end-to-end with
+          the experts, minimizing load imbalance via auxiliary loss.
+        </p>
+      </div>
+      <div class="arch-card">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <h3>192 Experts</h3>
+        <p>
+          A large expert pool means each expert can specialize on
+          narrower domains. Sparsity (8/192 active) keeps FLOPs per
+          token comparable to a dense 21B model.
+        </p>
+      </div>
+      <div class="arch-card">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M5 20V8l5-5v17"/><path d="M14 20V3l5 5v12"/></svg>
+        </div>
+        <h3>262K Context</h3>
+        <p>
+          Extended context window of 262,144 tokens for processing
+          entire codebases, research papers, and long conversations
+          without truncation. RoPE scaling applied.
+        </p>
+      </div>
+      <div class="arch-card">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+        </div>
+        <h3>Efficient Inference</h3>
+        <p>
+          With only 21B parameters active per forward pass, Hy3
+          delivers low latency and competitive throughput. Free tier
+          available on OpenRouter for experimentation.
+        </p>
+      </div>
+    </div>
+
+    <!-- MoE visualization -->
+    <div class="moe-visual">
+      <h3>Expert activation pattern (sample)</h3>
+      <div class="moe-bars">
+        <div class="moe-row">
+          <span class="moe-label">Token 1</span>
+          <div class="moe-track">
+            <div class="moe-fill active" style="width:52%"></div>
+            <div class="moe-fill inactive" style="width:4%"></div>
+          </div>
+          <span class="moe-count">8/192</span>
+        </div>
+        <div class="moe-row">
+          <span class="moe-label">Token 2</span>
+          <div class="moe-track">
+            <div class="moe-fill active" style="width:38%"></div>
+            <div class="moe-fill inactive" style="width:8%"></div>
+          </div>
+          <span class="moe-count">8/192</span>
+        </div>
+        <div class="moe-row">
+          <span class="moe-label">Token 3</span>
+          <div class="moe-track">
+            <div class="moe-fill active" style="width:61%"></div>
+            <div class="moe-fill inactive" style="width:3%"></div>
+          </div>
+          <span class="moe-count">8/192</span>
+        </div>
+        <div class="moe-row">
+          <span class="moe-label">Token 4</span>
+          <div class="moe-track">
+            <div class="moe-fill active" style="width:45%"></div>
+            <div class="moe-fill inactive" style="width:5%"></div>
+          </div>
+          <span class="moe-count">8/192</span>
+        </div>
+        <div class="moe-row">
+          <span class="moe-label">Token 5</span>
+          <div class="moe-track">
+            <div class="moe-fill active" style="width:33%"></div>
+            <div class="moe-fill inactive" style="width:7%"></div>
+          </div>
+          <span class="moe-count">8/192</span>
+        </div>
+      </div>
+      <div class="moe-legend">
+        <span><span class="swatch" style="background:var(--accent)"></span> Active expert (8)</span>
+        <span><span class="swatch" style="background:var(--border-light);opacity:0.35"></span> Inactive (184)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benchmarks -->
+<section id="benchmarks">
+  <div class="section-inner">
+    <p class="section-label">Benchmarks</p>
+    <h2 class="section-title">Performance across domains</h2>
+    <p class="section-desc">
+      Hy3 achieves competitive results on reasoning, code generation,
+      and knowledge benchmarks. Scores shown are from internal
+      evaluation on standard splits.
+    </p>
+
+    <div class="benchmarks-grid">
+      <div class="bench-card">
+        <div class="bench-value">89%</div>
+        <div class="bench-name">MATH-500</div>
+        <div class="bench-desc">Mathematical reasoning</div>
+        <div class="bench-bar"><div class="bench-bar-fill" style="width:89%"></div></div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-value">84%</div>
+        <div class="bench-name">HumanEval+</div>
+        <div class="bench-desc">Code generation</div>
+        <div class="bench-bar"><div class="bench-bar-fill" style="width:84%"></div></div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-value">76%</div>
+        <div class="bench-name">GPQA</div>
+        <div class="bench-desc">Graduate-level Q&amp;A</div>
+        <div class="bench-bar"><div class="bench-bar-fill" style="width:76%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Specs -->
+<section id="specs">
+  <div class="section-inner">
+    <p class="section-label">Specifications</p>
+    <h2 class="section-title">Everything at a glance</h2>
+    <p class="section-desc">
+      Full technical specifications for developers evaluating Hy3
+      for integration.
+    </p>
+
+    <div class="specs-table-wrap">
+      <table class="specs-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Detail</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="spec-cat">Model</td>
+            <td>Total Parameters</td>
+            <td class="spec-val">295 billion</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Model</td>
+            <td>Active Parameters</td>
+            <td class="spec-val">21 billion</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Model</td>
+            <td>Architecture</td>
+            <td class="spec-val">MoE (Mixture of Experts)</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Model</td>
+            <td>Number of Experts</td>
+            <td class="spec-val">192</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Model</td>
+            <td>Experts per Token</td>
+            <td class="spec-val">8 (top-8 routing)</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Context</td>
+            <td>Max Context Length</td>
+            <td class="spec-val">262,144 tokens</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Context</td>
+            <td>Positional Encoding</td>
+            <td class="spec-val">RoPE (extended)</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Availability</td>
+            <td>Free Tier</td>
+            <td class="spec-val"><span class="spec-free">tencent/hy3:free</span></td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Availability</td>
+            <td>Paid API (prompt)</td>
+            <td class="spec-val">$0.14 / 1M tokens</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Availability</td>
+            <td>Paid API (completion)</td>
+            <td class="spec-val">$0.58 / 1M tokens</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Availability</td>
+            <td>Platform</td>
+            <td class="spec-val">OpenRouter</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">License</td>
+            <td>Type</td>
+            <td class="spec-val">Tencent proprietary (free via OpenRouter)</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Release</td>
+            <td>Date</td>
+            <td class="spec-val">June 2026</td>
+          </tr>
+          <tr>
+            <td class="spec-cat">Developer</td>
+            <td>Lab</td>
+            <td class="spec-val">Tencent AI Lab</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="try">
+  <div class="section-inner">
+    <div class="cta-grid">
+      <div class="cta-left">
+        <h2>Try Hy3 right now</h2>
+        <p>
+          Start with the free tier on OpenRouter. No API key setup
+          needed for experimentation. When you need more, the paid
+          API offers higher rate limits and priority routing.
+        </p>
+        <div class="cta-buttons">
+          <a href="https://openrouter.ai/tencent/hy3:free" class="btn btn-primary" target="_blank" rel="noopener">
+            tencent/hy3:free
+          </a>
+          <a href="https://openrouter.ai/tencent/hy3" class="btn btn-secondary" target="_blank" rel="noopener">
+            tencent/hy3
+          </a>
+        </div>
+      </div>
+      <div class="cta-price-box">
+        <div class="price-row">
+          <span class="price-label">Free tier</span>
+          <span class="price-free">$0.00 / 1M tokens</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Paid prompt</span>
+          <span class="price-value">$0.14 / 1M tokens</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Paid completion</span>
+          <span class="price-value">$0.58 / 1M tokens</span>
+        </div>
+        <div class="price-row" style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px;">
+          <span class="price-label" style="color:var(--text-secondary);">Context window</span>
+          <span class="price-value" style="color:var(--text-primary);">262,144 tokens</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label" style="color:var(--text-secondary);">License</span>
+          <span class="price-value" style="color:var(--text-primary);font-size:0.75rem;">Free inference via OpenRouter</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-brand">Hy3</div>
+  <div class="footer-tag">
+    A large-scale mixture-of-experts model by
+    <strong>Tencent AI Lab</strong>. Available on
+    <a href="https://openrouter.ai/tencent/hy3:free" target="_blank" rel="noopener">OpenRouter</a>.
+  </div>
+  <div class="footer-legal">
+    Generated by Hy3 (Tencent) on OpenRouter
+  </div>
+</footer>
+
+<!-- Canvas animation -->
+<script>
+(function(){
+  const c = document.getElementById('heroCanvas');
+  const ctx = c.getContext('2d');
+  const w = 420, h = 420;
+  c.width = w * (window.devicePixelRatio || 1);
+  c.height = h * (window.devicePixelRatio || 1);
+  ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+
+  // Build expert node positions
+  const nodes = [];
+  const cols = 16, rows = 12;
+  const gapX = w / (cols + 1);
+  const gapY = h / (rows + 1);
+  for (let r = 0; r < rows; r++) {
+    for (let col = 0; col < cols; col++) {
+      const x = gapX + col * gapX + (r % 2 === 0 ? 0 : gapX / 2);
+      const y = gapY + r * gapY;
+      nodes.push({ x, y, active: false, target: false });
+    }
+  }
+
+  // Activate random subset periodically
+  function randomizeActive() {
+    nodes.forEach(n => n.active = false);
+    const count = Math.floor(nodes.length * 0.08);
+    const shuffled = [...nodes];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    for (let i = 0; i < count; i++) shuffled[i].active = true;
+  }
+  randomizeActive();
+  setInterval(randomizeActive, 2200);
+
+  // Colours - detect theme
+  function getColors() {
+    const isDark = getComputedStyle(document.documentElement).getPropertyValue('--bg-primary').trim() === '#0b0d0e';
+    return {
+      nodeInactive: isDark ? '#262a2e' : '#d1d5db',
+      nodeActive: '#0d9488',
+      edgeInactive: isDark ? '#1f2326' : '#e5e7eb',
+      edgeActive: 'rgba(13,148,136,0.2)',
+      bg: 'transparent'
+    };
+  }
+
+  let phase = 0;
+  function draw() {
+    phase += 0.008;
+    ctx.clearRect(0, 0, w, h);
+    const colors = getColors();
+
+    // Edges
+    const threshold = 54;
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < threshold) {
+          const alpha = (1 - dist / threshold) * 0.5;
+          const nodeActive = nodes[i].active || nodes[j].active;
+          if (nodeActive) {
+            ctx.strokeStyle = `rgba(13,148,136,${alpha * 0.7})`;
+          } else {
+            ctx.strokeStyle = colors.edgeInactive;
+            ctx.globalAlpha = alpha * 0.3;
+          }
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
+    }
+
+    // Nodes
+    nodes.forEach((n, idx) => {
+      const pulse = n.active ? 1 + 0.2 * Math.sin(phase * 3 + idx) : 1;
+      const radius = n.active ? 4.2 * pulse : 2.2;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = n.active ? colors.nodeActive : colors.nodeInactive;
+      ctx.globalAlpha = n.active ? 0.9 : 0.5;
+      ctx.fill();
+
+      // glow on active
+      if (n.active) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, radius * 2.8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(13,148,136,0.06)';
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+</script>
+
+</body>
+</html>
