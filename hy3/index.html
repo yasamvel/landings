@@ -193,6 +193,33 @@ nav {
   opacity: 1 !important;
 }
 
+.theme-switch {
+  font-family: var(--font-mono);
+  font-size: 0.85rem !important;
+  font-weight: 500;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+.theme-switch:hover {
+  border-color: var(--accent);
+  color: var(--accent) !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 860px) {
+  .lang-switch, .theme-switch {
+    display: none !important;
+  }
+}
+
 /* ========================================
    Hero
    ======================================== */
@@ -869,6 +896,7 @@ footer .footer-legal {
       <li><a href="#specs" data-i18n="nav_specs">Specs</a></li>
       <li><a href="#" class="lang-switch" onclick="toggleLang();return false;" id="langToggle">RU</a></li>
       <li><a href="#try" class="nav-cta" data-i18n="nav_try">Try on OpenRouter</a></li>
+      <li><a href="#" class="theme-switch" onclick="toggleTheme();return false;" id="themeToggle" title="Toggle theme">☀️</a></li>
     </ul>
   </div>
 </nav>
@@ -1387,6 +1415,50 @@ function applyLang(lang) {
 function toggleLang() {
   applyLang(currentLang === 'en' ? 'ru' : 'en');
 }
+
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = getComputedStyle(root).getPropertyValue('--bg-primary').trim() === '#0b0d0e';
+  if (isDark) {
+    root.style.setProperty('--bg-primary', '#f8f9fa');
+    root.style.setProperty('--bg-secondary', '#ffffff');
+    root.style.setProperty('--bg-surface', '#f0f1f3');
+    root.style.setProperty('--bg-hover', '#e6e7ea');
+    root.style.setProperty('--border', '#d1d5db');
+    root.style.setProperty('--border-light', '#e5e7eb');
+    root.style.setProperty('--text-primary', '#111827');
+    root.style.setProperty('--text-secondary', '#4b5563');
+    root.style.setProperty('--text-tertiary', '#9ca3af');
+    root.style.setProperty('--accent', '#0d9488');
+    root.style.setProperty('--accent-dim', 'rgba(13,148,136,0.1)');
+    root.style.setProperty('--accent-glow', 'rgba(13,148,136,0.06)');
+    root.style.setProperty('--accent-text', '#0f766e');
+    document.getElementById('themeToggle').textContent = '🌙';
+    localStorage.setItem('hy3-theme', 'light');
+  } else {
+    root.style.setProperty('--bg-primary', '#0b0d0e');
+    root.style.setProperty('--bg-secondary', '#121416');
+    root.style.setProperty('--bg-surface', '#181b1d');
+    root.style.setProperty('--bg-hover', '#1f2326');
+    root.style.setProperty('--border', '#262a2e');
+    root.style.setProperty('--border-light', '#33383d');
+    root.style.setProperty('--text-primary', '#e4e7eb');
+    root.style.setProperty('--text-secondary', '#9ca3af');
+    root.style.setProperty('--text-tertiary', '#6b7280');
+    root.style.setProperty('--accent', '#0d9488');
+    root.style.setProperty('--accent-dim', 'rgba(13,148,136,0.15)');
+    root.style.setProperty('--accent-glow', 'rgba(13,148,136,0.12)');
+    root.style.setProperty('--accent-text', '#5eead4');
+    document.getElementById('themeToggle').textContent = '☀️';
+    localStorage.setItem('hy3-theme', 'dark');
+  }
+}
+
+// Restore saved theme on load
+(function() {
+  const savedTheme = localStorage.getItem('hy3-theme');
+  if (savedTheme === 'light') toggleTheme();
+})();
 
 applyLang(currentLang);
 </script>
