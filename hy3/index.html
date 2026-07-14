@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 /* ========================================
    CSS Variables & Theme
@@ -194,6 +195,9 @@ nav {
   background: none;
   border: none;
   font-family: var(--font-sans);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 .nav-toggles a:hover {
   color: var(--text-primary);
@@ -876,8 +880,8 @@ footer .footer-legal {
       <li><a href="#try" class="nav-cta"><span data-en>Try on OpenRouter</span><span data-ru>Попробовать на OpenRouter</span></a></li>
     </ul>
     <div class="nav-toggles">
-      <a href="#" id="langBtn" onclick="toggleLang()">EN</a>
-      <a href="#" id="themeBtn" onclick="toggleTheme()">☀️</a>
+      <a href="#" id="langBtn" onclick="toggleLang()"><i class="bi bi-translate"></i> EN</a>
+      <a href="#" id="themeBtn" onclick="toggleTheme()"><i class="bi bi-sun-fill"></i></a>
     </div>
   </div>
 </nav>
@@ -1325,11 +1329,11 @@ footer .footer-legal {
 <script>
 function toggleLang(){
   var en = document.documentElement.classList.toggle('en');
-  document.getElementById('langBtn').textContent = en ? 'RU' : 'EN';
+  document.getElementById('langBtn').innerHTML = en ? '<i class="bi bi-translate"></i> RU' : '<i class="bi bi-translate"></i> EN';
 }
 function toggleTheme(){
   var light = document.documentElement.classList.toggle('light');
-  document.getElementById('themeBtn').textContent = light ? '🌙' : '☀️';
+  document.getElementById('themeBtn').innerHTML = light ? '<i class="bi bi-moon-fill"></i>' : '<i class="bi bi-sun-fill"></i>';
 }
 </script>
 </body>
