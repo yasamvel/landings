@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,23 +37,29 @@
   --radius-lg: 14px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg-primary: #f8f9fa;
-    --bg-secondary: #ffffff;
-    --bg-surface: #f0f1f3;
-    --bg-hover: #e6e7ea;
-    --border: #d1d5db;
-    --border-light: #e5e7eb;
-    --text-primary: #111827;
-    --text-secondary: #4b5563;
-    --text-tertiary: #9ca3af;
-    --accent: #0d9488;
-    --accent-dim: rgba(13, 148, 136, 0.1);
-    --accent-glow: rgba(13, 148, 136, 0.06);
-    --accent-text: #0f766e;
-  }
+
+:root.light {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-surface: #f0f1f3;
+  --bg-hover: #e6e7ea;
+  --border: #d1d5db;
+  --border-light: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --accent: #0d9488;
+  --accent-dim: rgba(13, 148, 136, 0.1);
+  --accent-glow: rgba(13, 148, 136, 0.06);
+  --accent-text: #0f766e;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --success: #22c55e;
 }
+
+/* Language visibility */
+html:not(.en) [data-en] { display: none !important; }
+html.en [data-ru] { display: none !important; }
 
 /* ========================================
    Reset & Base
@@ -173,6 +179,24 @@ nav {
 }
 .nav-cta:hover {
   opacity: 0.85 !important;
+}
+
+.nav-toggles {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nav-toggles a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-sans);
+}
+.nav-toggles a:hover {
+  color: var(--text-primary);
 }
 
 /* ========================================
@@ -842,36 +866,37 @@ footer .footer-legal {
 <nav>
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <span class="nav-logo-badge" data-en>H3</span>
-      Hy3
+      <span class="nav-logo-badge"><span data-en>H3</span><span data-ru>H3</span></span>
+      <span data-en>Hy3</span><span data-ru>Hy3</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#architecture" data-en>Architecture</a></li>
-      <li><a href="#benchmarks" data-en>Benchmarks</a></li>
-      <li><a href="#specs" data-en>Specs</a></li>
-      <li><a href="#try" class="nav-cta" data-en>Try on OpenRouter</a></li>
-    <li><a href="#" id="langBtn" onclick="toggleLang()" data-en>EN</a></li>
-<li><a href="#" id="themeBtn" onclick="toggleTheme()">☀️</a></li>
-</ul>
+      <li><a href="#architecture"><span data-en>Architecture</span><span data-ru>Архитектура</span></a></li>
+      <li><a href="#benchmarks"><span data-en>Benchmarks</span><span data-ru>Бенчмарки</span></a></li>
+      <li><a href="#specs"><span data-en>Specs</span><span data-ru>Характеристики</span></a></li>
+      <li><a href="#try" class="nav-cta"><span data-en>Try on OpenRouter</span><span data-ru>Попробовать на OpenRouter</span></a></li>
+    </ul>
+    <div class="nav-toggles">
+      <a href="#" id="langBtn" onclick="toggleLang()">EN</a>
+      <a href="#" id="themeBtn" onclick="toggleTheme()">☀️</a>
+    </div>
   </div>
 </nav>
 
 <!-- Hero -->
 <section class="hero" id="hero">
   <div class="hero-left">
-    <p class="subtitle">Tencent AI Lab / June 2026</p>
-    <h1 data-en>Hy3</h1>
+    <p class="subtitle"><span data-en>Tencent AI Lab / June 2026</span><span data-ru>Tencent AI Lab / Июнь 2026</span></p>
+    <h1><span data-en>Hy3</span><span data-ru>Hy3</span></h1>
     <p class="tagline">
-      295 billion parameters. 192 experts. 262k context.
-      Built for reasoning, code, and long-context tasks.
-      Available free on OpenRouter.
+      <span data-en>295 billion parameters. 192 experts. 262k context. Built for reasoning, code, and long-context tasks. Available free on OpenRouter.</span>
+      <span data-ru>295 миллиардов параметров. 192 эксперта. Контекст 262k. Создана для рассуждений, кода и задач с длинным контекстом. Доступна бесплатно на OpenRouter.</span>
     </p>
     <div class="hero-actions">
       <a href="https://openrouter.ai/tencent/hy3:free" class="btn btn-primary" target="_blank" rel="noopener">
-        Try Hy3 Free
+        <span data-en>Try Hy3 Free</span><span data-ru>Попробовать Hy3 бесплатно</span>
       </a>
       <a href="https://openrouter.ai/tencent/hy3" class="btn btn-secondary" target="_blank" rel="noopener">
-        Paid API &rarr;
+        <span data-en>Paid API &rarr;</span><span data-ru>Платный API &rarr;</span>
       </a>
     </div>
   </div>
@@ -882,15 +907,15 @@ footer .footer-legal {
     <div class="hero-stats">
       <div class="hero-stat">
         <div class="value">295B</div>
-        <div class="label" data-en>Parameters</div>
+        <div class="label"><span data-en>Parameters</span><span data-ru>Параметры</span></div>
       </div>
       <div class="hero-stat">
         <div class="value">192</div>
-        <div class="label" data-en>Experts</div>
+        <div class="label"><span data-en>Experts</span><span data-ru>Эксперты</span></div>
       </div>
       <div class="hero-stat">
         <div class="value">262K</div>
-        <div class="label" data-en>Context</div>
+        <div class="label"><span data-en>Context</span><span data-ru>Контекст</span></div>
       </div>
     </div>
   </div>
@@ -899,13 +924,11 @@ footer .footer-legal {
 <!-- Architecture -->
 <section id="architecture">
   <div class="section-inner">
-    <p class="section-label" data-en>Architecture</p>
-    <h2 class="section-title" data-en>Mixture of Experts,<br data-en>rethought from scratch</h2>
+    <p class="section-label"><span data-en>Architecture</span><span data-ru>Архитектура</span></p>
+    <h2 class="section-title"><span data-en>Mixture of Experts,<br>rethought from scratch</span><span data-ru>Смесь экспертов,<br>переосмысленная с нуля</span></h2>
     <p class="section-desc">
-      Hy3 uses a 295B MoE with 21B active parameters per token.
-      Each token activates only 8 of 192 experts through a learned
-      top-8 routing mechanism. This keeps inference fast while
-      maintaining the knowledge capacity of a dense 295B model.
+      <span data-en>Hy3 uses a 295B MoE with 21B active parameters per token. Each token activates only 8 of 192 experts through a learned top-8 routing mechanism. This keeps inference fast while maintaining the knowledge capacity of a dense 295B model.</span>
+      <span data-ru>Hy3 использует 295B MoE с 21B активных параметров на токен. Каждый токен активирует только 8 из 192 экспертов через обученный механизм маршрутизации top-8. Это обеспечивает быстрый вывод при сохранении емкости знаний плотной модели 295B.</span>
     </p>
 
     <div class="arch-grid">
@@ -913,54 +936,50 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-        <h3 data-en>Top-8 Routing</h3>
+        <h3><span data-en>Top-8 Routing</span><span data-ru>Маршрутизация Top-8</span></h3>
         <p>
-          Every input token is routed to the 8 most relevant experts
-          among 192. The router is jointly trained end-to-end with
-          the experts, minimizing load imbalance via auxiliary loss.
+          <span data-en>Every input token is routed to the 8 most relevant experts among 192. The router is jointly trained end-to-end with the experts, minimizing load imbalance via auxiliary loss.</span>
+          <span data-ru>Каждый входной токен направляется к 8 наиболее подходящим экспертам из 192. Маршрутизатор обучается совместно с экспертами end-to-end, минимизируя дисбаланс нагрузки через вспомогательную потерю.</span>
         </p>
       </div>
       <div class="arch-card">
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         </div>
-        <h3>192 Experts</h3>
+        <h3><span data-en>192 Experts</span><span data-ru>192 эксперта</span></h3>
         <p>
-          A large expert pool means each expert can specialize on
-          narrower domains. Sparsity (8/192 active) keeps FLOPs per
-          token comparable to a dense 21B model.
+          <span data-en>A large expert pool means each expert can specialize on narrower domains. Sparsity (8/192 active) keeps FLOPs per token comparable to a dense 21B model.</span>
+          <span data-ru>Большой пул экспертов позволяет каждому специализироваться в узких областях. Разреженность (8/192 активны) сохраняет FLOPs на токен сопоставимыми с плотной моделью 21B.</span>
         </p>
       </div>
       <div class="arch-card">
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M5 20V8l5-5v17"/><path d="M14 20V3l5 5v12"/></svg>
         </div>
-        <h3>262K Context</h3>
+        <h3><span data-en>262K Context</span><span data-ru>Контекст 262K</span></h3>
         <p>
-          Extended context window of 262,144 tokens for processing
-          entire codebases, research papers, and long conversations
-          without truncation. RoPE scaling applied.
+          <span data-en>Extended context window of 262,144 tokens for processing entire codebases, research papers, and long conversations without truncation. RoPE scaling applied.</span>
+          <span data-ru>Расширенное окно контекста в 262 144 токена для обработки целых кодовых баз, исследовательских статей и длинных диалогов без усечения. Применено масштабирование RoPE.</span>
         </p>
       </div>
       <div class="arch-card">
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
         </div>
-        <h3 data-en>Efficient Inference</h3>
+        <h3><span data-en>Efficient Inference</span><span data-ru>Эффективный вывод</span></h3>
         <p>
-          With only 21B parameters active per forward pass, Hy3
-          delivers low latency and competitive throughput. Free tier
-          available on OpenRouter for experimentation.
+          <span data-en>With only 21B parameters active per forward pass, Hy3 delivers low latency and competitive throughput. Free tier available on OpenRouter for experimentation.</span>
+          <span data-ru>С всего 21B активных параметров за проход, Hy3 обеспечивает низкую задержку и конкурентную пропускную способность. Бесплатный уровень доступен на OpenRouter для экспериментов.</span>
         </p>
       </div>
     </div>
 
     <!-- MoE visualization -->
     <div class="moe-visual">
-      <h3>Expert activation pattern (sample)</h3>
+      <h3><span data-en>Expert activation pattern (sample)</span><span data-ru>Шаблон активации экспертов (пример)</span></h3>
       <div class="moe-bars">
         <div class="moe-row">
-          <span class="moe-label" data-en>Token 1</span>
+          <span class="moe-label"><span data-en>Token 1</span><span data-ru>Токен 1</span></span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:52%"></div>
             <div class="moe-fill inactive" style="width:4%"></div>
@@ -968,7 +987,7 @@ footer .footer-legal {
           <span class="moe-count">8/192</span>
         </div>
         <div class="moe-row">
-          <span class="moe-label" data-en>Token 2</span>
+          <span class="moe-label"><span data-en>Token 2</span><span data-ru>Токен 2</span></span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:38%"></div>
             <div class="moe-fill inactive" style="width:8%"></div>
@@ -976,7 +995,7 @@ footer .footer-legal {
           <span class="moe-count">8/192</span>
         </div>
         <div class="moe-row">
-          <span class="moe-label" data-en>Token 3</span>
+          <span class="moe-label"><span data-en>Token 3</span><span data-ru>Токен 3</span></span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:61%"></div>
             <div class="moe-fill inactive" style="width:3%"></div>
@@ -984,7 +1003,7 @@ footer .footer-legal {
           <span class="moe-count">8/192</span>
         </div>
         <div class="moe-row">
-          <span class="moe-label" data-en>Token 4</span>
+          <span class="moe-label"><span data-en>Token 4</span><span data-ru>Токен 4</span></span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:45%"></div>
             <div class="moe-fill inactive" style="width:5%"></div>
@@ -992,7 +1011,7 @@ footer .footer-legal {
           <span class="moe-count">8/192</span>
         </div>
         <div class="moe-row">
-          <span class="moe-label" data-en>Token 5</span>
+          <span class="moe-label"><span data-en>Token 5</span><span data-ru>Токен 5</span></span>
           <div class="moe-track">
             <div class="moe-fill active" style="width:33%"></div>
             <div class="moe-fill inactive" style="width:7%"></div>
@@ -1001,8 +1020,8 @@ footer .footer-legal {
         </div>
       </div>
       <div class="moe-legend">
-        <span><span class="swatch" style="background:var(--accent)"></span> Active expert (8)</span>
-        <span><span class="swatch" style="background:var(--border-light);opacity:0.35"></span> Inactive (184)</span>
+        <span><span class="swatch" style="background:var(--accent)"></span> <span data-en>Active expert (8)</span><span data-ru>Активный эксперт (8)</span></span>
+        <span><span class="swatch" style="background:var(--border-light);opacity:0.35"></span> <span data-en>Inactive (184)</span><span data-ru>Неактивный (184)</span></span>
       </div>
     </div>
   </div>
@@ -1011,31 +1030,30 @@ footer .footer-legal {
 <!-- Benchmarks -->
 <section id="benchmarks">
   <div class="section-inner">
-    <p class="section-label" data-en>Benchmarks</p>
-    <h2 class="section-title" data-en>Performance across domains</h2>
+    <p class="section-label"><span data-en>Benchmarks</span><span data-ru>Бенчмарки</span></p>
+    <h2 class="section-title"><span data-en>Performance across domains</span><span data-ru>Производительность в разных областях</span></h2>
     <p class="section-desc">
-      Hy3 achieves competitive results on reasoning, code generation,
-      and knowledge benchmarks. Scores shown are from internal
-      evaluation on standard splits.
+      <span data-en>Hy3 achieves competitive results on reasoning, code generation, and knowledge benchmarks. Scores shown are from internal evaluation on standard splits.</span>
+      <span data-ru>Hy3 показывает конкурентные результаты в рассуждениях, генерации кода и бенчмарках знаний. Показанные оценки получены при внутренней проверке на стандартных выборках.</span>
     </p>
 
     <div class="benchmarks-grid">
       <div class="bench-card">
         <div class="bench-value">89%</div>
-        <div class="bench-name" data-en>MATH-500</div>
-        <div class="bench-desc" data-en>Mathematical reasoning</div>
+        <div class="bench-name">MATH-500</div>
+        <div class="bench-desc"><span data-en>Mathematical reasoning</span><span data-ru>Математические рассуждения</span></div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:89%"></div></div>
       </div>
       <div class="bench-card">
         <div class="bench-value">84%</div>
         <div class="bench-name">HumanEval+</div>
-        <div class="bench-desc" data-en>Code generation</div>
+        <div class="bench-desc"><span data-en>Code generation</span><span data-ru>Генерация кода</span></div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:84%"></div></div>
       </div>
       <div class="bench-card">
         <div class="bench-value">76%</div>
-        <div class="bench-name" data-en>GPQA</div>
-        <div class="bench-desc">Graduate-level Q&amp;A</div>
+        <div class="bench-name">GPQA</div>
+        <div class="bench-desc"><span data-en>Graduate-level Q&amp;A</span><span data-ru>Вопросы и ответы уровня аспирантуры</span></div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:76%"></div></div>
       </div>
     </div>
@@ -1045,92 +1063,92 @@ footer .footer-legal {
 <!-- Specs -->
 <section id="specs">
   <div class="section-inner">
-    <p class="section-label" data-en>Specifications</p>
-    <h2 class="section-title" data-en>Everything at a glance</h2>
+    <p class="section-label"><span data-en>Specifications</span><span data-ru>Характеристики</span></p>
+    <h2 class="section-title"><span data-en>Everything at a glance</span><span data-ru>Всё одним взглядом</span></h2>
     <p class="section-desc">
-      Full technical specifications for developers evaluating Hy3
-      for integration.
+      <span data-en>Full technical specifications for developers evaluating Hy3 for integration.</span>
+      <span data-ru>Полные технические характеристики для разработчиков, оценивающих Hy3 для интеграции.</span>
     </p>
 
     <div class="specs-table-wrap">
       <table class="specs-table">
         <thead>
           <tr>
-            <th data-en>Category</th>
-            <th data-en>Detail</th>
-            <th data-en>Value</th>
+            <th><span data-en>Category</span><span data-ru>Категория</span></th>
+            <th><span data-en>Detail</span><span data-ru>Деталь</span></th>
+            <th><span data-en>Value</span><span data-ru>Значение</span></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="spec-cat" data-en>Model</td>
-            <td data-en>Total Parameters</td>
+            <td class="spec-cat"><span data-en>Model</span><span data-ru>Модель</span></td>
+            <td><span data-en>Total Parameters</span><span data-ru>Всего параметров</span></td>
             <td class="spec-val">295 billion</td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Model</td>
-            <td data-en>Active Parameters</td>
+            <td class="spec-cat"><span data-en>Model</span><span data-ru>Модель</span></td>
+            <td><span data-en>Active Parameters</span><span data-ru>Активные параметры</span></td>
             <td class="spec-val">21 billion</td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Model</td>
-            <td data-en>Architecture</td>
+            <td class="spec-cat"><span data-en>Model</span><span data-ru>Модель</span></td>
+            <td><span data-en>Architecture</span><span data-ru>Архитектура</span></td>
             <td class="spec-val">MoE (Mixture of Experts)</td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Model</td>
-            <td data-en>Number of Experts</td>
+            <td class="spec-cat"><span data-en>Model</span><span data-ru>Модель</span></td>
+            <td><span data-en>Number of Experts</span><span data-ru>Количество экспертов</span></td>
             <td class="spec-val">192</td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Model</td>
-            <td data-en>Experts per Token</td>
+            <td class="spec-cat"><span data-en>Model</span><span data-ru>Модель</span></td>
+            <td><span data-en>Experts per Token</span><span data-ru>Экспертов на токен</span></td>
             <td class="spec-val">8 (top-8 routing)</td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Context</td>
-            <td data-en>Max Context Length</td>
+            <td class="spec-cat"><span data-en>Context</span><span data-ru>Контекст</span></td>
+            <td><span data-en>Max Context Length</span><span data-ru>Макс. длина контекста</span></td>
             <td class="spec-val">262,144 tokens</td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Context</td>
-            <td data-en>Positional Encoding</td>
+            <td class="spec-cat"><span data-en>Context</span><span data-ru>Контекст</span></td>
+            <td><span data-en>Positional Encoding</span><span data-ru>Позиционное кодирование</span></td>
             <td class="spec-val">RoPE (extended)</td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Availability</td>
-            <td data-en>Free Tier</td>
+            <td class="spec-cat"><span data-en>Availability</span><span data-ru>Доступность</span></td>
+            <td><span data-en>Free Tier</span><span data-ru>Бесплатный уровень</span></td>
             <td class="spec-val"><span class="spec-free">tencent/hy3:free</span></td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Availability</td>
-            <td>Paid API (prompt)</td>
+            <td class="spec-cat"><span data-en>Availability</span><span data-ru>Доступность</span></td>
+            <td><span data-en>Paid API (prompt)</span><span data-ru>Платный API (ввод)</span></td>
             <td class="spec-val">$0.14 / 1M tokens</td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Availability</td>
-            <td>Paid API (completion)</td>
+            <td class="spec-cat"><span data-en>Availability</span><span data-ru>Доступность</span></td>
+            <td><span data-en>Paid API (completion)</span><span data-ru>Платный API (вывод)</span></td>
             <td class="spec-val">$0.58 / 1M tokens</td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Availability</td>
-            <td data-en>Platform</td>
-            <td class="spec-val" data-en>OpenRouter</td>
+            <td class="spec-cat"><span data-en>Availability</span><span data-ru>Доступность</span></td>
+            <td><span data-en>Platform</span><span data-ru>Платформа</span></td>
+            <td class="spec-val"><span data-en>OpenRouter</span><span data-ru>OpenRouter</span></td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>License</td>
-            <td data-en>Type</td>
-            <td class="spec-val">Tencent proprietary (free via OpenRouter)</td>
+            <td class="spec-cat"><span data-en>License</span><span data-ru>Лицензия</span></td>
+            <td><span data-en>Type</span><span data-ru>Тип</span></td>
+            <td class="spec-val"><span data-en>Tencent proprietary (free via OpenRouter)</span><span data-ru>Собственность Tencent (бесплатно через OpenRouter)</span></td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Release</td>
-            <td data-en>Date</td>
-            <td class="spec-val" data-en>June 2026</td>
+            <td class="spec-cat"><span data-en>Release</span><span data-ru>Релиз</span></td>
+            <td><span data-en>Date</span><span data-ru>Дата</span></td>
+            <td class="spec-val"><span data-en>June 2026</span><span data-ru>Июнь 2026</span></td>
           </tr>
           <tr>
-            <td class="spec-cat" data-en>Developer</td>
-            <td data-en>Lab</td>
-            <td class="spec-val" data-en>Tencent AI Lab</td>
+            <td class="spec-cat"><span data-en>Developer</span><span data-ru>Разработчик</span></td>
+            <td><span data-en>Lab</span><span data-ru>Лаборатория</span></td>
+            <td class="spec-val"><span data-en>Tencent AI Lab</span><span data-ru>Tencent AI Lab</span></td>
           </tr>
         </tbody>
       </table>
@@ -1143,11 +1161,10 @@ footer .footer-legal {
   <div class="section-inner">
     <div class="cta-grid">
       <div class="cta-left">
-        <h2 data-en>Try Hy3 right now</h2>
+        <h2><span data-en>Try Hy3 right now</span><span data-ru>Попробуйте Hy3 прямо сейчас</span></h2>
         <p>
-          Start with the free tier on OpenRouter. No API key setup
-          needed for experimentation. When you need more, the paid
-          API offers higher rate limits and priority routing.
+          <span data-en>Start with the free tier on OpenRouter. No API key setup needed for experimentation. When you need more, the paid API offers higher rate limits and priority routing.</span>
+          <span data-ru>Начните с бесплатного уровня на OpenRouter. Для экспериментов не нужна настройка API-ключа. Когда нужно больше, платный API предлагает более высокие лимиты и приоритетную маршрутизацию.</span>
         </p>
         <div class="cta-buttons">
           <a href="https://openrouter.ai/tencent/hy3:free" class="btn btn-primary" target="_blank" rel="noopener">
@@ -1160,24 +1177,24 @@ footer .footer-legal {
       </div>
       <div class="cta-price-box">
         <div class="price-row">
-          <span class="price-label" data-en>Free tier</span>
+          <span class="price-label"><span data-en>Free tier</span><span data-ru>Бесплатный уровень</span></span>
           <span class="price-free">$0.00 / 1M tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label" data-en>Paid prompt</span>
+          <span class="price-label"><span data-en>Paid prompt</span><span data-ru>Платный ввод</span></span>
           <span class="price-value">$0.14 / 1M tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label" data-en>Paid completion</span>
+          <span class="price-label"><span data-en>Paid completion</span><span data-ru>Платный вывод</span></span>
           <span class="price-value">$0.58 / 1M tokens</span>
         </div>
         <div class="price-row" style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px;">
-          <span class="price-label" style="color:var(--text-secondary);" data-en>Context window</span>
+          <span class="price-label" style="color:var(--text-secondary);"><span data-en>Context window</span><span data-ru>Окно контекста</span></span>
           <span class="price-value" style="color:var(--text-primary);">262,144 tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label" style="color:var(--text-secondary);" data-en>License</span>
-          <span class="price-value" style="color:var(--text-primary);font-size:0.75rem;" data-en>Free inference via OpenRouter</span>
+          <span class="price-label" style="color:var(--text-secondary);"><span data-en>License</span><span data-ru>Лицензия</span></span>
+          <span class="price-value" style="color:var(--text-primary);font-size:0.75rem;"><span data-en>Free inference via OpenRouter</span><span data-ru>Бесплатный вывод через OpenRouter</span></span>
         </div>
       </div>
     </div>
@@ -1186,14 +1203,14 @@ footer .footer-legal {
 
 <!-- Footer -->
 <footer>
-  <div class="footer-brand" data-en>Hy3</div>
+  <div class="footer-brand"><span data-en>Hy3</span><span data-ru>Hy3</span></div>
   <div class="footer-tag">
-    A large-scale mixture-of-experts model by
-    <strong data-en>Tencent AI Lab</strong>. Available on
-    <a href="https://openrouter.ai/tencent/hy3:free" target="_blank" rel="noopener" data-en>OpenRouter</a>.
+    <span data-en>A large-scale mixture-of-experts model by <strong>Tencent AI Lab</strong>. Available on <a href="https://openrouter.ai/tencent/hy3:free" target="_blank" rel="noopener">OpenRouter</a>.</span>
+    <span data-ru>Крупномасштабная модель со смесью экспертов от <strong>Tencent AI Lab</strong>. Доступна на <a href="https://openrouter.ai/tencent/hy3:free" target="_blank" rel="noopener">OpenRouter</a>.</span>
   </div>
   <div class="footer-legal">
-    Generated by Hy3 (Tencent) on OpenRouter
+    <span data-en>Generated by Hy3 (Tencent) on OpenRouter</span>
+    <span data-ru>Сгенерировано Hy3 (Tencent) на OpenRouter</span>
   </div>
 </footer>
 
@@ -1306,10 +1323,14 @@ footer .footer-legal {
 </script>
 
 <script>
-function toggleLang(){var h=document.documentElement;var en=h.classList.toggle("en");document.getElementById("langBtn").textContent=en?"RU":"EN";document.querySelectorAll("[data-en]").forEach(function(e){e.style.display=en?"":"none";});}
-function toggleTheme(){var h=document.documentElement;var l=h.classList.toggle("light");document.getElementById("themeBtn").textContent=l?"🌙":"☀️";}
-var translations={en:{},ru:{}};
-document.querySelectorAll("[data-en]").forEach(function(e){e.style.display="none";});
+function toggleLang(){
+  var en = document.documentElement.classList.toggle('en');
+  document.getElementById('langBtn').textContent = en ? 'RU' : 'EN';
+}
+function toggleTheme(){
+  var light = document.documentElement.classList.toggle('light');
+  document.getElementById('themeBtn').textContent = light ? '🌙' : '☀️';
+}
 </script>
 </body>
 </html>
