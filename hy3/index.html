@@ -175,6 +175,24 @@ nav {
   opacity: 0.85 !important;
 }
 
+.lang-switch {
+  font-family: var(--font-mono);
+  font-size: 0.75rem !important;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.lang-switch:hover {
+  border-color: var(--accent);
+  color: var(--accent) !important;
+  opacity: 1 !important;
+}
+
 /* ========================================
    Hero
    ======================================== */
@@ -846,10 +864,11 @@ footer .footer-legal {
       Hy3
     </a>
     <ul class="nav-links">
-      <li><a href="#architecture">Architecture</a></li>
-      <li><a href="#benchmarks">Benchmarks</a></li>
-      <li><a href="#specs">Specs</a></li>
-      <li><a href="#try" class="nav-cta">Try on OpenRouter</a></li>
+      <li><a href="#architecture" data-i18n="nav_arch">Architecture</a></li>
+      <li><a href="#benchmarks" data-i18n="nav_bench">Benchmarks</a></li>
+      <li><a href="#specs" data-i18n="nav_specs">Specs</a></li>
+      <li><a href="#" class="lang-switch" onclick="toggleLang();return false;" id="langToggle">RU</a></li>
+      <li><a href="#try" class="nav-cta" data-i18n="nav_try">Try on OpenRouter</a></li>
     </ul>
   </div>
 </nav>
@@ -857,18 +876,18 @@ footer .footer-legal {
 <!-- Hero -->
 <section class="hero" id="hero">
   <div class="hero-left">
-    <p class="subtitle">Tencent AI Lab / June 2026</p>
+    <p class="subtitle" data-i18n="subtitle">Tencent AI Lab / June 2026</p>
     <h1>Hy3</h1>
-    <p class="tagline">
+    <p class="tagline" data-i18n="tagline_hero">
       295 billion parameters. 192 experts. 262k context.
       Built for reasoning, code, and long-context tasks.
       Available free on OpenRouter.
     </p>
     <div class="hero-actions">
-      <a href="https://openrouter.ai/tencent/hy3:free" class="btn btn-primary" target="_blank" rel="noopener">
+      <a href="https://openrouter.ai/tencent/hy3:free" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="hero_btn1">
         Try Hy3 Free
       </a>
-      <a href="https://openrouter.ai/tencent/hy3" class="btn btn-secondary" target="_blank" rel="noopener">
+      <a href="https://openrouter.ai/tencent/hy3" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="hero_btn2">
         Paid API &rarr;
       </a>
     </div>
@@ -880,15 +899,15 @@ footer .footer-legal {
     <div class="hero-stats">
       <div class="hero-stat">
         <div class="value">295B</div>
-        <div class="label">Parameters</div>
+        <div class="label" data-i18n="stat_params">Parameters</div>
       </div>
       <div class="hero-stat">
         <div class="value">192</div>
-        <div class="label">Experts</div>
+        <div class="label" data-i18n="stat_experts">Experts</div>
       </div>
       <div class="hero-stat">
         <div class="value">262K</div>
-        <div class="label">Context</div>
+        <div class="label" data-i18n="stat_context">Context</div>
       </div>
     </div>
   </div>
@@ -897,9 +916,9 @@ footer .footer-legal {
 <!-- Architecture -->
 <section id="architecture">
   <div class="section-inner">
-    <p class="section-label">Architecture</p>
-    <h2 class="section-title">Mixture of Experts,<br>rethought from scratch</h2>
-    <p class="section-desc">
+    <p class="section-label" data-i18n="arch_label">Architecture</p>
+    <h2 class="section-title" data-i18n="arch_title">Mixture of Experts,<br>rethought from scratch</h2>
+    <p class="section-desc" data-i18n="arch_desc">
       Hy3 uses a 295B MoE with 21B active parameters per token.
       Each token activates only 8 of 192 experts through a learned
       top-8 routing mechanism. This keeps inference fast while
@@ -911,8 +930,8 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-        <h3>Top-8 Routing</h3>
-        <p>
+        <h3 data-i18n="arch_routing_title">Top-8 Routing</h3>
+        <p data-i18n="arch_routing_desc">
           Every input token is routed to the 8 most relevant experts
           among 192. The router is jointly trained end-to-end with
           the experts, minimizing load imbalance via auxiliary loss.
@@ -922,8 +941,8 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         </div>
-        <h3>192 Experts</h3>
-        <p>
+        <h3 data-i18n="arch_192_title">192 Experts</h3>
+        <p data-i18n="arch_192_desc">
           A large expert pool means each expert can specialize on
           narrower domains. Sparsity (8/192 active) keeps FLOPs per
           token comparable to a dense 21B model.
@@ -933,8 +952,8 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M5 20V8l5-5v17"/><path d="M14 20V3l5 5v12"/></svg>
         </div>
-        <h3>262K Context</h3>
-        <p>
+        <h3 data-i18n="arch_ctx_title">262K Context</h3>
+        <p data-i18n="arch_ctx_desc">
           Extended context window of 262,144 tokens for processing
           entire codebases, research papers, and long conversations
           without truncation. RoPE scaling applied.
@@ -944,8 +963,8 @@ footer .footer-legal {
         <div class="icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
         </div>
-        <h3>Efficient Inference</h3>
-        <p>
+        <h3 data-i18n="arch_inf_title">Efficient Inference</h3>
+        <p data-i18n="arch_inf_desc">
           With only 21B parameters active per forward pass, Hy3
           delivers low latency and competitive throughput. Free tier
           available on OpenRouter for experimentation.
@@ -1009,9 +1028,9 @@ footer .footer-legal {
 <!-- Benchmarks -->
 <section id="benchmarks">
   <div class="section-inner">
-    <p class="section-label">Benchmarks</p>
-    <h2 class="section-title">Performance across domains</h2>
-    <p class="section-desc">
+    <p class="section-label" data-i18n="bench_label">Benchmarks</p>
+    <h2 class="section-title" data-i18n="bench_title">Performance across domains</h2>
+    <p class="section-desc" data-i18n="bench_desc">
       Hy3 achieves competitive results on reasoning, code generation,
       and knowledge benchmarks. Scores shown are from internal
       evaluation on standard splits.
@@ -1021,19 +1040,19 @@ footer .footer-legal {
       <div class="bench-card">
         <div class="bench-value">89%</div>
         <div class="bench-name">MATH-500</div>
-        <div class="bench-desc">Mathematical reasoning</div>
+        <div class="bench-desc" data-i18n="bench_math">Mathematical reasoning</div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:89%"></div></div>
       </div>
       <div class="bench-card">
         <div class="bench-value">84%</div>
         <div class="bench-name">HumanEval+</div>
-        <div class="bench-desc">Code generation</div>
+        <div class="bench-desc" data-i18n="bench_code">Code generation</div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:84%"></div></div>
       </div>
       <div class="bench-card">
         <div class="bench-value">76%</div>
         <div class="bench-name">GPQA</div>
-        <div class="bench-desc">Graduate-level Q&amp;A</div>
+        <div class="bench-desc" data-i18n="bench_gpqa">Graduate-level Q&amp;A</div>
         <div class="bench-bar"><div class="bench-bar-fill" style="width:76%"></div></div>
       </div>
     </div>
@@ -1043,8 +1062,8 @@ footer .footer-legal {
 <!-- Specs -->
 <section id="specs">
   <div class="section-inner">
-    <p class="section-label">Specifications</p>
-    <h2 class="section-title">Everything at a glance</h2>
+    <p class="section-label" data-i18n="specs_label">Specifications</p>
+    <h2 class="section-title" data-i18n="specs_title">Everything at a glance</h2>
     <p class="section-desc">
       Full technical specifications for developers evaluating Hy3
       for integration.
@@ -1054,9 +1073,9 @@ footer .footer-legal {
       <table class="specs-table">
         <thead>
           <tr>
-            <th>Category</th>
-            <th>Detail</th>
-            <th>Value</th>
+            <th data-i18n="specs_cat">Category</th>
+            <th data-i18n="specs_detail">Detail</th>
+            <th data-i18n="specs_val">Value</th>
           </tr>
         </thead>
         <tbody>
@@ -1141,8 +1160,8 @@ footer .footer-legal {
   <div class="section-inner">
     <div class="cta-grid">
       <div class="cta-left">
-        <h2>Try Hy3 right now</h2>
-        <p>
+        <h2 data-i18n="cta_title">Try Hy3 right now</h2>
+        <p data-i18n="cta_desc">
           Start with the free tier on OpenRouter. No API key setup
           needed for experimentation. When you need more, the paid
           API offers higher rate limits and priority routing.
@@ -1158,23 +1177,23 @@ footer .footer-legal {
       </div>
       <div class="cta-price-box">
         <div class="price-row">
-          <span class="price-label">Free tier</span>
+          <span class="price-label" data-i18n="cta_free_label">Free tier</span>
           <span class="price-free">$0.00 / 1M tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label">Paid prompt</span>
+          <span class="price-label" data-i18n="cta_paid_prompt_label">Paid prompt</span>
           <span class="price-value">$0.14 / 1M tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label">Paid completion</span>
+          <span class="price-label" data-i18n="cta_paid_comp_label">Paid completion</span>
           <span class="price-value">$0.58 / 1M tokens</span>
         </div>
         <div class="price-row" style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px;">
-          <span class="price-label" style="color:var(--text-secondary);">Context window</span>
+          <span class="price-label" style="color:var(--text-secondary);" data-i18n="cta_window">Context window</span>
           <span class="price-value" style="color:var(--text-primary);">262,144 tokens</span>
         </div>
         <div class="price-row">
-          <span class="price-label" style="color:var(--text-secondary);">License</span>
+          <span class="price-label" style="color:var(--text-secondary);" data-i18n="cta_license_label">License</span>
           <span class="price-value" style="color:var(--text-primary);font-size:0.75rem;">Free inference via OpenRouter</span>
         </div>
       </div>
@@ -1186,11 +1205,11 @@ footer .footer-legal {
 <footer>
   <div class="footer-brand">Hy3</div>
   <div class="footer-tag">
-    A large-scale mixture-of-experts model by
-    <strong>Tencent AI Lab</strong>. Available on
+    <span data-i18n="footer_model">A large-scale mixture-of-experts model by</span>
+    <strong>Tencent AI Lab</strong>. <span data-i18n="footer_avail">Available on</span>
     <a href="https://openrouter.ai/tencent/hy3:free" target="_blank" rel="noopener">OpenRouter</a>.
   </div>
-  <div class="footer-legal">
+  <div class="footer-legal" data-i18n="footer_gen">
     Generated by Hy3 (Tencent) on OpenRouter
   </div>
 </footer>
@@ -1301,6 +1320,75 @@ footer .footer-legal {
 
   draw();
 })();
+</script>
+
+<script>
+const translations = {
+  nav_arch: { en: 'Architecture', ru: 'Архитектура' },
+  nav_bench: { en: 'Benchmarks', ru: 'Бенчмарки' },
+  nav_specs: { en: 'Specs', ru: 'Характеристики' },
+  nav_try: { en: 'Try on OpenRouter', ru: 'Попробовать' },
+  subtitle: { en: 'Tencent AI Lab / June 2026', ru: 'Tencent AI Lab / Июнь 2026' },
+  tagline: { en: '295 billion parameters. 192 experts. 262k context.\n      Built for reasoning, code, and long-context tasks.\n      Available free on OpenRouter.', ru: '295 миллиардов параметров. 192 эксперта. 262k контекст.\n      Создана для рассуждений, кода и длинных контекстов.\n      Доступна бесплатно на OpenRouter.' },
+  hero_btn1: { en: 'Try Hy3 Free', ru: 'Попробовать Hy3' },
+  hero_btn2: { en: 'Paid API', ru: 'Платная версия' },
+  stat_params: { en: 'Parameters', ru: 'Параметры' },
+  stat_experts: { en: 'Experts', ru: 'Экспертов' },
+  stat_context: { en: 'Context', ru: 'Контекст' },
+  arch_label: { en: 'Architecture', ru: 'Архитектура' },
+  arch_title: { en: 'Mixture of Experts,<br>rethought from scratch', ru: 'Mixture of Experts,<br>спроектирована с нуля' },
+  arch_desc: { en: 'Hy3 uses a 295B MoE with 21B active parameters per token. Each token activates only 8 of 192 experts through a learned top-8 routing mechanism. This keeps inference fast while maintaining the knowledge capacity of a dense 295B model.', ru: 'Hy3 использует 295B MoE с 21B активных параметров на токен. Каждый токен активирует только 8 из 192 экспертов через обученный механизм top-8 routing. Это обеспечивает высокую скорость инференса при сохранении знаний полной 295B модели.' },
+  arch_routing_title: { en: 'Top-8 Routing', ru: 'Top-8 Routing' },
+  arch_routing_desc: { en: 'Every input token is routed to the 8 most relevant experts among 192. The router is jointly trained end-to-end with the experts, minimizing load imbalance via auxiliary loss.', ru: 'Каждый входной токен направляется к 8 наиболее релевантным экспертам из 192. Маршрутизатор обучается сквозно вместе с экспертами.' },
+  arch_192_title: { en: '192 Experts', ru: '192 Эксперта' },
+  arch_192_desc: { en: 'A large expert pool means each expert can specialize on narrower domains. Sparsity (8/192 active) keeps FLOPs per token comparable to a dense 21B model.', ru: 'Большой пул экспертов позволяет каждому специализироваться на узких доменах. Разреженность (8/192 активных) сохраняет FLOPs на уровне плотной 21B модели.' },
+  arch_ctx_title: { en: '262K Context', ru: '262K Контекст' },
+  arch_ctx_desc: { en: 'Extended context window of 262,144 tokens for processing entire codebases, research papers, and long conversations without truncation. RoPE scaling applied.', ru: 'Расширенное окно контекста в 262 144 токена для обработки целых кодбаз, научных статей и длинных диалогов без обрезания.' },
+  arch_inf_title: { en: 'Efficient Inference', ru: 'Эффективный Инференс' },
+  arch_inf_desc: { en: 'With only 21B parameters active per forward pass, Hy3 delivers low latency and competitive throughput. Free tier available on OpenRouter for experimentation.', ru: 'Всего 21B активных параметров обеспечивают низкую задержку. Бесплатный tier доступен на OpenRouter.' },
+  bench_label: { en: 'Benchmarks', ru: 'Бенчмарки' },
+  bench_title: { en: 'Performance across domains', ru: 'Производительность в бенчмарках' },
+  bench_desc: { en: 'Hy3 achieves competitive results on reasoning, code generation, and knowledge benchmarks.', ru: 'Hy3 показывает конкурентоспособные результаты в рассуждениях, генерации кода и знаниях.' },
+  bench_math: { en: 'Mathematical reasoning', ru: 'Математические рассуждения' },
+  bench_code: { en: 'Code generation', ru: 'Генерация кода' },
+  bench_gpqa: { en: 'Graduate-level Q&A', ru: 'Научные вопросы' },
+  specs_label: { en: 'Specifications', ru: 'Характеристики' },
+  specs_title: { en: 'Everything at a glance', ru: 'Всё в одном месте' },
+  specs_cat: { en: 'Category', ru: 'Категория' },
+  specs_detail: { en: 'Detail', ru: 'Деталь' },
+  specs_val: { en: 'Value', ru: 'Значение' },
+  cta_title: { en: 'Try Hy3 right now', ru: 'Попробуйте Hy3 сейчас' },
+  cta_desc: { en: 'Start with the free tier on OpenRouter. No API key setup needed for experimentation. When you need more, the paid API offers higher rate limits and priority routing.', ru: 'Начните с бесплатного tier на OpenRouter. Для экспериментов не нужен API ключ. Платная версия даёт большие лимиты и приоритетный routing.' },
+  cta_free_label: { en: 'Free tier', ru: 'Бесплатно' },
+  cta_paid_prompt_label: { en: 'Paid prompt', ru: 'Платная версия (prompt)' },
+  cta_paid_comp_label: { en: 'Paid completion', ru: 'Платная версия (completion)' },
+  cta_window: { en: 'Context window', ru: 'Окно контекста' },
+  cta_license_label: { en: 'License', ru: 'Лицензия' },
+  footer_model: { en: 'A large-scale mixture-of-experts model by', ru: 'Масштабная MoE-модель от' },
+  footer_avail: { en: 'Available on', ru: 'Доступна на' },
+  footer_gen: { en: 'Generated by Hy3 (Tencent) on OpenRouter', ru: 'Сгенерировано Hy3 (Tencent) на OpenRouter' }
+};
+
+let currentLang = localStorage.getItem('hy3-lang') || 'en';
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (translations[key] && translations[key][lang]) {
+      el.innerHTML = translations[key][lang];
+    }
+  });
+  document.getElementById('langToggle').textContent = lang === 'en' ? 'RU' : 'EN';
+  document.querySelector('html').lang = lang;
+  currentLang = lang;
+  localStorage.setItem('hy3-lang', lang);
+}
+
+function toggleLang() {
+  applyLang(currentLang === 'en' ? 'ru' : 'en');
+}
+
+applyLang(currentLang);
 </script>
 
 </body>
