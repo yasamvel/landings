@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime Butcher — Бизнес-план (печатная версия)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Courier New', 'Courier', monospace;
+      font-size: 11pt;
+      line-height: 1.4;
+      color: #000;
+      background: #fff;
+      padding: 20mm 15mm;
+      max-width: 210mm;
+      margin: 0 auto;
+    }
+    h1 { font-size: 20pt; font-weight: bold; text-align: center; margin-bottom: 4pt; text-transform: uppercase; letter-spacing: 2pt; }
+    h2 { font-size: 14pt; font-weight: bold; margin-top: 24pt; margin-bottom: 10pt; border-bottom: 2px solid #000; padding-bottom: 3pt; text-transform: uppercase; }
+    h3 { font-size: 12pt; font-weight: bold; margin-top: 16pt; margin-bottom: 6pt; }
+    p { margin-bottom: 6pt; }
+    .subtitle { text-align: center; font-size: 12pt; margin-bottom: 20pt; }
+    .meta-line { text-align: center; font-size: 10pt; margin-bottom: 30pt; }
+
+    table { width: 100%; border-collapse: collapse; margin: 10pt 0 16pt 0; font-size: 10pt; }
+    th { border: 1px solid #000; padding: 5pt 8pt; text-align: left; font-weight: bold; background: #f0f0f0; }
+    td { border: 1px solid #000; padding: 4pt 8pt; text-align: left; }
+    td:last-child, th:last-child { text-align: right; }
+    .total td { font-weight: bold; border-top: 2px solid #000; }
+
+    ul { list-style: none; padding-left: 12pt; margin-bottom: 8pt; }
+    ul li::before { content: "— "; }
+    li { margin-bottom: 2pt; }
+
+    .grid-2 { display: flex; gap: 20pt; margin-bottom: 10pt; }
+    .grid-2 > div { flex: 1; }
+    @media print { .no-print { display: none; } }
+
+    .section { margin-bottom: 20pt; }
+    .sep { border-top: 1px solid #999; margin: 16pt 0; }
+
+    .center { text-align: center; }
+    .right { text-align: right; }
+    .bold { font-weight: bold; }
+    .small { font-size: 9pt; color: #666; }
+
+    .calc-table td:nth-child(2) { text-align: center; }
+    .calc-table td:nth-child(3) { text-align: center; }
+    .calc-table td:nth-child(4) { text-align: right; }
+
+    .financial td { text-align: right; }
+    .financial td:first-child { text-align: left; }
+  </style>
+</head>
+<body>
+
+<h1>PRIME BUTCHER</h1>
+<p class="subtitle">Мясной магазин с собственной разделкой</p>
+<p class="meta-line">Москва, м. Аэропорт | Площадь: 80 м² | Бизнес-план</p>
+
+<!-- ===== 1. СВОДКА ===== -->
+<h2>1. Сводка проекта</h2>
+<table>
+  <tr><td width="40%">Стартовые вложения</td><td class="bold">1 700 000 – 2 000 000 ₽</td></tr>
+  <tr><td>Косметический ремонт</td><td>300 000 – 500 000 ₽</td></tr>
+  <tr><td>Первая закупка (770 кг)</td><td>~400 000 ₽</td></tr>
+  <tr><td>Оборудование (б/у + новое)</td><td>~900 000 ₽</td></tr>
+  <tr><td>Касса, весы, регистрация</td><td>~300 000 ₽</td></tr>
+  <tr><td>Резерв</td><td>200 000 ₽</td></tr>
+</table>
+
+<h3>Финансовые показатели (старт, без кулинарии)</h3>
+<table>
+  <tr><td>Выручка в месяц</td><td class="bold">~2 300 000 ₽</td></tr>
+  <tr><td>Расходы в месяц</td><td class="bold">~2 050 000 ₽</td></tr>
+  <tr><td>Чистый доход</td><td class="bold">~250 000 ₽/мес</td></tr>
+  <tr><td>Окупаемость</td><td class="bold">8–12 месяцев</td></tr>
+  <tr><td>После запуска кулинарии (доход)</td><td class="bold">~400 000+ ₽/мес</td></tr>
+</table>
+
+<div class="sep"></div>
+
+<!-- ===== 2. ПЕРВАЯ ЗАКУПКА ===== -->
+<h2>2. Первая закупка</h2>
+<table class="calc-table">
+  <tr>
+    <th>Категория</th>
+    <th>Вес, кг</th>
+    <th>Цена/кг, ₽</th>
+    <th>Сумма, ₽</th>
+  </tr>
+  <tr>
+    <td>Говядина</td>
+    <td>250</td>
+    <td>~550</td>
+    <td>137 500</td>
+  </tr>
+  <tr>
+    <td>Свинина</td>
+    <td>250</td>
+    <td>~350</td>
+    <td>87 500</td>
+  </tr>
+  <tr>
+    <td>Курица</td>
+    <td>150</td>
+    <td>~200</td>
+    <td>30 000</td>
+  </tr>
+  <tr>
+    <td>Индейка</td>
+    <td>50</td>
+    <td>~400</td>
+    <td>20 000</td>
+  </tr>
+  <tr>
+    <td>Баранина</td>
+    <td>30</td>
+    <td>~700</td>
+    <td>21 000</td>
+  </tr>
+  <tr>
+    <td>Субпродукты</td>
+    <td>40</td>
+    <td>~150</td>
+    <td>6 000</td>
+  </tr>
+  <tr class="total">
+    <td>ИТОГО</td>
+    <td>770 кг</td>
+    <td></td>
+    <td>~302 000</td>
+  </tr>
+</table>
+<p class="small">С учётом упаковки, расходников и страхового запаса — ~400 000 ₽ первая закупка.</p>
+
+<div class="sep"></div>
+
+<!-- ===== 3. ЕЖЕМЕСЯЧНЫЕ РАСХОДЫ ===== -->
+<h2>3. Ежемесячные расходы</h2>
+<table class="financial">
+  <tr>
+    <th>Статья</th>
+    <th>Сумма, ₽</th>
+  </tr>
+  <tr><td>Аренда</td><td>160 000</td></tr>
+  <tr><td>ФОТ (4–5 чел.)</td><td>400 000</td></tr>
+  <tr><td>Налоги (УСН 8%)</td><td>~60 000</td></tr>
+  <tr><td>Закупка мяса (оборот)</td><td>~1 200 000</td></tr>
+  <tr><td>Упаковка, расходники</td><td>100 000</td></tr>
+  <tr><td>Коммунальные</td><td>80 000</td></tr>
+  <tr><td>Прочие</td><td>60 000</td></tr>
+  <tr class="total"><td>ИТОГО</td><td>~2 050 000</td></tr>
+</table>
+
+<div class="sep"></div>
+
+<!-- ===== 4. АССОРТИМЕНТ ===== -->
+<h2>4. Ассортимент</h2>
+
+<div class="grid-2">
+  <div>
+    <h3>Говядина</h3>
+    <ul>
+      <li>Стейки: рибай, стриплойн, вырезка</li>
+      <li>Лопатка, грудинка, рёбра</li>
+      <li>Фарш, гуляш, суповые наборы</li>
+    </ul>
+    <h3>Свинина</h3>
+    <ul>
+      <li>Шея, карбонат, корейка, окорок</li>
+      <li>Рёбра, рулька, вырезка</li>
+      <li>Шашлык, фарш</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Птица</h3>
+    <ul>
+      <li>Курица, индейка, утка</li>
+    </ul>
+    <h3>Баранина</h3>
+    <ul>
+      <li>Каре, седло, лопатка, нога</li>
+      <li>Рёбра, фарш</li>
+    </ul>
+    <h3>Субпродукты</h3>
+    <ul>
+      <li>Печень, сердце, язык</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Полуфабрикаты (2-й этап, после выхода на режим)</h3>
+<ul>
+  <li>Котлеты, люля-кебаб, купаты, домашние колбаски</li>
+  <li>Пельмени, манты, хинкали, голубцы, фаршированные перцы</li>
+  <li>Шашлык, стейки в маринаде, BBQ-наборы</li>
+</ul>
+
+<div class="sep"></div>
+
+<!-- ===== 5. КОНЦЕПЦИЯ ===== -->
+<h2>5. Концепция</h2>
+
+<p><strong>Формат:</strong> Мясной магазин с открытой разделкой. Покупатель видит, как работают мясники — разделывают туши, делают фарш, упаковывают полуфабрикаты.</p>
+
+<p><strong>Преимущества перед сетевыми магазинами:</strong></p>
+<ul>
+  <li>Свежий фарш под заказ (делается при покупателе)</li>
+  <li>Вакуумная упаковка — продлевает срок хранения</li>
+  <li>Собственное производство — контроль качества и выше маржа</li>
+  <li>Индивидуальный подход и сервис</li>
+</ul>
+
+<div class="sep"></div>
+
+<!-- ===== 6. ШТАТ ===== -->
+<h2>6. Персонал</h2>
+<table class="financial">
+  <tr><th>Должность</th><th>Кол-во</th><th>ФОТ, ₽</th></tr>
+  <tr><td>Управляющий / мясник</td><td>1</td><td>120 000</td></tr>
+  <tr><td>Мясник</td><td>1</td><td>100 000</td></tr>
+  <tr><td>Продавец</td><td>2</td><td>140 000</td></tr>
+  <tr><td>Разнорабочий / фасовщик</td><td>1</td><td>70 000</td></tr>
+  <tr class="total"><td>ИТОГО</td><td>5</td><td>~430 000</td></tr>
+</table>
+<p class="small">Бухгалтерия — на аутсорсинге, ~15 000 ₽/мес.</p>
+
+<div class="sep"></div>
+
+<!-- ===== 7. ОБОРУДОВАНИЕ ===== -->
+<h2>7. Оборудование (бюджетный вариант)</h2>
+<table class="financial">
+  <tr><th>Оборудование</th><th>Бюджет, ₽</th></tr>
+  <tr><td>Холодильные витрины (б/у)</td><td>~300 000</td></tr>
+  <tr><td>Морозильный ларь</td><td>~65 000</td></tr>
+  <tr><td>Ленточная пила (б/у)</td><td>~50 000</td></tr>
+  <tr><td>Мясорубка промышленная</td><td>~55 000</td></tr>
+  <tr><td>Вакуумный упаковщик</td><td>~50 000</td></tr>
+  <tr><td>Весы торговые + производственные</td><td>~50 000</td></tr>
+  <tr><td>Столы разделочные (нерж.)</td><td>~100 000</td></tr>
+  <tr><td>Колода для рубки</td><td>~35 000</td></tr>
+  <tr><td>Ножи, инвентарь</td><td>~30 000</td></tr>
+  <tr><td>Кассовый узел (POS)</td><td>~100 000</td></tr>
+  <tr><td>Видеонаблюдение</td><td>~40 000</td></tr>
+  <tr class="total"><td>ИТОГО</td><td>~875 000</td></tr>
+</table>
+<p class="small">Цены указаны с учётом б/у оборудования. Часть можно взять с Avito (см. подборку).</p>
+
+<div class="sep"></div>
+
+<!-- ===== 8. ДОРОЖНАЯ КАРТА ===== -->
+<h2>8. Дорожная карта</h2>
+
+<p><strong>Месяц 1</strong> — Регистрация ООО, договор аренды, косметический ремонт (300-500 тыс.), заказ оборудования.</p>
+<p><strong>Месяц 2</strong> — Монтаж оборудования, поиск поставщиков мяса, подбор персонала, подключение к системе «Меркурий».</p>
+<p><strong>Месяц 3</strong> — Настройка касс, обучение персонала, тестовый запуск, завоз первой партии (770 кг).</p>
+<p><strong>Открытие</strong> — Старт продаж. Цель: выйти на доход 250 тыс./мес в первые 3 месяца.</p>
+
+<p><strong>2-й этап (3-6 мес.)</strong> — Запуск линии полуфабрикатов. Рост дохода до 400+ тыс./мес.</p>
+<p><strong>3-й этап (6-12 мес.)</strong> — Доставка, HoReCa, вторая точка.</p>
+
+<div class="sep"></div>
+
+<!-- ===== 9. ОБОРУДОВАНИЕ С АВИТО ===== -->
+<h2>9. Подборка оборудования (Avito, цены на 07.2026)</h2>
+<table class="financial">
+  <tr><th>Наименование</th><th>Цена, ₽</th></tr>
+  <tr><td>Холодильные камеры Polair с моноблоком (2 шт)</td><td>90 000</td></tr>
+  <tr><td>Холодильная камера</td><td>54 320</td></tr>
+  <tr><td>Витрина холодильная куб (мясо/деликатесы)</td><td>199 950</td></tr>
+  <tr><td>Линия холодильных витрин (мясо/сыр)</td><td>147 150</td></tr>
+  <tr><td>Витрина холодильная Evromarket Stella</td><td>75 000</td></tr>
+  <tr><td>Пила ленточная 1.5 кВт</td><td>49 900</td></tr>
+  <tr><td>Мясорубка электрическая 100 кг/ч</td><td>52 900</td></tr>
+  <tr><td>Морозильный ларь 520 л</td><td>63 840</td></tr>
+  <tr><td>Колода для рубки D90см h100см</td><td>35 000</td></tr>
+  <tr><td>Нож</td><td>1 000</td></tr>
+  <tr class="total"><td>ИТОГО</td><td><strong>769 060</strong></td></tr>
+</table>
+<p class="small">Подборка сделана 22.07.2026. Актуальность цен уточнять на Avito.</p>
+
+<div class="sep"></div>
+
+<!-- ===== 10. КОНТАКТЫ ===== -->
+<h2>10. Контакты</h2>
+<p><strong>Инициатор проекта:</strong> [Ваше имя]</p>
+<p><strong>Локация:</strong> Москва, м. Аэропорт</p>
+<p><strong>Формат:</strong> Мясной магазин с разделкой и полуфабрикатами</p>
+<p><strong>Стартовые вложения:</strong> 1.7 – 2.0 млн ₽</p>
+<p><strong>Окупаемость:</strong> 8–12 месяцев</p>
+
+<p class="center small" style="margin-top: 30pt;">Prime Butcher • Бизнес-план • Июль 2026</p>
+
+</body>
+</html>

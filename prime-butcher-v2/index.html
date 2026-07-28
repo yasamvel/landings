@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime Butcher — Мясной магазин | Бизнес-план</title>
+  <meta name="description" content="Бизнес-план мясного магазина с собственным производством. Москва, м. Аэропорт. Реалистичные цифры: первая закупка, доход, окупаемость.">
+  <meta property="og:title" content="Prime Butcher — Мясной магазин">
+  <meta property="og:description" content="Бизнес-план мясного магазина. Реалистичные цифры: закупка, доход, расходы.">
+  <meta name="theme-color" content="#1a1a1a">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            prime: {
+              50: '#f0f7f0', 100: '#d9eed9', 200: '#b2ddb2', 300: '#7cc47c',
+              400: '#4aa34a', 500: '#2d862d', 600: '#1f6b1f', 700: '#1a551a',
+              800: '#174417', 900: '#143814', 950: '#0a1f0a',
+            },
+            dark: '#1a1a1a', charcoal: '#2d2d2d', warm: '#faf6f0',
+          },
+          fontFamily: {
+            display: ['Georgia', 'Cambria', 'serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #ffffff; color: #1a1a1a; }
+    .section-title { font-family: Georgia, Cambria, serif; font-weight: 700; letter-spacing: -0.02em; }
+    .stat-number { font-family: Georgia, Cambria, serif; font-weight: 700; }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(0,0,0,0.15); }
+    .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); }
+    .section-padding { padding: 80px 0; }
+    @media (max-width: 768px) { .section-padding { padding: 50px 0; } }
+    .tag-pill { padding: 0.25rem 0.75rem; border-radius: 999px; background: #f3f4f6; font-size: 0.875rem; display: inline-block; }
+    .hero-gradient { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a551a 100%); }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-prime-600">butcher</span>
+        <span class="font-bold text-xl tracking-tight">Prime<span class="text-prime-600">Butcher</span></span>
+      </div>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#finance" class="text-sm text-gray-600 hover:text-prime-600">Финансы</a>
+        <a href="#purchase" class="text-sm text-gray-600 hover:text-prime-600">Закупка</a>
+        <a href="#assortment" class="text-sm text-gray-600 hover:text-prime-600">Ассортимент</a>
+        <a href="#concept" class="text-sm text-gray-600 hover:text-prime-600">Концепция</a>
+        <a href="#contact" class="btn btn-sm bg-prime-600 hover:bg-prime-700 text-white border-none">Связаться</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-gradient min-h-screen flex items-center pt-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+          <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+          <span class="text-white/80 text-sm">Бизнес-план • Москва, м. Аэропорт</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+          Prime<br><span class="text-prime-400">Butcher</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-white/80 mb-4 font-light">Мясной магазин с собственной разделкой</p>
+        <p class="text-base text-white/60 mb-8 max-w-xl">Реалистичный бизнес-план: помещение с ремонтом, первая закупка 770 кг, доход от 250 тыс. ₽/мес на старте.</p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#finance" class="btn bg-prime-500 hover:bg-prime-600 text-white border-none px-8 py-3 h-auto text-base">Финансовая модель</a>
+          <a href="#purchase" class="btn btn-outline border-white/30 text-white hover:bg-white/10 px-8 py-3 h-auto text-base">Первая закупка</a>
+        </div>
+      </div>
+      <div class="hidden md:block">
+        <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
+          <div class="grid grid-cols-2 gap-6">
+            <div class="text-center p-4">
+              <div class="stat-number text-3xl text-prime-400 font-bold mb-1">770</div>
+              <div class="text-white/60 text-sm">кг первая закупка</div>
+            </div>
+            <div class="text-center p-4">
+              <div class="stat-number text-3xl text-prime-400 font-bold mb-1">400</div>
+              <div class="text-white/60 text-sm">тыс. ₽ закупка</div>
+            </div>
+            <div class="text-center p-4">
+              <div class="stat-number text-3xl text-prime-400 font-bold mb-1">250+</div>
+              <div class="text-white/60 text-sm">тыс. ₽ доход/мес</div>
+            </div>
+            <div class="text-center p-4">
+              <div class="stat-number text-3xl text-prime-400 font-bold mb-1">300-500</div>
+              <div class="text-white/60 text-sm">тыс. ₽ косметика</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ФИНАНСОВАЯ МОДЕЛЬ -->
+<section id="finance" class="section-padding bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-prime-600 text-sm font-semibold uppercase tracking-widest">Финансовая модель</span>
+      <h2 class="section-title text-4xl md:text-5xl mt-3 mb-4">Стартовые вложения</h2>
+      <p class="text-gray-500 max-w-2xl mx-auto text-lg">Помещение уже с ремонтом — только косметика. Первая закупка 770 кг мяса.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+      <div class="bg-warm rounded-2xl p-8">
+        <h3 class="text-xl font-bold mb-6">Первоначальные инвестиции</h3>
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Косметический ремонт</span>
+            <span class="font-semibold">300 000 – 500 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Первая закупка (770 кг)</span>
+            <span class="font-semibold">~400 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Холодильное оборудование (б/у)</span>
+            <span class="font-semibold">от 500 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Производственное оборудование</span>
+            <span class="font-semibold">от 400 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Касса, весы, фасовка</span>
+            <span class="font-semibold">200 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Регистрация, документы</span>
+            <span class="font-semibold">100 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center text-lg font-bold mt-2">
+            <span>Резерв</span>
+            <span class="text-prime-600">200 000 ₽</span>
+          </div>
+          <div class="h-0.5 bg-prime-600"></div>
+          <div class="flex justify-between items-center text-xl font-bold">
+            <span>Итого на старт</span>
+            <span class="text-prime-600">≈ 1.7 – 2.0 млн ₽</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-warm rounded-2xl p-8">
+        <h3 class="text-xl font-bold mb-6">Ежемесячные расходы (старт)</h3>
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Аренда</span>
+            <span class="font-semibold">160 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">ФОТ (4-5 чел.)</span>
+            <span class="font-semibold">400 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Налоги (УСН 8%)</span>
+            <span class="font-semibold">~60 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Закупка мяса (оборот)</span>
+            <span class="font-semibold">~1 200 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Упаковка, расходники</span>
+            <span class="font-semibold">100 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Коммунальные</span>
+            <span class="font-semibold">80 000 ₽</span>
+          </div>
+          <div class="h-px bg-gray-200"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Прочие</span>
+            <span class="font-semibold">60 000 ₽</span>
+          </div>
+          <div class="h-0.5 bg-prime-600"></div>
+          <div class="flex justify-between items-center text-xl font-bold">
+            <span>Расходы в месяц</span>
+            <span class="text-prime-600">≈ 2 050 000 ₽</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+      <div class="bg-blue-50 rounded-xl p-6 text-center">
+        <span class="material-symbols-outlined text-3xl text-blue-600 mb-2">trending_up</span>
+        <div class="text-xl font-bold">Выручка на старте</div>
+        <div class="text-3xl font-bold text-blue-600 my-2">~2.3 млн ₽</div>
+        <p class="text-sm text-gray-500">При обороте 770 кг/нед × 4 = ~3 080 кг/мес</p>
+      </div>
+      <div class="bg-green-50 rounded-xl p-6 text-center">
+        <span class="material-symbols-outlined text-3xl text-green-600 mb-2">account_balance</span>
+        <div class="text-xl font-bold">Доход (до полуфабрикатов)</div>
+        <div class="text-3xl font-bold text-green-600 my-2">~250 тыс. ₽</div>
+        <p class="text-sm text-gray-500">Наценка 30-40%, без кулинарии</p>
+      </div>
+      <div class="bg-amber-50 rounded-xl p-6 text-center">
+        <span class="material-symbols-outlined text-3xl text-amber-600 mb-2">rocket_launch</span>
+        <div class="text-xl font-bold">После введения кулинарии</div>
+        <div class="text-3xl font-bold text-amber-600 my-2">~400+ тыс. ₽</div>
+        <p class="text-sm text-gray-500">Полуфабрикаты + наценка 50-100%</p>
+      </div>
+    </div>
+
+    <div class="bg-prime-950 rounded-2xl p-8 md:p-10 text-white text-center">
+      <div class="text-2xl font-bold mb-2">Окупаемость проекта</div>
+      <div class="text-5xl font-bold text-prime-400 mb-2">8–12 месяцев</div>
+      <p class="text-white/60">При стартовых вложениях ~2 млн ₽ и доходе 250 тыс./мес</p>
+    </div>
+  </div>
+</section>
+
+<!-- ПЕРВАЯ ЗАКУПКА -->
+<section id="purchase" class="section-padding bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-prime-600 text-sm font-semibold uppercase tracking-widest">Первая закупка</span>
+      <h2 class="section-title text-4xl md:text-5xl mt-3 mb-4">770 кг свежего мяса</h2>
+      <p class="text-gray-500 max-w-2xl mx-auto text-lg">Сбалансированная корзина под спрос в спальном районе Москвы.</p>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+      <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div class="bg-prime-600 text-white px-6 py-4 grid grid-cols-3 font-bold">
+          <div>Категория</div>
+          <div class="text-center">Вес</div>
+          <div class="text-right">Средняя цена</div>
+        </div>
+        <div class="px-6 py-4 grid grid-cols-3 items-center border-b">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-prime-600">lunch_dining</span>
+            <span class="font-semibold">Говядина</span>
+          </div>
+          <div class="text-center font-bold text-xl">250 кг</div>
+          <div class="text-right text-gray-600">~550 ₽/кг</div>
+        </div>
+        <div class="px-6 py-4 grid grid-cols-3 items-center border-b bg-gray-50">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-prime-600">bakery_dining</span>
+            <span class="font-semibold">Свинина</span>
+          </div>
+          <div class="text-center font-bold text-xl">250 кг</div>
+          <div class="text-right text-gray-600">~350 ₽/кг</div>
+        </div>
+        <div class="px-6 py-4 grid grid-cols-3 items-center border-b">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-prime-600">raven</span>
+            <span class="font-semibold">Курица</span>
+          </div>
+          <div class="text-center font-bold text-xl">150 кг</div>
+          <div class="text-right text-gray-600">~200 ₽/кг</div>
+        </div>
+        <div class="px-6 py-4 grid grid-cols-3 items-center border-b bg-gray-50">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-prime-600">raven</span>
+            <span class="font-semibold">Индейка</span>
+          </div>
+          <div class="text-center font-bold text-xl">50 кг</div>
+          <div class="text-right text-gray-600">~400 ₽/кг</div>
+        </div>
+        <div class="px-6 py-4 grid grid-cols-3 items-center border-b">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-prime-600">cottage</span>
+            <span class="font-semibold">Баранина</span>
+          </div>
+          <div class="text-center font-bold text-xl">30 кг</div>
+          <div class="text-right text-gray-600">~700 ₽/кг</div>
+        </div>
+        <div class="px-6 py-4 grid grid-cols-3 items-center border-b bg-gray-50">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-prime-600">kitchen</span>
+            <span class="font-semibold">Субпродукты</span>
+          </div>
+          <div class="text-center font-bold text-xl">40 кг</div>
+          <div class="text-right text-gray-600">~150 ₽/кг</div>
+        </div>
+        <div class="bg-prime-50 px-6 py-5 grid grid-cols-3 items-center font-bold text-lg">
+          <div>Итого</div>
+          <div class="text-center text-2xl text-prime-600">770 кг</div>
+          <div class="text-right text-prime-600">~302 000 ₽</div>
+        </div>
+      </div>
+      <p class="text-center text-gray-500 text-sm mt-4">С учётом упаковки, расходников и запаса — <strong>~400 000 ₽</strong> первая закупка</p>
+    </div>
+  </div>
+</section>
+
+<!-- КОНЦЕПЦИЯ -->
+<section id="concept" class="section-padding bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-prime-600 text-sm font-semibold uppercase tracking-widest">Концепция</span>
+      <h2 class="section-title text-4xl md:text-5xl mt-3 mb-4">Мясной магазин с душой</h2>
+      <p class="text-gray-500 max-w-2xl mx-auto text-lg">Открытая разделка, свежее мясо каждый день, собственное производство полуфабрикатов.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="card-hover bg-warm rounded-2xl p-8">
+        <span class="material-symbols-outlined text-4xl text-prime-600 mb-4">visibility</span>
+        <h3 class="text-xl font-bold mb-3">Открытая разделка</h3>
+        <p class="text-gray-600">Покупатель видит, как работают мясники. Максимальное доверие и прозрачность.</p>
+      </div>
+      <div class="card-hover bg-warm rounded-2xl p-8">
+        <span class="material-symbols-outlined text-4xl text-prime-600 mb-4">restaurant</span>
+        <h3 class="text-xl font-bold mb-3">Свои полуфабрикаты</h3>
+        <p class="text-gray-600">Котлеты, люля, шашлык, купаты. После выхода на режим — доход +50-100% к марже.</p>
+      </div>
+      <div class="card-hover bg-warm rounded-2xl p-8">
+        <span class="material-symbols-outlined text-4xl text-prime-600 mb-4">location_on</span>
+        <h3 class="text-xl font-bold mb-3">Москва, м. Аэропорт</h3>
+        <p class="text-gray-600">Первая линия, плотный жилой район, высокий пешеходный трафик.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- АССОРТИМЕНТ -->
+<section id="assortment" class="section-padding bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-prime-600 text-sm font-semibold uppercase tracking-widest">Ассортимент</span>
+      <h2 class="section-title text-4xl md:text-5xl mt-3 mb-4">От стейков до суповых наборов</h2>
+    </div>
+    <div class="grid md:grid-cols-4 gap-4">
+      <div class="bg-white rounded-xl p-6 border border-gray-100">
+        <h4 class="font-bold mb-3 text-prime-600">Говядина</h4>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-pill">Стейки</span><span class="tag-pill">Рибай</span><span class="tag-pill">Вырезка</span>
+          <span class="tag-pill">Лопатка</span><span class="tag-pill">Грудинка</span><span class="tag-pill">Фарш</span>
+          <span class="tag-pill">Гуляш</span><span class="tag-pill">Суповые наборы</span><span class="tag-pill">Рёбра</span>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl p-6 border border-gray-100">
+        <h4 class="font-bold mb-3 text-prime-600">Свинина</h4>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-pill">Шея</span><span class="tag-pill">Карбонат</span><span class="tag-pill">Корейка</span>
+          <span class="tag-pill">Окорок</span><span class="tag-pill">Рулька</span><span class="tag-pill">Рёбра</span>
+          <span class="tag-pill">Шашлык</span><span class="tag-pill">Фарш</span>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl p-6 border border-gray-100">
+        <h4 class="font-bold mb-3 text-prime-600">Птица / Баранина</h4>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-pill">Курица</span><span class="tag-pill">Индейка</span><span class="tag-pill">Утка</span>
+          <span class="tag-pill">Каре</span><span class="tag-pill">Нога</span><span class="tag-pill">Фарш</span>
+        </div>
+      </div>
+      <div class="bg-prime-50 rounded-xl p-6 border border-prime-100">
+        <h4 class="font-bold mb-3 text-prime-600">Полуфабрикаты (2-й этап)</h4>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-pill bg-white">Котлеты</span><span class="tag-pill bg-white">Люля</span>
+          <span class="tag-pill bg-white">Пельмени</span><span class="tag-pill bg-white">Купаты</span>
+          <span class="tag-pill bg-white">Шашлык</span><span class="tag-pill bg-white">Голубцы</span>
+          <span class="tag-pill bg-white">Домашние колбаски</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРЕИМУЩЕСТВА -->
+<section class="section-padding bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-prime-600 text-sm font-semibold uppercase tracking-widest">Почему сработает</span>
+      <h2 class="section-title text-4xl md:text-5xl mt-3 mb-4">Ключевые факторы успеха</h2>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-gray-50 rounded-xl p-6 card-hover">
+        <span class="material-symbols-outlined text-3xl text-prime-600 mb-3">verified</span>
+        <h4 class="font-bold mb-2">Свежий фарш под заказ</h4>
+        <p class="text-gray-500 text-sm">Делается при покупателе. Это подкупает и выделяет среди сетевых магазинов.</p>
+      </div>
+      <div class="bg-gray-50 rounded-xl p-6 card-hover">
+        <span class="material-symbols-outlined text-3xl text-prime-600 mb-3">groups</span>
+        <h4 class="font-bold mb-2">Постоянные покупатели</h4>
+        <p class="text-gray-500 text-sm">В спальном районе люди ходят в один и тот же магазин годами.</p>
+      </div>
+      <div class="bg-gray-50 rounded-xl p-6 card-hover">
+        <span class="material-symbols-outlined text-3xl text-prime-600 mb-3">inventory_2</span>
+        <h4 class="font-bold mb-2">Вакуумная упаковка</h4>
+        <p class="text-gray-500 text-sm">Продлевает срок хранения, меньше списаний, выше доверие.</p>
+      </div>
+      <div class="bg-gray-50 rounded-xl p-6 card-hover">
+        <span class="material-symbols-outlined text-3xl text-prime-600 mb-3">trending_up</span>
+        <h4 class="font-bold mb-2">Масштабирование</h4>
+        <p class="text-gray-500 text-sm">После выхода на режим — запуск кулинарии, рост дохода в 1.5-2 раза.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ДОРОЖНАЯ КАРТА -->
+<section class="section-padding bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-prime-600 text-sm font-semibold uppercase tracking-widest">Дорожная карта</span>
+      <h2 class="section-title text-4xl md:text-5xl mt-3 mb-4">3-4 месяца до открытия</h2>
+    </div>
+    <div class="grid md:grid-cols-4 gap-6">
+      <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <div class="w-10 h-10 bg-prime-100 rounded-full flex items-center justify-center mb-4">
+          <span class="font-bold text-prime-600">1</span>
+        </div>
+        <h4 class="font-bold mb-2">Месяц 1</h4>
+        <p class="text-sm text-gray-600">Регистрация, помещение, косметический ремонт, заказ холодильного оборудования.</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <div class="w-10 h-10 bg-prime-100 rounded-full flex items-center justify-center mb-4">
+          <span class="font-bold text-prime-600">2</span>
+        </div>
+        <h4 class="font-bold mb-2">Месяц 2</h4>
+        <p class="text-sm text-gray-600">Монтаж оборудования, поиск поставщиков, подбор персонала.</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <div class="w-10 h-10 bg-prime-100 rounded-full flex items-center justify-center mb-4">
+          <span class="font-bold text-prime-600">3</span>
+        </div>
+        <h4 class="font-bold mb-2">Месяц 3</h4>
+        <p class="text-sm text-gray-600">Настройка касс, «Меркурий», обучение, тестовый запуск.</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <div class="w-10 h-10 bg-prime-100 rounded-full flex items-center justify-center mb-4">
+          <span class="font-bold text-prime-600">4</span>
+        </div>
+        <h4 class="font-bold mb-2">Открытие</h4>
+        <p class="text-sm text-gray-600">Первая закупка, запуск, старт продаж. Доход от 250 тыс. ₽/мес.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="section-padding bg-prime-950 text-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="section-title text-4xl md:text-5xl mb-6">Обсудим проект?</h2>
+    <p class="text-xl text-white/60 mb-8 max-w-2xl mx-auto">
+      Вложения от 1.7 млн, окупаемость до года, потенциал роста в 2 раза после запуска кулинарии.
+    </p>
+    <a href="#" class="btn bg-prime-500 hover:bg-prime-400 text-white border-none px-10 py-4 h-auto text-lg">
+      <span class="material-symbols-outlined mr-2">call</span>
+      Связаться
+    </a>
+    <p class="text-white/40 text-sm mt-6">Москва, м. Аэропорт • Prime Butcher</p>
+  </div>
+</section>
+
+<footer class="bg-dark text-white/60 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+    <p>© 2026 Prime Butcher. Бизнес-план. Данные предварительные.</p>
+  </div>
+</footer>
+
+</body>
+</html>
