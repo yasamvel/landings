@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ubuntu Server — базовые команды: обновление, fail2ban, firewall</title>
+  <meta name="description" content="Основные команды Ubuntu Server: обновление системы, установка и настройка fail2ban, закрытие всех портов кроме 80, 443 и 22 через UFW." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/terminal.css" />
+  <style>
+    /* ── Палитра: зелёный терминал ── */
+    :root {
+      --background: #0c0e0a;
+      --foreground: #c8d6c0;
+      --accent: #4ade80;
+      --font-size: 15px;
+      --line-height: 1.7;
+      --radius: 6px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      border-bottom: 1px solid var(--accent);
+      padding: 3.5rem 0;
+      text-align: center;
+      background:
+        linear-gradient(rgba(74, 222, 128, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 222, 128, 0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .hero h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero .typed-line {
+      color: var(--accent);
+      min-height: 1.8em;
+    }
+    .cursor {
+      display: inline-block;
+      width: 0.6em;
+      height: 1.1em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ── Промпт в командах ── */
+    .cmd {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin: 0.3rem 0;
+    }
+    .cmd .prompt {
+      color: var(--accent);
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .cmd code {
+      flex: 1;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* ── Блоки ── */
+    .term-block {
+      margin: 1rem 0;
+    }
+    .term-block pre {
+      border-left: 3px solid var(--accent);
+      padding: 0.8rem 1rem;
+      background: rgba(74, 222, 128, 0.05);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .term-block pre .comment {
+      color: #6b7a6b;
+    }
+    .term-block pre .ok {
+      color: var(--accent);
+    }
+
+    /* ── Секции ── */
+    section {
+      padding: 2.2rem 0;
+      border-bottom: 1px dashed rgba(74, 222, 128, 0.25);
+    }
+    section h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    section h2 .num {
+      color: var(--accent);
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 999px;
+      vertical-align: middle;
+      margin-left: 0.5rem;
+    }
+
+    /* ── Таблица портов ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    th, td {
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      padding: 0.5rem 0.8rem;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    th {
+      color: var(--accent);
+    }
+
+    /* ── Навигация по якорям ── */
+    .toc {
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(74, 222, 128, 0.25);
+    }
+    .toc a {
+      margin-right: 1.2rem;
+    }
+
+    footer {
+      padding: 2rem 0;
+      text-align: center;
+      color: #6b7a6b;
+      font-size: 0.85rem;
+    }
+    footer .prompt {
+      color: var(--accent);
+    }
+
+    /* ── Кнопка копирования ── */
+    .copy-btn {
+      font-family: inherit;
+      font-size: 0.75rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: transparent;
+      padding: 0.2rem 0.6rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      background: var(--accent);
+      color: var(--background);
+    }
+    .copy-btn.copied {
+      background: var(--accent);
+      color: var(--background);
+    }
+
+    @media (max-width: 640px) {
+      :root { --font-size: 13.5px; }
+      .hero h1 { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header class="hero">
+    <div class="container">
+      <h1>Ubuntu Server — базовые команды</h1>
+      <p class="typed-line"><span id="typed"></span><span class="cursor"></span></p>
+      <p>Обновление системы · fail2ban · закрытие портов</p>
+    </div>
+  </header>
+
+  <!-- ═══════════ TOC ═══════════ -->
+  <nav class="toc">
+    <div class="container">
+      <a href="#update">01 · Обновление</a>
+      <a href="#fail2ban">02 · fail2ban</a>
+      <a href="#firewall">03 · Firewall</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════ 1. ОБНОВЛЕНИЕ ═══════════ -->
+  <section id="update">
+    <div class="container">
+      <h2><span class="num">01</span> Обновление системы <span class="tag">apt</span></h2>
+      <p>Сначала обновляем список пакетов, затем — сами пакеты. Регулярно, желательно раз в неделю.</p>
+
+      <div class="term-block">
+        <div class="cmd"><span class="prompt">$</span><code>sudo apt update</code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo apt upgrade -y</code></div>
+      </div>
+
+      <p>Обновить и дистрибутив (ядро, базовые пакеты), и очистить лишнее:</p>
+
+      <div class="term-block">
+        <div class="cmd"><span class="prompt">$</span><code>sudo apt dist-upgrade -y</code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo apt autoremove -y</code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo apt autoclean</code></div>
+      </div>
+
+      <p>Если обновилось ядро — перезагрузка:</p>
+      <div class="term-block">
+        <div class="cmd"><span class="prompt">$</span><code>sudo reboot</code></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 2. FAIL2BAN ═══════════ -->
+  <section id="fail2ban">
+    <div class="container">
+      <h2><span class="num">02</span> Установка и настройка fail2ban <span class="tag">безопасность</span></h2>
+      <p>fail2ban автоматически банит IP-адреса после нескольких неудачных попыток входа.</p>
+
+      <p><strong>Установка:</strong></p>
+      <div class="term-block">
+        <div class="cmd"><span class="prompt">$</span><code>sudo apt install fail2ban -y</code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo systemctl enable --now fail2ban</code></div>
+      </div>
+
+      <p><strong>Проверка статуса:</strong></p>
+      <div class="term-block">
+        <div class="cmd"><span class="prompt">$</span><code>sudo systemctl status fail2ban</code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo fail2ban-client status</code></div>
+      </div>
+
+      <p><strong>Базовая настройка</strong> — создаём локальный конфиг, не трогая дефолтный:</p>
+      <div class="term-block">
+        <pre>sudo tee /etc/fail2ban/jail.local &gt;&gt; /dev/null &lt;&lt;'EOF'
+[DEFAULT]
+bantime = 3600          <span class="comment"># бан на 1 час</span>
+findtime = 600          <span class="comment"># окно 10 минут</span>
+maxretry = 5            <span class="comment"># 5 попыток — и бан</span>
+
+[sshd]
+enabled = true
+port = ssh
+EOF</pre>
+      </div>
+
+      <p><strong>Применить настройки:</strong></p>
+      <div class="term-block">
+        <div class="cmd"><span class="prompt">$</span><code>sudo systemctl restart fail2ban</code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo fail2ban-client status sshd</code></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 3. FIREWALL ═══════════ -->
+  <section id="firewall">
+    <div class="container">
+      <h2><span class="num">03</span> Закрытие всех портов, кроме 80, 443, 22 <span class="tag">UFW</span></h2>
+      <p>Политика: по умолчанию запрещаем входящие, разрешаем только нужное. <strong>Сначала открой SSH</strong>, иначе потеряешь доступ к серверу!</p>
+
+      <div class="term-block">
+        <div class="cmd"><span class="prompt">$</span><code>sudo ufw default deny incoming</code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo ufw default allow outgoing</code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo ufw allow 22/tcp   <span class="comment"># SSH — обязательно первым!</span></code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo ufw allow 80/tcp   <span class="comment"># HTTP</span></code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo ufw allow 443/tcp  <span class="comment"># HTTPS</span></code></div>
+        <div class="cmd"><span class="prompt">$</span><code>sudo ufw enable</code></div>
+      </div>
+
+      <p><strong>Проверка:</strong></p>
+      <div class="term-block">
+        <div class="cmd"><span class="prompt">$</span><code>sudo ufw status verbose</code></div>
+      </div>
+
+      <p><strong>Ожидаемый результат:</strong></p>
+      <table>
+        <thead>
+          <tr><th>Порт</th><th>Сервис</th><th>Статус</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>22/tcp</td><td>SSH</td><td>ALLOW</td></tr>
+          <tr><td>80/tcp</td><td>HTTP</td><td>ALLOW</td></tr>
+          <tr><td>443/tcp</td><td>HTTPS</td><td>ALLOW</td></tr>
+          <tr><td>остальные</td><td>—</td><td>DENY (закрыты)</td></tr>
+        </tbody>
+      </table>
+
+      <p>Если что-то сломалось и доступ потерян — перезагрузить сервер, UFW при старте не активируется, пока не включён <code>ufw enable</code> после открытия нужных портов.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer>
+    <div class="container">
+      <p><span class="prompt">$</span> echo "Безопасного сервера!"</p>
+      <p>Ubuntu Server · базовые команды · сделано на Terminal.css</p>
+    </div>
+  </footer>
+
+  <!-- ═══════════ SCRIPTS ═══════════ -->
+  <script>
+    // ── Эффект печати в hero ──
+    const lines = [
+      "sudo apt update && sudo apt upgrade -y",
+      "sudo apt install fail2ban -y",
+      "sudo ufw allow 22,80,443/tcp && sudo ufw enable",
+      "root@server:~#"
+    ];
+    let lineIdx = 0, charIdx = 0, deleting = false;
+    const el = document.getElementById("typed");
+
+    function tick() {
+      const current = lines[lineIdx];
+      if (!deleting) {
+        charIdx++;
+        el.textContent = current.slice(0, charIdx);
+        if (charIdx === current.length) {
+          deleting = true;
+          setTimeout(tick, 1400);
+          return;
+        }
+        setTimeout(tick, 45);
+      } else {
+        charIdx--;
+        el.textContent = current.slice(0, charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          lineIdx = (lineIdx + 1) % lines.length;
+          setTimeout(tick, 300);
+          return;
+        }
+        setTimeout(tick, 20);
+      }
+    }
+    tick();
+  </script>
+</body>
+</html>
