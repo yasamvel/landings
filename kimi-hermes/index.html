@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kimi + Hermes — Подключение бесплатной Kimi к Hermes Agent</title>
+  <meta name="description" content="Пошаговая инструкция: как подключить бесплатную версию Kimi K3 (Moonshot AI) к Hermes Agent через TokenRouter API." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Geist', sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color .3s, color .3s;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #f0f4ff 0%, #fff5f0 50%, #f5f0ff 100%);
+    }
+    [data-theme="dark"] .hero-gradient {
+      background: linear-gradient(135deg, #0b1120 0%, #1a1425 50%, #120b1a 100%);
+    }
+
+    .accent-gradient {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .code-block {
+      font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+      font-size: .85rem;
+      border-radius: 1rem;
+      position: relative;
+    }
+    .code-block pre {
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      border-radius: 1rem;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: .75rem;
+      right: .75rem;
+      padding: .3rem .65rem;
+      font-size: .75rem;
+      border-radius: .5rem;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.1);
+      color: #cbd5e1;
+      transition: all .2s;
+      z-index: 2;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.2); color: #fff; }
+    .copy-btn.copied { background: #22c55e; color: #fff; border-color: #22c55e; }
+
+    .feature-card {
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .float-slow { animation: float 5s ease-in-out infinite; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- ══════════ NAVBAR ══════════ -->
+  <nav class="sticky top-0 z-50 backdrop-blur-md border-b border-base-300/50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <a href="#" class="flex items-center gap-2 font-bold text-lg">
+        <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 via-violet-500 to-pink-500 flex items-center justify-center text-white">
+          <i class="bi bi-stars"></i>
+        </span>
+        <span data-i18n="navBrand">Kimi + Hermes</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="#why" class="hover:opacity-70 transition-opacity" data-i18n="navWhy">Зачем</a>
+        <a href="#setup" class="hover:opacity-70 transition-opacity" data-i18n="navSetup">Подключение</a>
+        <a href="#models" class="hover:opacity-70 transition-opacity" data-i18n="navModels">Модели</a>
+        <a href="#faq" class="hover:opacity-70 transition-opacity" data-i18n="navFaq">FAQ</a>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- Language toggle -->
+        <div class="join">
+          <button onclick="setLang('ru')" id="lang-ru" class="btn btn-sm join-item btn-ghost" data-i18n="langRu">RU</button>
+          <button onclick="setLang('en')" id="lang-en" class="btn btn-sm join-item btn-ghost" data-i18n="langEn">EN</button>
+        </div>
+        <!-- Theme toggle -->
+        <button onclick="toggleTheme()" class="btn btn-sm btn-ghost btn-circle" aria-label="Toggle theme">
+          <i class="bi bi-moon-stars text-lg" id="theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════ HERO ══════════ -->
+  <header class="hero-gradient">
+    <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="badge badge-outline badge-primary mb-4 font-medium" data-i18n="heroBadge">Бесплатно · OpenAI-совместимо · MCP ready</div>
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-5">
+          <span class="accent-gradient" data-i18n="heroTitle1">Подключи бесплатную Kimi</span><br />
+          <span data-i18n="heroTitle2">к Hermes Agent за 3 шага</span>
+        </h1>
+        <p class="text-lg opacity-80 mb-8 max-w-xl" data-i18n="heroSub">
+          Kimi K3 от Moonshot AI — бесплатная модель через TokenRouter API. Полностью OpenAI-совместимый endpoint: работает с чатами, дайджестами, cron-задачами и любыми инструментами Hermes.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#setup" class="btn btn-primary btn-lg gap-2">
+            <i class="bi bi-lightning-charge-fill"></i>
+            <span data-i18n="heroCta1">Начать подключение</span>
+          </a>
+          <a href="#models" class="btn btn-outline btn-lg gap-2">
+            <i class="bi bi-grid-1x2"></i>
+            <span data-i18n="heroCta2">Смотреть модели</span>
+          </a>
+        </div>
+        <div class="flex flex-wrap gap-6 mt-10 text-sm opacity-70">
+          <span class="flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-success"></i> <span data-i18n="heroStat1">120+ моделей</span></span>
+          <span class="flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-success"></i> <span data-i18n="heroStat2">0 ₽ в месяц</span></span>
+          <span class="flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-success"></i> <span data-i18n="heroStat3">3 минуты установки</span></span>
+        </div>
+      </div>
+      <div class="hidden md:block">
+        <div class="float-slow relative">
+          <div class="card bg-base-100 shadow-xl rounded-2xl overflow-hidden border border-base-300/50">
+            <div class="card-body p-6">
+              <div class="flex items-center gap-2 mb-4">
+                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white"><i class="bi bi-stars"></i></span>
+                <div>
+                  <div class="font-semibold text-sm">Kimi K3 (free)</div>
+                  <div class="text-xs opacity-50">moonshotai/kimi-k3-free</div>
+                </div>
+                <span class="ml-auto badge badge-success badge-sm gap-1"><i class="bi bi-circle-fill text-[8px]"></i> online</span>
+              </div>
+              <div class="space-y-3 text-sm">
+                <div class="chat chat-start">
+                  <div class="chat-bubble chat-bubble-primary">Подключи меня к Hermes!</div>
+                </div>
+                <div class="chat chat-end">
+                  <div class="chat-bubble">✅ Готово. Ты теперь бесплатный провайдер.</div>
+                </div>
+                <div class="chat chat-start">
+                  <div class="chat-bubble chat-bubble-primary">Отлично. Буду помогать с дайджестами и отчётами.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════ WHY ══════════ -->
+  <section id="why" class="py-16 md:py-20">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <div class="badge badge-primary badge-outline mb-3" data-i18n="whyBadge">Почему Kimi</div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4" data-i18n="whyTitle">Зачем подключать Kimi к Hermes?</h2>
+        <p class="max-w-2xl mx-auto opacity-70" data-i18n="whySub">Hermes поддерживает кастомных провайдеров. Один ключ — и у агента появляется новая бесплатная модель для повседневных задач.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="feature-card bg-base-200/60 border border-base-300/40 hover:shadow-lg">
+          <div class="w-11 h-11 rounded-xl bg-blue-500/15 text-blue-500 flex items-center justify-center mb-4 text-xl"><i class="bi bi-wallet2"></i></div>
+          <h3 class="font-semibold text-lg mb-2" data-i18n="whyCard1T">Полностью бесплатно</h3>
+          <p class="opacity-70 text-sm" data-i18n="whyCard1D">Модель moonshotai/kimi-k3-free не требует оплаты. Идеальна для дайджестов, отчётов и рутинных задач агента.</p>
+        </div>
+        <div class="feature-card bg-base-200/60 border border-base-300/40 hover:shadow-lg">
+          <div class="w-11 h-11 rounded-xl bg-violet-500/15 text-violet-500 flex items-center justify-center mb-4 text-xl"><i class="bi bi-plug"></i></div>
+          <h3 class="font-semibold text-lg mb-2" data-i18n="whyCard2T">OpenAI-совместимость</h3>
+          <p class="opacity-70 text-sm" data-i18n="whyCard2D">Endpoint /v1/chat/completions — Hermes подключается как к обычному OpenAI API. Без SDK и хаков.</p>
+        </div>
+        <div class="feature-card bg-base-200/60 border border-base-300/40 hover:shadow-lg">
+          <div class="w-11 h-11 rounded-xl bg-pink-500/15 text-pink-500 flex items-center justify-center mb-4 text-xl"><i class="bi bi-collection"></i></div>
+          <h3 class="font-semibold text-lg mb-2" data-i18n="whyCard3T">120+ моделей в одном ключе</h3>
+          <p class="opacity-70 text-sm" data-i18n="whyCard3D">Кроме Kimi — GPT-5.x, Claude, Qwen, DeepSeek, Gemini, Grok. Один ключ на всё.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ SETUP ══════════ -->
+  <section id="setup" class="py-16 md:py-20 bg-base-200/50">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <div class="badge badge-primary badge-outline mb-3" data-i18n="setupBadge">Инструкция</div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4" data-i18n="setupTitle">Подключение за 3 шага</h2>
+        <p class="opacity-70" data-i18n="setupSub">Всё, что нужно — ключ API и правка одного файла конфигурации.</p>
+      </div>
+
+      <!-- Шаг 1 -->
+      <div class="card bg-base-100 shadow-sm border border-base-300/40 mb-6">
+        <div class="card-body p-6 md:p-8">
+          <div class="flex items-start gap-4">
+            <div class="step-number">1</div>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-bold text-lg mb-2" data-i18n="step1T">Получи ключ TokenRouter</h3>
+              <p class="opacity-70 text-sm mb-4" data-i18n="step1D">
+                TokenRouter — бесплатный API-роутер. Зарегистрируйся на сайте tokenrouter.com, создай ключ в панели и скопируй его. Ключ начинается с <code class="badge badge-ghost badge-sm">sk-</code>.
+              </p>
+              <div class="code-block bg-base-300/80">
+                <button class="copy-btn" onclick="copyCode(this)" data-copy="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"><i class="bi bi-clipboard"></i> <span data-i18n="copy">Копировать</span></button>
+                <pre class="text-base-content/80">sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Шаг 2 -->
+      <div class="card bg-base-100 shadow-sm border border-base-300/40 mb-6">
+        <div class="card-body p-6 md:p-8">
+          <div class="flex items-start gap-4">
+            <div class="step-number">2</div>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-bold text-lg mb-2" data-i18n="step2T">Добавь провайдера в config.yaml</h3>
+              <p class="opacity-70 text-sm mb-4" data-i18n="step2D">
+                Открой <code class="badge badge-ghost badge-sm">~/.hermes/config.yaml</code> и добавь блок в <code class="badge badge-ghost badge-sm">custom_providers</code>:
+              </p>
+              <div class="code-block bg-[#1e1e2e]">
+                <button class="copy-btn" onclick="copyCode(this)" data-copy="custom_providers:
+  - name: tokenrouter-kimi
+    api_key: sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    api_mode: chat_completions
+    base_url: https://api.tokenrouter.com/v1
+    model: moonshotai/kimi-k3-free"><i class="bi bi-clipboard"></i> <span data-i18n="copy">Копировать</span></button>
+                <pre class="text-slate-200">custom_providers:
+  - name: tokenrouter-kimi
+    api_key: sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    api_mode: chat_completions
+    base_url: https://api.tokenrouter.com/v1
+    model: moonshotai/kimi-k3-free</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Шаг 3 -->
+      <div class="card bg-base-100 shadow-sm border border-base-300/40 mb-6">
+        <div class="card-body p-6 md:p-8">
+          <div class="flex items-start gap-4">
+            <div class="step-number">3</div>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-bold text-lg mb-2" data-i18n="step3T">Перезапусти gateway и проверь</h3>
+              <p class="opacity-70 text-sm mb-4" data-i18n="step3D">
+                Перезапусти gateway, чтобы Hermes подхватил нового провайдера, и проверь ответ:
+              </p>
+              <div class="code-block bg-[#1e1e2e] mb-3">
+                <button class="copy-btn" onclick="copyCode(this)" data-copy="hermes gateway restart"><i class="bi bi-clipboard"></i> <span data-i18n="copy">Копировать</span></button>
+                <pre class="text-slate-200">hermes gateway restart</pre>
+              </div>
+              <div class="code-block bg-[#1e1e2e]">
+                <button class="copy-btn" onclick="copyCode(this)" data-copy="curl -s https://api.tokenrouter.com/v1/chat/completions \
+  -H &quot;Authorization: Bearer sk-xxx&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;model&quot;:&quot;moonshotai/kimi-k3-free&quot;,&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Привет&quot;}]}'"><i class="bi bi-clipboard"></i> <span data-i18n="copy">Копировать</span></button>
+                <pre class="text-slate-200">curl -s https://api.tokenrouter.com/v1/chat/completions \
+  -H "Authorization: Bearer sk-xxx" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"moonshotai/kimi-k3-free","messages":[{"role":"user","content":"Привет"}]}'</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cron -->
+      <div class="card bg-base-100 shadow-sm border border-base-300/40 mb-6">
+        <div class="card-body p-6 md:p-8">
+          <div class="flex items-start gap-4">
+            <div class="step-number" style="background:linear-gradient(135deg,#22c55e,#06b6d4)">+</div>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-bold text-lg mb-2" data-i18n="step4T">Подключи к cron-задачам</h3>
+              <p class="opacity-70 text-sm mb-4" data-i18n="step4D">
+                В cron-задаче Hermes укажи провайдера <code class="badge badge-ghost badge-sm">custom:tokenrouter-kimi</code> и модель <code class="badge badge-ghost badge-sm">moonshotai/kimi-k3-free</code> — дайджесты и отчёты будут генерировать Kimi.
+              </p>
+              <div class="code-block bg-[#1e1e2e]">
+                <button class="copy-btn" onclick="copyCode(this)" data-copy="hermes cron update &lt;job_id&gt; \
+  --model moonshotai/kimi-k3-free \
+  --provider custom:tokenrouter-kimi"><i class="bi bi-clipboard"></i> <span data-i18n="copy">Копировать</span></button>
+                <pre class="text-slate-200">hermes cron update &lt;job_id&gt; \
+  --model moonshotai/kimi-k3-free \
+  --provider custom:tokenrouter-kimi</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ MODELS ══════════ -->
+  <section id="models" class="py-16 md:py-20">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <div class="badge badge-primary badge-outline mb-3" data-i18n="modelsBadge">Каталог</div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4" data-i18n="modelsTitle">Что доступно по этому ключу</h2>
+        <p class="opacity-70" data-i18n="modelsSub">Полный список — GET /v1/models. Вот выжимка:</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="card bg-base-200/60 border border-base-300/40 hover:shadow-lg transition-shadow">
+          <div class="card-body p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-sm"><i class="bi bi-stars"></i></span>
+              <div>
+                <div class="font-semibold">Kimi K3</div>
+                <div class="text-xs opacity-50 font-mono">moonshotai/kimi-k3-free</div>
+              </div>
+              <span class="ml-auto badge badge-success badge-sm" data-i18n="free">free</span>
+            </div>
+            <p class="text-sm opacity-70" data-i18n="modelKimi">Флагман Moonshot AI. Сильные рассуждения, отличный русский.</p>
+          </div>
+        </div>
+
+        <div class="card bg-base-200/60 border border-base-300/40 hover:shadow-lg transition-shadow">
+          <div class="card-body p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-8 h-8 rounded-lg bg-blue-500/15 text-blue-500 flex items-center justify-center text-sm"><i class="bi bi-robot"></i></span>
+              <div>
+                <div class="font-semibold">GPT-5.x</div>
+                <div class="text-xs opacity-50 font-mono">openai/gpt-5.4</div>
+              </div>
+            </div>
+            <p class="text-sm opacity-70" data-i18n="modelGpt">Линейка OpenAI: mini, nano, pro, image.</p>
+          </div>
+        </div>
+
+        <div class="card bg-base-200/60 border border-base-300/40 hover:shadow-lg transition-shadow">
+          <div class="card-body p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-8 h-8 rounded-lg bg-orange-500/15 text-orange-500 flex items-center justify-center text-sm"><i class="bi bi-cpu"></i></span>
+              <div>
+                <div class="font-semibold">Claude</div>
+                <div class="text-xs opacity-50 font-mono">anthropic/claude-sonnet-4</div>
+              </div>
+            </div>
+            <p class="text-sm opacity-70" data-i18n="modelClaude">Opus, Sonnet, Haiku от Anthropic.</p>
+          </div>
+        </div>
+
+        <div class="card bg-base-200/60 border border-base-300/40 hover:shadow-lg transition-shadow">
+          <div class="card-body p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-8 h-8 rounded-lg bg-green-500/15 text-green-500 flex items-center justify-center text-sm"><i class="bi bi-braces"></i></span>
+              <div>
+                <div class="font-semibold">DeepSeek</div>
+                <div class="text-xs opacity-50 font-mono">deepseek/deepseek-v4</div>
+              </div>
+            </div>
+            <p class="text-sm opacity-70" data-i18n="modelDeepseek">v4-flash, v4-pro, coder-версии.</p>
+          </div>
+        </div>
+
+        <div class="card bg-base-200/60 border border-base-300/40 hover:shadow-lg transition-shadow">
+          <div class="card-body p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-8 h-8 rounded-lg bg-red-500/15 text-red-500 flex items-center justify-center text-sm"><i class="bi bi-gem"></i></span>
+              <div>
+                <div class="font-semibold">Qwen</div>
+                <div class="text-xs opacity-50 font-mono">qwen/qwen3.7-plus</div>
+              </div>
+            </div>
+            <p class="text-sm opacity-70" data-i18n="modelQwen">Alibaba: flash, plus, max, coder.</p>
+          </div>
+        </div>
+
+        <div class="card bg-base-200/60 border border-base-300/40 hover:shadow-lg transition-shadow">
+          <div class="card-body p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-8 h-8 rounded-lg bg-cyan-500/15 text-cyan-500 flex items-center justify-center text-sm"><i class="bi bi-google"></i></span>
+              <div>
+                <div class="font-semibold">Gemini</div>
+                <div class="text-xs opacity-50 font-mono">google/gemini-3-flash</div>
+              </div>
+            </div>
+            <p class="text-sm opacity-70" data-i18n="modelGemini">Google: flash, pro, image, embedding.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert bg-base-200 border-base-300/40 mt-8">
+        <i class="bi bi-info-circle-fill text-info"></i>
+        <span data-i18n="modelsNote">Бесплатная модель kimi-k3-free помечена тегом <code class="badge badge-success badge-sm">free</code>. Остальные — по тарифам TokenRouter.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FAQ ══════════ -->
+  <section id="faq" class="py-16 md:py-20 bg-base-200/50">
+    <div class="max-w-3xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <div class="badge badge-primary badge-outline mb-3" data-i18n="faqBadge">FAQ</div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4" data-i18n="faqTitle">Частые вопросы</h2>
+      </div>
+
+      <div class="space-y-3">
+        <div class="collapse collapse-arrow bg-base-100 border border-base-300/40">
+          <input type="checkbox" />
+          <div class="collapse-title font-semibold" data-i18n="faq1q">Это правда бесплатно?</div>
+          <div class="collapse-content text-sm opacity-70" data-i18n="faq1a">Да. Модель moonshotai/kimi-k3-free доступна бесплатно через TokenRouter. Достаточно ключа API.</div>
+        </div>
+        <div class="collapse collapse-arrow bg-base-100 border border-base-300/40">
+          <input type="checkbox" />
+          <div class="collapse-title font-semibold" data-i18n="faq2q">Нужен ли VPN или прокси?</div>
+          <div class="collapse-content text-sm opacity-70" data-i18n="faq2a">Нет. API доступен напрямую по HTTPS: https://api.tokenrouter.com/v1.</div>
+        </div>
+        <div class="collapse collapse-arrow bg-base-100 border border-base-300/40">
+          <input type="checkbox" />
+          <div class="collapse-title font-semibold" data-i18n="faq3q">Можно ли использовать для cron-задач?</div>
+          <div class="collapse-content text-sm opacity-70" data-i18n="faq3a">Да. Укажи provider custom:tokenrouter-kimi в cron-задаче — Kimi будет генерировать дайджесты и отчёты.</div>
+        </div>
+        <div class="collapse collapse-arrow bg-base-100 border border-base-300/40">
+          <input type="checkbox" />
+          <div class="collapse-title font-semibold" data-i18n="faq4q">Какие ещё модели доступны?</div>
+          <div class="collapse-content text-sm opacity-70" data-i18n="faq4a">120+: GPT-5.x, Claude Opus/Sonnet/Haiku, DeepSeek, Qwen, Gemini, Grok, GLM, MiniMax, Mistral. Полный список — GET /v1/models.</div>
+        </div>
+        <div class="collapse collapse-arrow bg-base-100 border border-base-300/40">
+          <input type="checkbox" />
+          <div class="collapse-title font-semibold" data-i18n="faq5q">Что такое TokenRouter?</div>
+          <div class="collapse-content text-sm opacity-70" data-i18n="faq5a">Бесплатный API-роутер, который агрегирует десятки LLM-провайдеров за одним ключом и одним OpenAI-совместимым endpoint.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer class="py-10">
+    <div class="max-w-6xl mx-auto px-4 text-center text-sm opacity-60">
+      <div class="flex items-center justify-center gap-2 mb-3">
+        <span class="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 via-violet-500 to-pink-500 flex items-center justify-center text-white text-xs"><i class="bi bi-stars"></i></span>
+        <span class="font-semibold" data-i18n="footerBrand">Kimi + Hermes</span>
+      </div>
+      <p data-i18n="footerText">Инструкция по подключению бесплатной Kimi K3 к Hermes Agent через TokenRouter.</p>
+      <p class="mt-2">
+        <a href="https://api.tokenrouter.com/v1/models" class="link" target="_blank" rel="noopener">TokenRouter API</a> ·
+        <a href="https://hermes-agent.nousresearch.com/docs" class="link" target="_blank" rel="noopener">Hermes Docs</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ══════════ I18N DICTIONARY ══════════ -->
+  <script>
+    const i18n = {
+      ru: {
+        navBrand: "Kimi + Hermes", navWhy: "Зачем", navSetup: "Подключение", navModels: "Модели", navFaq: "FAQ",
+        langRu: "RU", langEn: "EN",
+        heroBadge: "Бесплатно · OpenAI-совместимо · MCP ready",
+        heroTitle1: "Подключи бесплатную Kimi", heroTitle2: "к Hermes Agent за 3 шага",
+        heroSub: "Kimi K3 от Moonshot AI — бесплатная модель через TokenRouter API. Полностью OpenAI-совместимый endpoint: работает с чатами, дайджестами, cron-задачами и любыми инструментами Hermes.",
+        heroCta1: "Начать подключение", heroCta2: "Смотреть модели",
+        heroStat1: "120+ моделей", heroStat2: "0 ₽ в месяц", heroStat3: "3 минуты установки",
+        whyBadge: "Почему Kimi", whyTitle: "Зачем подключать Kimi к Hermes?",
+        whySub: "Hermes поддерживает кастомных провайдеров. Один ключ — и у агента появляется новая бесплатная модель для повседневных задач.",
+        whyCard1T: "Полностью бесплатно", whyCard1D: "Модель moonshotai/kimi-k3-free не требует оплаты. Идеальна для дайджестов, отчётов и рутинных задач агента.",
+        whyCard2T: "OpenAI-совместимость", whyCard2D: "Endpoint /v1/chat/completions — Hermes подключается как к обычному OpenAI API. Без SDK и хаков.",
+        whyCard3T: "120+ моделей в одном ключе", whyCard3D: "Кроме Kimi — GPT-5.x, Claude, Qwen, DeepSeek, Gemini, Grok. Один ключ на всё.",
+        setupBadge: "Инструкция", setupTitle: "Подключение за 3 шага",
+        setupSub: "Всё, что нужно — ключ API и правка одного файла конфигурации.",
+        step1T: "Получи ключ TokenRouter",
+        step1D: "TokenRouter — бесплатный API-роутер. Зарегистрируйся на сайте tokenrouter.com, создай ключ в панели и скопируй его. Ключ начинается с sk-.",
+        step2T: "Добавь провайдера в config.yaml",
+        step2D: "Открой ~/.hermes/config.yaml и добавь блок в custom_providers:",
+        step3T: "Перезапусти gateway и проверь",
+        step3D: "Перезапусти gateway, чтобы Hermes подхватил нового провайдера, и проверь ответ:",
+        step4T: "Подключи к cron-задачам",
+        step4D: "В cron-задаче Hermes укажи провайдера custom:tokenrouter-kimi и модель moonshotai/kimi-k3-free — дайджесты и отчёты будут генерировать Kimi.",
+        copy: "Копировать", copied: "Скопировано!",
+        modelsBadge: "Каталог", modelsTitle: "Что доступно по этому ключу",
+        modelsSub: "Полный список — GET /v1/models. Вот выжимка:",
+        free: "free",
+        modelKimi: "Флагман Moonshot AI. Сильные рассуждения, отличный русский.",
+        modelGpt: "Линейка OpenAI: mini, nano, pro, image.",
+        modelClaude: "Opus, Sonnet, Haiku от Anthropic.",
+        modelDeepseek: "v4-flash, v4-pro, coder-версии.",
+        modelQwen: "Alibaba: flash, plus, max, coder.",
+        modelGemini: "Google: flash, pro, image, embedding.",
+        modelsNote: "Бесплатная модель kimi-k3-free помечена тегом free. Остальные — по тарифам TokenRouter.",
+        faqBadge: "FAQ", faqTitle: "Частые вопросы",
+        faq1q: "Это правда бесплатно?", faq1a: "Да. Модель moonshotai/kimi-k3-free доступна бесплатно через TokenRouter. Достаточно ключа API.",
+        faq2q: "Нужен ли VPN или прокси?", faq2a: "Нет. API доступен напрямую по HTTPS: https://api.tokenrouter.com/v1.",
+        faq3q: "Можно ли использовать для cron-задач?", faq3a: "Да. Укажи provider custom:tokenrouter-kimi в cron-задаче — Kimi будет генерировать дайджесты и отчёты.",
+        faq4q: "Какие ещё модели доступны?", faq4a: "120+: GPT-5.x, Claude Opus/Sonnet/Haiku, DeepSeek, Qwen, Gemini, Grok, GLM, MiniMax, Mistral. Полный список — GET /v1/models.",
+        faq5q: "Что такое TokenRouter?", faq5a: "Бесплатный API-роутер, который агрегирует десятки LLM-провайдеров за одним ключом и одним OpenAI-совместимым endpoint.",
+        footerBrand: "Kimi + Hermes",
+        footerText: "Инструкция по подключению бесплатной Kimi K3 к Hermes Agent через TokenRouter."
+      },
+      en: {
+        navBrand: "Kimi + Hermes", navWhy: "Why", navSetup: "Setup", navModels: "Models", navFaq: "FAQ",
+        langRu: "RU", langEn: "EN",
+        heroBadge: "Free · OpenAI-compatible · MCP ready",
+        heroTitle1: "Connect free Kimi", heroTitle2: "to Hermes Agent in 3 steps",
+        heroSub: "Kimi K3 by Moonshot AI — free model via TokenRouter API. Fully OpenAI-compatible endpoint: works with chats, digests, cron jobs and any Hermes tools.",
+        heroCta1: "Start setup", heroCta2: "View models",
+        heroStat1: "120+ models", heroStat2: "$0 per month", heroStat3: "3-minute setup",
+        whyBadge: "Why Kimi", whyTitle: "Why connect Kimi to Hermes?",
+        whySub: "Hermes supports custom providers. One key — and the agent gets a new free model for everyday tasks.",
+        whyCard1T: "Completely free", whyCard1D: "The moonshotai/kimi-k3-free model costs nothing. Perfect for digests, reports and routine agent tasks.",
+        whyCard2T: "OpenAI compatibility", whyCard2D: "Endpoint /v1/chat/completions — Hermes connects like a regular OpenAI API. No SDKs, no hacks.",
+        whyCard3T: "120+ models, one key", whyCard3D: "Besides Kimi — GPT-5.x, Claude, Qwen, DeepSeek, Gemini, Grok. One key for everything.",
+        setupBadge: "Guide", setupTitle: "Setup in 3 steps",
+        setupSub: "All you need is an API key and one config file edit.",
+        step1T: "Get a TokenRouter key",
+        step1D: "TokenRouter is a free API router. Register at tokenrouter.com, create a key in the panel and copy it. Keys start with sk-.",
+        step2T: "Add the provider to config.yaml",
+        step2D: "Open ~/.hermes/config.yaml and add a block to custom_providers:",
+        step3T: "Restart gateway and verify",
+        step3D: "Restart the gateway so Hermes picks up the new provider, then verify the response:",
+        step4T: "Connect to cron jobs",
+        step4D: "In a Hermes cron job set provider custom:tokenrouter-kimi and model moonshotai/kimi-k3-free — Kimi will generate digests and reports.",
+        copy: "Copy", copied: "Copied!",
+        modelsBadge: "Catalog", modelsTitle: "What's available with this key",
+        modelsSub: "Full list — GET /v1/models. Highlights:",
+        free: "free",
+        modelKimi: "Moonshot AI flagship. Strong reasoning, great English.",
+        modelGpt: "OpenAI lineup: mini, nano, pro, image.",
+        modelClaude: "Opus, Sonnet, Haiku by Anthropic.",
+        modelDeepseek: "v4-flash, v4-pro, coder variants.",
+        modelQwen: "Alibaba: flash, plus, max, coder.",
+        modelGemini: "Google: flash, pro, image, embedding.",
+        modelsNote: "The free kimi-k3-free model is tagged free. The rest follow TokenRouter pricing.",
+        faqBadge: "FAQ", faqTitle: "Frequently asked questions",
+        faq1q: "Is it really free?", faq1a: "Yes. The moonshotai/kimi-k3-free model is available free via TokenRouter. An API key is all you need.",
+        faq2q: "Do I need a VPN or proxy?", faq2a: "No. The API is directly accessible over HTTPS: https://api.tokenrouter.com/v1.",
+        faq3q: "Can I use it for cron jobs?", faq3a: "Yes. Set provider custom:tokenrouter-kimi in a cron job — Kimi will generate digests and reports.",
+        faq4q: "What other models are available?", faq4a: "120+: GPT-5.x, Claude Opus/Sonnet/Haiku, DeepSeek, Qwen, Gemini, Grok, GLM, MiniMax, Mistral. Full list — GET /v1/models.",
+        faq5q: "What is TokenRouter?", faq5a: "A free API router that aggregates dozens of LLM providers behind one key and one OpenAI-compatible endpoint.",
+        footerBrand: "Kimi + Hermes",
+        footerText: "Guide to connecting free Kimi K3 to Hermes Agent via TokenRouter."
+      }
+    };
+
+    let currentLang = 'ru';
+    let currentTheme = 'light';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const val = i18n[lang][key];
+        if (val !== undefined) el.textContent = val;
+      });
+      document.getElementById('lang-ru').classList.toggle('btn-active', lang === 'ru');
+      document.getElementById('lang-en').classList.toggle('btn-active', lang === 'en');
+      localStorage.setItem('kimi-lang', lang);
+    }
+
+    function setLang(lang) { applyLang(lang); }
+
+    function applyTheme(theme) {
+      currentTheme = theme;
+      document.documentElement.setAttribute('data-theme', theme);
+      const icon = document.getElementById('theme-icon');
+      icon.className = theme === 'light' ? 'bi bi-moon-stars text-lg' : 'bi bi-sun text-lg';
+      localStorage.setItem('kimi-theme', theme);
+    }
+
+    function toggleTheme() {
+      applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+    }
+
+    function copyCode(btn) {
+      const text = btn.getAttribute('data-copy');
+      navigator.clipboard.writeText(text).then(() => {
+        const old = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '<i class="bi bi-check2"></i> ' + (i18n[currentLang].copied || 'Copied!');
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = old;
+        }, 2000);
+      });
+    }
+
+    // Init
+    const savedLang = localStorage.getItem('kimi-lang');
+    const savedTheme = localStorage.getItem('kimi-theme');
+    applyLang(savedLang || 'ru');
+    applyTheme(savedTheme || 'light');
+  </script>
+</body>
+</html>
