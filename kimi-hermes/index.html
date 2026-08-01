@@ -254,10 +254,17 @@
           <div class="flex items-start gap-4">
             <div class="step-number">1</div>
             <div class="flex-1 min-w-0">
-              <h3 class="font-bold text-lg mb-2" data-i18n="step1T">Получи ключ TokenRouter</h3>
+              <h3 class="font-bold text-lg mb-2" data-i18n="step1T">Перейди на сайт и зарегистрируйся</h3>
               <p class="opacity-70 text-sm mb-4" data-i18n="step1D">
-                TokenRouter — бесплатный API-роутер. Зарегистрируйся на сайте tokenrouter.com, создай ключ в панели и скопируй его. Ключ начинается с <code class="badge badge-ghost badge-sm">sk-</code>.
+                Открой сайт <a href="https://www.tokenrouter.com" target="_blank" rel="noopener" class="link link-primary">tokenrouter.com</a>, создай аккаунт и войди в панель. В разделе API Keys нажми «Create Key» — скопируй ключ. Он начинается с <code class="badge badge-ghost badge-sm">sk-</code>.
               </p>
+              <div class="flex flex-wrap items-center gap-3 mb-4">
+                <a href="https://www.tokenrouter.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm gap-2">
+                  <i class="bi bi-box-arrow-up-right"></i>
+                  <span data-i18n="step1Cta">Перейти на tokenrouter.com</span>
+                </a>
+                <span class="text-xs opacity-50" data-i18n="step1Hint">Регистрация бесплатная, карта не нужна</span>
+              </div>
               <div class="code-block bg-base-300/80">
                 <button class="copy-btn" onclick="copyCode(this)" data-copy="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"><i class="bi bi-clipboard"></i> <span data-i18n="copy">Копировать</span></button>
                 <pre class="text-base-content/80">sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</pre>
@@ -518,8 +525,10 @@
         whyCard3T: "120+ моделей в одном ключе", whyCard3D: "Кроме Kimi — GPT-5.x, Claude, Qwen, DeepSeek, Gemini, Grok. Один ключ на всё.",
         setupBadge: "Инструкция", setupTitle: "Подключение за 3 шага",
         setupSub: "Всё, что нужно — ключ API и правка одного файла конфигурации.",
-        step1T: "Получи ключ TokenRouter",
-        step1D: "TokenRouter — бесплатный API-роутер. Зарегистрируйся на сайте tokenrouter.com, создай ключ в панели и скопируй его. Ключ начинается с sk-.",
+        step1T: "Перейди на сайт и зарегистрируйся",
+        step1D: "Открой сайт tokenrouter.com, создай аккаунт и войди в панель. В разделе API Keys нажми «Create Key» — скопируй ключ. Он начинается с sk-.",
+        step1Cta: "Перейти на tokenrouter.com",
+        step1Hint: "Регистрация бесплатная, карта не нужна",
         step2T: "Добавь провайдера в config.yaml",
         step2D: "Открой ~/.hermes/config.yaml и добавь блок в custom_providers:",
         step3T: "Перезапусти gateway и проверь",
@@ -561,8 +570,10 @@
         whyCard3T: "120+ models, one key", whyCard3D: "Besides Kimi — GPT-5.x, Claude, Qwen, DeepSeek, Gemini, Grok. One key for everything.",
         setupBadge: "Guide", setupTitle: "Setup in 3 steps",
         setupSub: "All you need is an API key and one config file edit.",
-        step1T: "Get a TokenRouter key",
-        step1D: "TokenRouter is a free API router. Register at tokenrouter.com, create a key in the panel and copy it. Keys start with sk-.",
+        step1T: "Go to the site and sign up",
+        step1D: "Open tokenrouter.com, create an account and log in to the panel. In the API Keys section click «Create Key» — copy the key. It starts with sk-.",
+        step1Cta: "Go to tokenrouter.com",
+        step1Hint: "Free registration, no card required",
         step2T: "Add the provider to config.yaml",
         step2D: "Open ~/.hermes/config.yaml and add a block to custom_providers:",
         step3T: "Restart gateway and verify",
