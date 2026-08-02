@@ -385,12 +385,22 @@
         const color = p.color || '#ff4d4d';
         const tags = (p.tags || []).slice(0, 3).map(t => `<span class="card-tag">${t}</span>`).join('');
 
-        // Умный base: на сервере xep.qzz.io → /weblending/, на GitHub Pages → /
+        // Умный base: на сервере xep.qzz.io → /weblending/, на GitHub Pages → /landings/
+        // /weblending/projects/<name>/ → /landings/<name>/ ; /weblending/<name>/ → /landings/<name>/
         const isGhPages = window.location.hostname.includes('github.io');
-        const base = isGhPages ? '/landings/' : '/weblending/';
-        const projectUrl = p.url
-          ? (p.url.startsWith('/') && isGhPages ? p.url.replace('/weblending', '/landings') : p.url)
-          : `${base}projects/${p.id}/index.html`;
+        let projectUrl;
+        if (p.url) {
+          if (isGhPages && p.url.startsWith('/weblending/')) {
+            projectUrl = '/landings/' + p.url.replace('/weblending/projects/', '').replace('/weblending/', '');
+          } else if (isGhPages && p.url.startsWith('/')) {
+            projectUrl = '/landings' + p.url;
+          } else {
+            projectUrl = p.url;
+          }
+        } else {
+          const base = isGhPages ? '/landings/' : '/weblending/';
+          projectUrl = `${base}projects/${p.id}/index.html`;
+        }
         html += `
           <a href="${projectUrl}" target="_blank" class="project-card fade-in-scale" style="animation-delay:${i * 0.05}s">
             <div class="card-preview">
