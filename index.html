@@ -389,7 +389,10 @@
         // /weblending/projects/<name>/ → /landings/<name>/ ; /weblending/<name>/ → /landings/<name>/
         const isGhPages = window.location.hostname.includes('github.io');
         let projectUrl;
-        if (p.url) {
+        if (p.id === 'knowledge-hub') {
+          // Защищённый серверный дашборд — всегда на сервере, не публиковать на GitHub
+          projectUrl = 'https://xep.qzz.io/knowledge-hub/';
+        } else if (p.url) {
           if (isGhPages && p.url.startsWith('/weblending/')) {
             projectUrl = '/landings/' + p.url.replace('/weblending/projects/', '').replace('/weblending/', '');
           } else if (isGhPages && p.url.startsWith('/')) {
