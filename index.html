@@ -398,8 +398,8 @@
             projectUrl = p.url;
           }
         } else {
-          const base = isGhPages ? '/landings/' : '/weblending/';
-          projectUrl = `${base}projects/${p.id}/index.html`;
+          const base = isGhPages ? '/landings/' : '/weblending/projects/';
+          projectUrl = `${base}${p.id}/index.html`;
         }
         html += `
           <a href="${projectUrl}" target="_blank" class="project-card fade-in-scale" style="animation-delay:${i * 0.05}s">
