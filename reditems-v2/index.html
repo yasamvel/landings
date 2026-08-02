@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Красные Предметы | Дизайн студия и производство</title>
+    
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header" class="fixed-top navbar-light bg-light-header dark-mode-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-lg px-4">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-3 text-decoration-none" href="#top">
+                    <div class="logo-box">R</div>
+                    <span class="d-none d-sm-block nav-title">Красные Предметы</span>
+                </a>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <!-- Navigation & Actions -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <nav class="navbar-nav ms-auto gap-4 align-items-center">
+                        <a class="nav-link" href="#about">О компании</a>
+                        <a class="nav-link" href="#projects">Проекты</a>
+                        <a class="nav-link" href="#technologies">Технологии</a>
+                        <a class="nav-link" href="#philosophy">Философия</a>
+                        <a class="nav-link" href="#contact">Контакты</a>
+                        
+                        <button id="theme-toggle" class="btn btn-sm btn-outline-secondary ms-2" title="Переключить тему">
+                            <i class="bi bi-moon-stars"></i>
+                        </button>
+                        <a href="#contact" class="btn btn-danger d-none d-sm-inline-block ms-2">Связаться</a>
+                    </nav>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section position-relative overflow-hidden d-flex align-items-center justify-content-center">
+        <!-- Decorative SVG Shapes -->
+        <svg class="decorative-shape shape-1" viewBox="0 0 60 60">
+            <path d="M0,0 L60,0 L60,60 L0,60 Z" fill="#cc0000"/>
+        </svg>
+        <svg class="decorative-shape shape-2" viewBox="0 0 60 60">
+            <path d="M30,0 L60,30 L30,60 L0,30 Z" fill="#cc0000"/>
+        </svg>
+        <svg class="decorative-shape shape-3" viewBox="0 0 60 60">
+            <path d="M0,30 Q30,0 60,30 Q30,60 0,30 Z" fill="#cc0000"/>
+        </svg>
+        <svg class="decorative-shape shape-4" viewBox="0 0 60 60">
+            <path d="M0,0 L30,0 L30,30 L0,30 Z" fill="#cc0000"/>
+        </svg>
+
+        <div class="hero-gradient"></div>
+
+        <div class="container-lg position-relative z-10 text-center px-4 hero-content">
+            <p class="hero-label mb-4">дизайн-студия и производство</p>
+            
+            <h1 class="display-3 fw-bold mb-4 hero-title">
+                Красные Предметы создают интерьерные объекты, которые держат пространство
+            </h1>
+            
+            <p class="lead mb-5 hero-subtitle">
+                Металл, дерево, композиты и инженерная точность для офисов, ресторанов, 
+                музеев и частных интерьеров. <span class="text-danger italic">Красота есть основа.</span>
+            </p>
+
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="#projects" class="btn btn-danger btn-lg">Посмотреть проекты</a>
+                <a href="#contact" class="btn btn-outline-dark btn-lg glass-effect">Связаться с нами</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-light about-section">
+        <div class="container-lg px-4">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    <h2 class="display-5 fw-bold mb-4">О компании</h2>
+                    <p class="fs-5 text-body-secondary">
+                        ООО «Красные предметы» — студия дизайна и производства, специализирующаяся на 
+                        создании уникальных предметов интерьера. Мы объединяем мастерство работы с 
+                        металлом, деревом и композитными материалами, воплощая в жизнь самые смелые 
+                        архитектурные и дизайнерские решения. Каждый наш проект — это диалог между 
+                        функциональностью и эстетикой, где красота становится основой.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="stat-number">7+</div>
+                        <p class="text-body-secondary">лет опыта</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="stat-number">50+</div>
+                        <p class="text-body-secondary">проектов</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="stat-number">6</div>
+                        <p class="text-body-secondary">технологий</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-5 projects-section">
+        <div class="container-lg px-4">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Проекты</h2>
+                <p class="text-body-secondary fs-5">Реализованные работы студии</p>
+            </div>
+
+            <div class="row g-4 projects-grid">
+                <!-- Project 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="project-card bg-gradient-office rounded-3">
+                        <div class="project-icon"><i class="bi bi-building"></i></div>
+                        <span class="project-year">2026</span>
+                        <h3 class="project-title">Офис, историческое здание</h3>
+                        <p class="project-desc">Текстильная концепция для исторического здания</p>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="project-card bg-gradient-restaurant rounded-3">
+                        <div class="project-icon"><i class="bi bi-cup"></i></div>
+                        <span class="project-year">2024</span>
+                        <h3 class="project-title">Ресторан REMY Kitchen Bakery</h3>
+                        <p class="project-desc">Интерьер ресторана</p>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="project-card bg-gradient-workshop rounded-3">
+                        <div class="project-icon"><i class="bi bi-mortarboard"></i></div>
+                        <span class="project-year">2025</span>
+                        <h3 class="project-title">Детская мастерская</h3>
+                        <p class="project-desc">Образовательное пространство</p>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="project-card bg-gradient-machine rounded-3">
+                        <div class="project-icon"><i class="bi bi-gear"></i></div>
+                        <span class="project-year">2025</span>
+                        <h3 class="project-title">Реставрация станка ERFURT</h3>
+                        <p class="project-desc">Восстановление промышленного оборудования</p>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="project-card bg-gradient-sales rounded-3">
+                        <div class="project-icon"><i class="bi bi-building"></i></div>
+                        <span class="project-year">2024</span>
+                        <h3 class="project-title">Офис продаж ЖК JOIS</h3>
+                        <p class="project-desc">Премиальный интерьер</p>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="project-card bg-gradient-bookstore rounded-3">
+                        <div class="project-icon"><i class="bi bi-book"></i></div>
+                        <span class="project-year">2024</span>
+                        <h3 class="project-title">Книжный магазин</h3>
+                        <p class="project-desc">Стойка ресепшн</p>
+                    </div>
+                </div>
+
+                <!-- Project 7 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="project-card bg-gradient-lounge rounded-3">
+                        <div class="project-icon"><i class="bi bi-fire"></i></div>
+                        <span class="project-year">2024</span>
+                        <h3 class="project-title">Сигарный лаунж «Nameli»</h3>
+                        <p class="project-desc">Интерьер лаунжа</p>
+                    </div>
+                </div>
+
+                <!-- Project 8 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="project-card bg-gradient-museum rounded-3">
+                        <div class="project-icon"><i class="bi bi-palm-tree"></i></div>
+                        <span class="project-year">2024</span>
+                        <h3 class="project-title">Музей «Коллекция»</h3>
+                        <p class="project-desc">Офис дирекции музея</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section id="technologies" class="py-5 bg-light tech-section">
+        <div class="container-lg px-4">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Технологии</h2>
+                <p class="text-body-secondary fs-5">Современное оборудование и проверенные технологии производства</p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <!-- Tech 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="tech-card rounded-3">
+                        <div class="tech-icon"><i class="bi bi-distribute-horizontal"></i></div>
+                        <h3>Лазерная резка</h3>
+                        <p>Прецизионная резка металла и композитов с точностью до 0.1 мм</p>
+                    </div>
+                </div>
+
+                <!-- Tech 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="tech-card rounded-3">
+                        <div class="tech-icon"><i class="bi bi-tablet"></i></div>
+                        <h3>ЧПУ фрезеровка</h3>
+                        <p>Многоосевая обработка дерева, пластика и алюминия</p>
+                    </div>
+                </div>
+
+                <!-- Tech 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="tech-card rounded-3">
+                        <div class="tech-icon"><i class="bi bi-triangle"></i></div>
+                        <h3>Гибка металла</h3>
+                        <p>Холодная гибка листового металла любой сложности</p>
+                    </div>
+                </div>
+
+                <!-- Tech 4 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="tech-card rounded-3">
+                        <div class="tech-icon"><i class="bi bi-lightning"></i></div>
+                        <h3>Сварка</h3>
+                        <p>Аргонодуговая и лазерная сварка конструкций</p>
+                    </div>
+                </div>
+
+                <!-- Tech 5 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="tech-card rounded-3">
+                        <div class="tech-icon"><i class="bi bi-tools"></i></div>
+                        <h3>Токарные работы</h3>
+                        <p>Изготовление деталей на станках с ЧПУ</p>
+                    </div>
+                </div>
+
+                <!-- Tech 6 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="tech-card rounded-3">
+                        <div class="tech-icon"><i class="bi bi-palette"></i></div>
+                        <h3>Гравировка</h3>
+                        <p>Лазерная и механическая гравировка на любых поверхностях</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow -->
+            <div class="text-center mt-5 pt-5 border-top">
+                <h3 class="mb-4">Процесс работы</h3>
+                <div class="workflow-container">
+                    <div class="workflow-step">Идея</div>
+                    <div class="workflow-arrow"><i class="bi bi-arrow-right"></i></div>
+                    <div class="workflow-step">Дизайн</div>
+                    <div class="workflow-arrow"><i class="bi bi-arrow-right"></i></div>
+                    <div class="workflow-step">Производство</div>
+                    <div class="workflow-arrow"><i class="bi bi-arrow-right"></i></div>
+                    <div class="workflow-step">Монтаж</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="philosophy-section py-5">
+        <div class="container-lg px-4 text-center">
+            <div class="quote-mark">"</div>
+            <blockquote class="philosophy-quote">
+                Мы стремимся работать с людьми, движимыми любовью к красоте.
+                <br>
+                <span class="text-danger">Ведь красота есть основа.</span>
+            </blockquote>
+            <div class="quote-line"></div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 contact-section">
+        <div class="container-lg px-4">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Контакты</h2>
+                <p class="text-body-secondary fs-5">Свяжитесь с нами, чтобы обсудить ваш проект</p>
+            </div>
+
+            <div class="row g-5">
+                <!-- Contact Info -->
+                <div class="col-lg-6">
+                    <div class="space-4">
+                        <div class="contact-info">
+                            <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+                            <div>
+                                <h4>Email</h4>
+                                <a href="mailto:info@krasnyepredmety.ru">info@krasnyepredmety.ru</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-info">
+                            <div class="contact-icon"><i class="bi bi-camera"></i></div>
+                            <div>
+                                <h4>Instagram</h4>
+                                <a href="https://instagram.com/krasnye_predmety" target="_blank">@krasnye_predmety</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-info">
+                            <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
+                            <div>
+                                <h4>Локация</h4>
+                                <p>Москва, Россия</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="col-lg-6">
+                    <form id="contact-form" class="space-3">
+                        <div class="mb-3">
+                            <input type="text" class="form-control form-control-lg" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control form-control-lg" placeholder="Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control form-control-lg" rows="4" placeholder="Ваше сообщение" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-lg w-100">
+                            <i class="bi bi-send"></i> Отправить
+                        </button>
+                        <div id="form-message" style="display:none;" class="alert alert-success mt-3">
+                            Спасибо! Мы свяжемся с вами в ближайшее время.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section py-5">
+        <div class="container-lg px-4 mb-4">
+            <div class="row g-4">
+                <!-- Logo & Description -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="logo-box-small">R</div>
+                        <span class="fw-medium">Красные Предметы</span>
+                    </div>
+                    <p class="text-muted small">
+                        Студия дизайна и производства уникальных предметов интерьера из металла, дерева и 
+                        композитных материалов.
+                    </p>
+                </div>
+
+                <!-- Navigation -->
+                <div class="col-md-6 col-lg-3">
+                    <h5 class="fw-bold mb-3">Навигация</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="#about" class="text-decoration-none text-muted">О компании</a></li>
+                        <li><a href="#projects" class="text-decoration-none text-muted">Проекты</a></li>
+                        <li><a href="#technologies" class="text-decoration-none text-muted">Технологии</a></li>
+                        <li><a href="#philosophy" class="text-decoration-none text-muted">Философия</a></li>
+                        <li><a href="#contact" class="text-decoration-none text-muted">Контакты</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacts -->
+                <div class="col-md-6 col-lg-3">
+                    <h5 class="fw-bold mb-3">Контакты</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="mailto:info@krasnyepredmety.ru" class="text-decoration-none text-muted"><i class="bi bi-envelope"></i> info@krasnyepredmety.ru</a></li>
+                        <li><a href="https://instagram.com/krasnye_predmety" target="_blank" class="text-decoration-none text-muted"><i class="bi bi-camera"></i> @krasnye_predmety</a></li>
+                        <li class="text-muted"><i class="bi bi-geo-alt"></i> Москва</li>
+                    </ul>
+                </div>
+
+                <!-- Back to Top -->
+                <div class="col-md-6 col-lg-3 d-flex align-items-start justify-content-md-end">
+                    <button id="back-to-top" class="btn btn-outline-secondary rounded-2">
+                        <i class="bi bi-arrow-up"></i>
+                    </button>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Bottom Bar -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <p class="text-muted small mb-0">© 2026 Красные Предметы. Все права защищены.</p>
+                <p class="text-muted small mb-0">ООО «Красные предметы»</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Dark/Light Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        const header = document.getElementById('header');
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-bs-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        updateHeaderClass(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            updateHeaderClass(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeToggle.innerHTML = theme === 'dark' 
+                ? '<i class="bi bi-sun"></i>' 
+                : '<i class="bi bi-moon-stars"></i>';
+        }
+
+        function updateHeaderClass(theme) {
+            if (theme === 'dark') {
+                header.classList.add('navbar-dark', 'bg-dark');
+                header.classList.remove('navbar-light', 'bg-light-header');
+            } else {
+                header.classList.add('navbar-light', 'bg-light-header');
+                header.classList.remove('navbar-dark', 'bg-dark');
+            }
+        }
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll to top
+        document.getElementById('back-to-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Contact form
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = document.getElementById('form-message');
+            message.style.display = 'block';
+            document.getElementById('contact-form').reset();
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 5000);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href !== '#top') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

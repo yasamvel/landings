@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hermes Agent — xep.qzz.io</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a14;
+      --bg-card: #12121f;
+      --bg-elevated: #1c1c30;
+      --fg: #eeeef5;
+      --fg-secondary: #8888a0;
+      --fg-muted: #55556a;
+      --accent: #ff6b35;
+      --accent-dim: rgba(255,107,53,0.12);
+      --blue: #5b7cfa;
+      --purple: #a855f7;
+      --green: #4caf50;
+      --cyan: #22d3ee;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .bg-glow {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .bg-glow::before {
+      content: ''; position: absolute;
+      width: 600px; height: 600px;
+      top: -200px; right: -100px;
+      background: radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%);
+      animation: float 20s ease-in-out infinite;
+    }
+    .bg-glow::after {
+      content: ''; position: absolute;
+      width: 500px; height: 500px;
+      bottom: -150px; left: -100px;
+      background: radial-gradient(circle, rgba(91,124,250,0.08) 0%, transparent 70%);
+      animation: float 25s ease-in-out infinite reverse;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(30px,-30px) scale(1.05); }
+      66% { transform: translate(-20px,20px) scale(0.95); }
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* Nav */
+    nav {
+      padding: 24px 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 20px; font-weight: 800; color: var(--fg); text-decoration: none;
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: white; font-weight: 700;
+    }
+    .nav-links { display: flex; gap: 20px; align-items: center; }
+    .nav-links a {
+      color: var(--fg-secondary); text-decoration: none;
+      font-size: 14px; font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--fg); }
+    .nav-btn {
+      background: var(--accent); color: white; border: none;
+      padding: 10px 22px; border-radius: 8px; font-weight: 600;
+      font-size: 14px; cursor: pointer; transition: background 0.2s;
+      text-decoration: none;
+    }
+    .nav-btn:hover { background: #e55a2b; }
+
+    /* Hero */
+    .hero { padding: 80px 0 60px; text-align: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(255,107,53,0.15);
+      padding: 6px 16px; border-radius: 100px;
+      font-size: 13px; font-weight: 500; color: var(--accent);
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--purple), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero p {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--fg-secondary);
+      max-width: 600px;
+      margin: 0 auto 36px;
+    }
+    .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: white;
+      padding: 14px 32px; border-radius: 12px; font-weight: 600;
+      font-size: 15px; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #e55a2b; transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--bg-card); color: var(--fg);
+      padding: 14px 32px; border-radius: 12px; font-weight: 600;
+      font-size: 15px; text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { background: var(--bg-elevated); transform: translateY(-2px); }
+
+    /* Features */
+    .features { padding: 80px 0; }
+    .section-title {
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .feature-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.08); }
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--fg-secondary); line-height: 1.7; }
+
+    /* Terminal */
+    .terminal-section { padding: 60px 0; }
+    .terminal-box {
+      background: #0d0d1a;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      overflow: hidden;
+      max-width: 700px; margin: 0 auto;
+    }
+    .terminal-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .terminal-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .terminal-dot.red { background: #ff5f56; }
+    .terminal-dot.yellow { background: #ffbd2e; }
+    .terminal-dot.green { background: #27c93f; }
+    .terminal-title {
+      font-size: 12px; color: var(--fg-muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-left: 12px;
+    }
+    .terminal-body {
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--fg-secondary);
+    }
+    .terminal-body .prompt { color: var(--green); }
+    .terminal-body .cmd { color: var(--fg); }
+    .terminal-body .output { color: var(--cyan); }
+    .terminal-body .cursor {
+      display: inline-block;
+      width: 8px; height: 16px;
+      background: var(--accent);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Footer */
+    footer {
+      padding: 40px 0 24px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      text-align: center;
+    }
+    footer p { font-size: 13px; color: var(--fg-muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    .fade-in {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 680px) {
+      .hero { padding: 48px 0 36px; }
+      nav { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">
+        <span class="logo-icon">H</span>
+        Hermes Agent
+      </a>
+      <div class="nav-links">
+        <a href="/weblending">Лендинги</a>
+        <a href="https://hermes-agent.nousresearch.com/docs" target="_blank">Документация</a>
+        <a href="/weblending" class="nav-btn">Открыть лендинги</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-badge fade-in">⚡ xep.qzz.io</div>
+      <h1 class="fade-in">
+        Hermes<br>
+        <span>Agent</span>
+      </h1>
+      <p class="fade-in">
+        Интеллектуальный AI-агент от Nous Research. Работает прямо на этом сервере —
+        выполняет код, управляет файлами, ищет информацию и автоматизирует задачи.
+      </p>
+      <div class="hero-buttons fade-in">
+        <a href="/weblending" class="btn-primary">📂 Лендинги</a>
+        <a href="https://hermes-agent.nousresearch.com/docs" target="_blank" class="btn-secondary">📄 Документация</a>
+      </div>
+    </section>
+
+    <div class="terminal-section fade-in">
+      <div class="terminal-box">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">hermes-agent@xep:~$</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt">●</span> <span class="cmd">Hermes Agent — статус</span><br>
+          <span class="prompt">→</span> <span class="output">Модель: DeepSeek V4 Flash</span><br>
+          <span class="prompt">→</span> <span class="output">Платформы: Telegram, API, CLI</span><br>
+          <span class="prompt">→</span> <span class="output">Память: Holographic (64 факта)</span><br>
+          <span class="prompt">→</span> <span class="output">Навыков загружено: 50+</span><br>
+          <span class="prompt">→</span> <span class="output">Система: Linux, 24/7</span><br>
+          <span class="prompt">→</span>&nbsp;<span class="cursor"></span>
+        </div>
+      </div>
+    </div>
+
+    <section class="features">
+      <h2 class="section-title fade-in">Возможности</h2>
+      <div class="features-grid">
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(255,107,53,0.12); color: var(--accent);">⚡</div>
+          <h3>Автономный агент</h3>
+          <p>Самостоятельно выполняет сложные задачи: пишет код, управляет сервером, работает с файловой системой.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(91,124,250,0.12); color: var(--blue);">🧠</div>
+          <h3>Персистентная память</h3>
+          <p>Помнит пользователя, настройки и контекст между сессиями. Голографическая память с доверительными оценками.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(168,85,247,0.12); color: var(--purple);">🔧</div>
+          <h3>50+ навыков</h3>
+          <p>Готовые сценарии для code review, генерации дизайнов, деплоя, мониторинга и многого другого.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(76,175,80,0.12); color: var(--green);">📱</div>
+          <h3>Telegram интеграция</h3>
+          <p>Полноценное управление через Telegram: общение, команды, выполнение задач, доставка файлов и медиа.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(34,211,238,0.12); color: var(--cyan);">🗂️</div>
+          <h3>WebLanding Gallery</h3>
+          <p>Все созданные лендинги доступны в одном месте. Просмотр, фильтрация по тегам и прямые ссылки.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon" style="background: rgba(255,193,7,0.12); color: #ffc107;">🌐</div>
+          <h3>Веб-интерфейс</h3>
+          <p>API, Webhook, Hermes Workspace — полный набор инструментов для удалённого управления агентом.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Hermes Agent by <a href="https://nousresearch.com" target="_blank">Nous Research</a> • Работает на xep.qzz.io</p>
+      <p style="margin-top:8px; font-size:12px; color:var(--fg-muted);">© 2026 — Инстанс Hermes Agent</p>
+    </footer>
+  </div>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

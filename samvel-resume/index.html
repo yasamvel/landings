@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samvel Ervandyan — Resume</title>
+  <meta name="description" content="Samvel Ervandyan — resume, experience, education.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --accent-dark: #2563eb;
+      --card-radius: 16px;
+    }
+    body {
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      transition: background 0.3s, color 0.3s;
+    }
+    [data-bs-theme="dark"] body,
+    [data-bs-theme="dark"] {
+      --bg-card: #1e293b;
+      --bg-section: #0f172a;
+      --text-muted-custom: #94a3b8;
+      --border-color: #334155;
+    }
+    [data-bs-theme="light"] body,
+    [data-bs-theme="light"] {
+      --bg-card: #ffffff;
+      --bg-section: #f8fafc;
+      --text-muted-custom: #64748b;
+      --border-color: #e2e8f0;
+    }
+    body { background: var(--bg-section); color: var(--bs-body-color); }
+    .bg-card { background: var(--bg-card); border: 1px solid var(--border-color); }
+    .text-muted-c { color: var(--text-muted-custom) !important; }
+    .accent { color: var(--accent-light); }
+    [data-bs-theme="light"] .accent { color: var(--accent-dark); }
+
+    /* Header */
+    .header-bar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg-card); border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(12px);
+      padding: 12px 0;
+    }
+    .toggle-btn {
+      background: transparent; border: 1px solid var(--border-color);
+      color: var(--bs-body-color); width: 40px; height: 40px;
+      border-radius: 10px; display: inline-flex; align-items: center;
+      justify-content: center; cursor: pointer; transition: all 0.2s;
+    }
+    .toggle-btn:hover {
+      border-color: var(--accent); color: var(--accent-light);
+    }
+    .lang-btn {
+      background: transparent; border: 1px solid var(--border-color);
+      color: var(--bs-body-color); padding: 6px 16px;
+      border-radius: 10px; cursor: pointer; font-size: 0.85rem;
+      font-weight: 500; transition: all 0.2s;
+    }
+    .lang-btn.active {
+      background: var(--accent); border-color: var(--accent);
+      color: #fff;
+    }
+    .lang-btn:not(.active):hover {
+      border-color: var(--accent); color: var(--accent-light);
+    }
+
+    /* Avatar */
+    .avatar {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 42px; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+    .name-title { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; }
+    .name-sub { font-size: 1rem; color: var(--text-muted-custom); }
+
+    /* Section */
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--accent-light); margin-bottom: 20px;
+    }
+    [data-bs-theme="light"] .section-label { color: var(--accent-dark); }
+
+    /* Experience card */
+    .exp-card { padding: 24px; border-radius: var(--card-radius); }
+    .exp-card h5 { font-weight: 600; font-size: 1.05rem; margin-bottom: 4px; }
+    .exp-meta { font-size: 0.85rem; color: var(--text-muted-custom); margin-bottom: 12px; }
+    .exp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; margin: 0 8px; }
+    .exp-bullet { padding-left: 0; list-style: none; }
+    .exp-bullet li {
+      position: relative; padding-left: 20px; margin-bottom: 6px;
+      font-size: 0.92rem; color: var(--text-muted-custom);
+    }
+    .exp-bullet li::before {
+      content: ''; position: absolute; left: 0; top: 9px;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--border-color);
+    }
+
+    /* Education */
+    .edu-item { padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+    .edu-item:last-child { border-bottom: none; }
+    .edu-item h6 { font-weight: 600; font-size: 0.95rem; margin-bottom: 2px; }
+    .edu-item p { font-size: 0.88rem; color: var(--text-muted-custom); margin: 0; }
+
+    /* Skill tags */
+    .skill-tag {
+      display: inline-block; padding: 4px 14px; border-radius: 20px;
+      font-size: 0.82rem; font-weight: 500;
+      background: var(--accent); color: #fff; margin: 3px 4px 3px 0;
+    }
+    [data-bs-theme="dark"] .skill-tag-outline {
+      background: transparent; border: 1px solid var(--border-color);
+      color: var(--text-muted-custom);
+    }
+    [data-bs-theme="light"] .skill-tag-outline {
+      background: #f1f5f9; border: 1px solid #e2e8f0;
+      color: #475569;
+    }
+
+    .contact-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--border-color);
+    }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-row i {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--accent); color: #fff; font-size: 16px;
+    }
+    .contact-row a {
+      color: var(--bs-body-color); text-decoration: none;
+      font-size: 0.92rem; transition: color 0.2s;
+    }
+    .contact-row a:hover { color: var(--accent-light); }
+
+    /* Language content */
+    .lang-ru, .lang-en { display: none; }
+    [data-lang="ru"] .lang-ru { display: block; }
+    [data-lang="ru"] .lang-en { display: none; }
+    [data-lang="en"] .lang-en { display: block; }
+    [data-lang="en"] .lang-ru { display: none; }
+    .d-lang { display: none; }
+    [data-lang="ru"] .d-lang-ru { display: block; }
+    [data-lang="en"] .d-lang-en { display: block; }
+
+    .footer-text {
+      text-align: center; padding: 24px 0;
+      font-size: 0.8rem; color: var(--text-muted-custom);
+      border-top: 1px solid var(--border-color); margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .name-title { font-size: 1.5rem; }
+      .avatar { width: 90px; height: 90px; font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="header-bar">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <span class="fw-semibold" style="font-size:0.9rem;color:var(--accent-light);">SE</span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button class="lang-btn active" id="langRu" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" id="langEn" onclick="setLang('en')">EN</button>
+        <div style="width:1px;height:24px;background:var(--border-color);margin:0 4px;"></div>
+        <button class="toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+          <i class="bi bi-moon-stars" id="themeIcon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-4">
+
+  <!-- Hero / Profile -->
+  <div class="row g-4 mb-5 align-items-center">
+    <div class="col-auto">
+      <div class="avatar">SE</div>
+    </div>
+    <div class="col">
+      <div class="d-lang d-lang-ru">
+        <h1 class="name-title">Самвел Ервандян</h1>
+        <p class="name-sub">Юрист · Управление · Административная деятельность</p>
+      </div>
+      <div class="d-lang d-lang-en">
+        <h1 class="name-title">Samvel Ervandyan</h1>
+        <p class="name-sub">Legal · Management · Administration</p>
+      </div>
+      <div class="d-flex flex-wrap gap-2 mt-2">
+        <span class="skill-tag-outline skill-tag">Юриспруденция</span>
+        <span class="skill-tag-outline skill-tag">Управление</span>
+        <span class="skill-tag-outline skill-tag">Договорная работа</span>
+        <span class="skill-tag-outline skill-tag">CRM</span>
+        <span class="skill-tag-outline skill-tag">Тендеры</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left column -->
+    <div class="col-lg-4">
+      <!-- Contact -->
+      <div class="bg-card p-4 rounded-4 mb-4">
+        <div class="section-label d-lang d-lang-ru">Контакты</div>
+        <div class="section-label d-lang d-lang-en">Contact</div>
+        <div class="contact-row">
+          <i class="bi bi-telephone"></i>
+          <a href="tel:+79160250000">+7 (916) 025-00-00</a>
+        </div>
+        <div class="contact-row">
+          <i class="bi bi-telephone"></i>
+          <a href="tel:+79670900000">+7 (967) 090-00-00</a>
+        </div>
+        <div class="contact-row">
+          <i class="bi bi-geo-alt"></i>
+          <span class="d-lang d-lang-ru">Москва, Россия</span>
+          <span class="d-lang d-lang-en">Moscow, Russia</span>
+        </div>
+        <div class="contact-row">
+          <i class="bi bi-calendar3"></i>
+          <span class="d-lang d-lang-ru">31.01.1986</span>
+          <span class="d-lang d-lang-en">January 31, 1986</span>
+        </div>
+      </div>
+
+      <!-- Personal qualities -->
+      <div class="bg-card p-4 rounded-4 mb-4">
+        <div class="section-label d-lang d-lang-ru">Личные качества</div>
+        <div class="section-label d-lang d-lang-en">Personal Qualities</div>
+        <div class="d-lang d-lang-ru">
+          <div class="exp-bullet">
+            <li>Целеустремлённость</li>
+            <li>Аналитический склад ума</li>
+            <li>Работоспособность</li>
+            <li>Настойчивость</li>
+            <li>Коммуникабельность</li>
+            <li>Лёгкая обучаемость</li>
+          </div>
+        </div>
+        <div class="d-lang d-lang-en">
+          <div class="exp-bullet">
+            <li>Goal-oriented</li>
+            <li>Analytical mindset</li>
+            <li>High efficiency</li>
+            <li>Persistence</li>
+            <li>Strong communication</li>
+            <li>Quick learner</li>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="bg-card p-4 rounded-4 mb-4">
+        <div class="section-label d-lang d-lang-ru">Навыки</div>
+        <div class="section-label d-lang d-lang-en">Skills</div>
+        <div>
+          <span class="skill-tag">MS Office</span>
+          <span class="skill-tag">Bitrix24</span>
+          <span class="skill-tag">Мегаплан</span>
+          <span class="skill-tag">OnlyOffice</span>
+          <span class="skill-tag">Договорная работа</span>
+          <span class="skill-tag">Тендеры</span>
+          <span class="skill-tag">Закупки</span>
+          <span class="skill-tag">Организация мероприятий</span>
+        </div>
+      </div>
+
+      <!-- Additional -->
+      <div class="bg-card p-4 rounded-4">
+        <div class="section-label d-lang d-lang-ru">Дополнительно</div>
+        <div class="section-label d-lang d-lang-en">Additional</div>
+        <div class="d-lang d-lang-ru">
+          <p class="mb-2" style="font-size:0.92rem;"><i class="bi bi-translate me-2 accent"></i>Немецкий язык</p>
+          <p class="mb-0" style="font-size:0.92rem;"><i class="bi bi-car-front me-2 accent"></i>Водительские права кат. «В», стаж 10 лет</p>
+        </div>
+        <div class="d-lang d-lang-en">
+          <p class="mb-2" style="font-size:0.92rem;"><i class="bi bi-translate me-2 accent"></i>German language</p>
+          <p class="mb-0" style="font-size:0.92rem;"><i class="bi bi-car-front me-2 accent"></i>Driver's license category B, 10 years experience</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="col-lg-8">
+      <!-- Experience -->
+      <div class="bg-card p-4 rounded-4 mb-4">
+        <div class="section-label d-lang d-lang-ru">Опыт работы</div>
+        <div class="section-label d-lang d-lang-en">Experience</div>
+
+        <div class="exp-card">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-1">
+            <h5 class="d-lang d-lang-ru">ОСОО Олимпийский Комитет России</h5>
+            <h5 class="d-lang d-lang-en">Russian Olympic Committee</h5>
+            <span class="badge rounded-pill" style="background:var(--accent);font-weight:500;">2011 — 2012</span>
+          </div>
+          <div class="exp-meta d-lang d-lang-ru">
+            Главный специалист · Административно-хозяйственный отдел · Управление делами
+          </div>
+          <div class="exp-meta d-lang d-lang-en">
+            Chief Specialist · Administrative Department · Office Management
+          </div>
+          <div class="d-lang d-lang-ru">
+            <ul class="exp-bullet">
+              <li>Договоры аренды между спортивными федерациями и ОКР</li>
+              <li>Закупка, запрос предложений</li>
+              <li>Секретарь тендерной комиссии</li>
+              <li>Организация мероприятий</li>
+            </ul>
+          </div>
+          <div class="d-lang d-lang-en">
+            <ul class="exp-bullet">
+              <li>Lease agreements between sports federations and the ROC</li>
+              <li>Procurement, request for proposals</li>
+              <li>Secretary of the tender commission</li>
+              <li>Event organization</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="bg-card p-4 rounded-4 mb-4">
+        <div class="section-label d-lang d-lang-ru">Образование</div>
+        <div class="section-label d-lang d-lang-en">Education</div>
+
+        <div class="d-lang d-lang-ru">
+          <div class="edu-item">
+            <h6>Российский Государственный Университет Нефти и Газа им. И.М. Губкина (РГУНГ)</h6>
+            <p>Юридический факультет, кафедра гражданского права — специалист (дневное отделение)</p>
+            <p style="font-size:0.82rem;color:var(--text-muted-custom);">2003 — 2008</p>
+          </div>
+          <div class="edu-item">
+            <h6>Государственный Университет Управления (ГУУ)</h6>
+            <p>Кафедра Государственного и муниципального управления — специалист (заочное)</p>
+            <p style="font-size:0.82rem;color:var(--text-muted-custom);">2009 — 2013</p>
+          </div>
+          <div class="edu-item">
+            <h6>Курсы иностранных языков при ДА МИД РФ</h6>
+            <p>Отделение традиционного двухгодичного обучения — немецкий язык</p>
+            <p style="font-size:0.82rem;color:var(--text-muted-custom);">2004 — 2006</p>
+          </div>
+        </div>
+
+        <div class="d-lang d-lang-en">
+          <div class="edu-item">
+            <h6>Gubkin Russian State University of Oil and Gas (RSUOG)</h6>
+            <p>Faculty of Law, Department of Civil Law — Specialist degree (full-time)</p>
+            <p style="font-size:0.82rem;color:var(--text-muted-custom);">2003 — 2008</p>
+          </div>
+          <div class="edu-item">
+            <h6>State University of Management (SUM)</h6>
+            <p>Department of State and Municipal Administration — Specialist degree (part-time)</p>
+            <p style="font-size:0.82rem;color:var(--text-muted-custom);">2009 — 2013</p>
+          </div>
+          <div class="edu-item">
+            <h6>Foreign Language Courses at the Diplomatic Academy of the MFA of Russia</h6>
+            <p>Traditional two-year program — German language</p>
+            <p style="font-size:0.82rem;color:var(--text-muted-custom);">2004 — 2006</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-text">
+    <span class="d-lang d-lang-ru">&copy; 2026 Самвел Ервандян</span>
+    <span class="d-lang d-lang-en">&copy; 2026 Samvel Ervandyan</span>
+  </div>
+</div>
+
+<script>
+// Language toggle
+function setLang(lang) {
+  document.documentElement.setAttribute('data-lang', lang);
+  document.getElementById('langRu').classList.toggle('active', lang === 'ru');
+  document.getElementById('langEn').classList.toggle('active', lang === 'en');
+  localStorage.setItem('resume-lang', lang);
+}
+
+// Theme toggle
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-bs-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-bs-theme', next);
+  localStorage.setItem('resume-theme', next);
+  document.getElementById('themeIcon').className = next === 'dark' ? 'bi bi-moon-stars' : 'bi bi-sun';
+}
+
+// Restore saved preferences
+(function() {
+  const savedLang = localStorage.getItem('resume-lang') || 'ru';
+  const savedTheme = localStorage.getItem('resume-theme') || 'dark';
+  document.documentElement.setAttribute('data-lang', savedLang);
+  document.documentElement.setAttribute('data-bs-theme', savedTheme);
+  document.getElementById('langRu').classList.toggle('active', savedLang === 'ru');
+  document.getElementById('langEn').classList.toggle('active', savedLang === 'en');
+  document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'bi bi-moon-stars' : 'bi bi-sun';
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
