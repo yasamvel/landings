@@ -1,0 +1,21 @@
+{
+  "name": "neporno.site",
+  "short_name": "НЕПОРНО",
+  "description": "Самый безопасный сайт в интернете.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml"
+    }
+  ]
+}
