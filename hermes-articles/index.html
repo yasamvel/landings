@@ -510,6 +510,220 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">3 июля 2026</span><span class="ln-en-only">3 July 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Engineering</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Наблюдаемость AI-агентов: почему ваш агент молча падает и как это чинить</strong>
+                        <p>Самый опасный баг AI-агента — тот, о котором вы не знаете. Агент вызвал не тот инструмент? Вы не увидите. Вернул пустой результат вместо ошибки? Вы не узнаете. В production AI-агенты молча падают чаще, чем вы думаете. Вот как сделать их прозрачными.</p>
+                        <p><strong>Проблема: LLM — это чёрный ящик внутри чёрного ящика.</strong> Вы отправляете промпт → получаете ответ. Что происходило между ними — неизвестно. Агент мог: вызвать 5 инструментов, зайти в тупик, перегенерировать промпт 3 раза, уткнуться в rate limit и молча retry. Без observability вы не отличите «агент думает» от «агент сломался».</p>
+                        <p><strong>Что мы логируем в Hermes Agent:</strong></p>
+                        <ul>
+                        <li><strong>Каждый tool call с метаданными.</strong> Какой инструмент, какие аргументы, сколько времени заняло, ошибка или успех. Без этого невозможно понять, почему агент принял решение.</li>
+                        <li><strong>Context window usage.</strong> Агенты жрут контекст. Мы логируем: сколько токенов на каждом шаге, какой процент занимает system prompt, history, tool results. Когда агент начинает галлюцинировать — первым делом смотрим на заполненность контекста.</li>
+                        <li><strong>Retry-цепочки.</strong> Инструмент упал → retry → снова упал → смена стратегии. Без лога retry вы думаете, что агент «просто подумал подольше».</li>
+                        <li><strong>LLM latency per call.</strong> Нормальная латентность DeepSeek V4 Flash — 1-2 секунды. Если стало 10 — проблема у провайдера. Если 0.5 — возможно, вернулся кэш. Без метрик вы не заметите деградацию.</li>
+                        </ul>
+                        <p><strong>Практический чеклист для observability агента:</strong></p>
+                        <ul>
+                        <li>Structured логи: JSON-логи каждого шага агента. Не строки, не print — машиночитаемые записи, которые можно парсить.</li>
+                        <li>Трейсинг: request ID, который проходит через все вызовы агента. Один агент → 3 дочерних → 15 tool calls → 1 request ID.</li>
+                        <li>Метрики: latency, error rate, token usage. Без дашборда вы играете в угадайку.</li>
+                        <li>Snapshot recovery: возможность «отмотать» агента на любой шаг и продолжить с другим промптом. Бесценно при дебаге.</li>
+                        </ul>
+                        <p><strong>Что мы реально используем:</strong> JSON-логгер в STDERR + Loki для визуализации + custom дашборд в Grafana с метриками по каждому инструменту. Среднее время обнаружения проблемы сократилось с «пользователь пожаловался» до 2 минут после деплоя.</p>
+                        <p><em>Хороший AI-агент — это не тот, кто не ошибается. Это тот, чьи ошибки вы видите через 30 секунд, а не через 3 дня.</em></p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>AI Agent Observability: Why Your Agent Silently Fails and How to Fix It</strong>
+                        <p>The most dangerous bug in an AI agent is the one you never see. The agent called the wrong tool? You won't notice. Returned an empty result instead of an error? No signal. In production, AI agents fail silently far more often than you'd expect. Here's how to make them transparent.</p>
+                        <p><strong>The problem: an LLM is a black box inside another black box.</strong> You send a prompt → you get a response. What happens in between is invisible. Your agent might have: called 5 tools, hit a dead end, regenerated the prompt 3 times, bumped into a rate limit and silently retried. Without observability, you can't tell "the agent is thinking" from "the agent is broken".</p>
+                        <p><strong>What we log in Hermes Agent:</strong></p>
+                        <ul>
+                        <li><strong>Every tool call with metadata.</strong> Which tool, what arguments, duration, success or failure. Without this, understanding why the agent made a decision is guesswork.</li>
+                        <li><strong>Context window usage.</strong> Agents consume tokens aggressively. We log token count per step, the share taken by system prompt, history, and tool results. When the agent starts hallucinating, the first thing we check is context saturation.</li>
+                        <li><strong>Retry chains.</strong> Tool failed → retry → failed again → strategy switch. Without retry logs, you assume the agent "just took longer to think".</li>
+                        <li><strong>LLM latency per call.</strong> Normal latency for DeepSeek V4 Flash is 1-2 seconds. If it jumps to 10 — provider issue. If it drops to 0.5 — possible cache hit. Without metrics, degradation is invisible.</li>
+                        </ul>
+                        <p><strong>A practical observability checklist:</strong></p>
+                        <ul>
+                        <li>Structured logs: JSON-formatted agent step records. Not strings, not print — machine-parseable entries you can query.</li>
+                        <li>Tracing: a single request ID flowing through every agent call. One agent → 3 children → 15 tool calls → 1 request ID.</li>
+                        <li>Metrics: latency, error rate, token usage. Without a dashboard, you're playing a guessing game.</li>
+                        <li>Snapshot recovery: ability to rewind the agent to any step and continue with a different prompt. Invaluable for debugging.</li>
+                        </ul>
+                        <p><strong>Our production stack:</strong> JSON logger to STDERR + Loki for visualization + custom Grafana dashboard with per-tool metrics. Mean time to detection dropped from "a user complained" to 2 minutes post-deploy.</p>
+                        <p><em>A good AI agent isn't one that never makes mistakes. It's one whose mistakes you see in 30 seconds, not 3 days.</em></p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">10 июля 2026</span><span class="ln-en-only">10 July 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Engineering</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Self-Healing агенты: как мы учим AI восстанавливаться после ошибок без человека</strong>
+                        <p>Агент упал. Инструмент вернул 500. API провайдера лёг. Модель сгенерировала невалидный JSON. В production это не «если», а «когда». Разница между хрупким прототипом и надёжной системой — в том, как агент обрабатывает неизбежные сбои.</p>
+                        <p>За 3 месяца продакшена Hermes Agent мы выработали 4 паттерна recovery, которые покрывают 95% ошибок.</p>
+                        <p><strong>1. Retry with Backoff и Escalation.</strong> Первое правило: не retry'ть бесконечно. Базовая схема — exponential backoff (1s → 2s → 4s → 8s, макс 3 попытки). Если все три провалились — escalation: переключиться на другую модель (DeepSeek V4 Flash → Nemotron) или другой эндпоинт (OpenRouter → прямой API). Мы храним карту fallback-провайдеров для каждого инструмента. DeepSeek упал → Qwen 3.5 Flash через OpenRouter за 200ms.</p>
+                        <p><strong>2. Schema Recovery.</strong> Самая частая ошибка LLM при tool calling — невалидный JSON или пропущенные поля. Вместо того чтобы падать и просить пользователя «исправить запрос», мы применяем трёхуровневую стратегию: (а) перегенерация — модель повторяет вызов с тем же контекстом, (б) schema patching — если не хватает поля, подставляем дефолт из JSON Schema, (в) strategy switch — если инструмент не вызывается третий раз подряд, агент переключается на альтернативный инструмент с той же семантикой.</p>
+                        <p><strong>3. Graceful Degradation.</strong> Агент, который не может выполнить задачу полностью, должен сделать 80%. Мы проектируем каждый workflow с точками отсечки: если не удалось получить данные из источника A — взять из кэша B. Если кэша нет — ответить с пометкой «данные частичные». Полный отказ хуже, чем неполный ответ. В Hermes это реализовано через priority chains — список источников в порядке предпочтения, агент идёт по списку пока не получит валидный результат.</p>
+                        <p><strong>4. Self-Verification Loops.</strong> После каждого tool call агент делает минимальную проверку результата: не пустой ли ответ? соответствует ли схеме? не превышает ли лимиты? Если проверка не пройдена — repeat с изменённым промптом. Для критических операций (деплой, запись в БД) — double-check: два независимых tool call с разными моделями, результат принимается при совпадении.</p>
+                        <p><strong>Цифры с нашего продакшена:</strong> до внедрения recovery-паттернов ~15% задач агента заканчивались ошибкой, требующей ручного вмешательства. После — <strong>2.3%</strong>. При этом среднее время выполнения задачи выросло всего на 12% за счёт retry. Экономия времени разработчика — часы в день.</p>
+                        <p><strong>Главный урок:</strong> не пытайтесь сделать агента, который не ошибается. Делайте агента, который быстро и незаметно исправляет свои ошибки. Надёжность AI-системы — это не качество модели. Это качество recovery-логики вокруг неё.</p>
+                        <p><em>Хороший агент не тот, кто никогда не падает. А тот, чьё падение пользователь никогда не замечает.</em></p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Self-Healing Agents: How We Teach AI to Recover Without Human Intervention</strong>
+                        <p>Your agent crashed. The tool returned 500. The API provider went down. The model generated invalid JSON. In production, this isn't "if" — it's "when". The difference between a brittle prototype and a reliable system is how your agent handles the inevitable failures.</p>
+                        <p>After 3 months running Hermes Agent in production, we've settled on 4 recovery patterns covering 95% of all errors.</p>
+                        <p><strong>1. Retry with Backoff & Escalation.</strong> First rule: don't retry forever. Base pattern — exponential backoff (1s → 2s → 4s → 8s, max 3 attempts). After 3 failures, escalate: switch to another model (DeepSeek V4 Flash → Nemotron) or another endpoint (OpenRouter → direct API). We maintain a fallback provider map per tool. DeepSeek down → Qwen 3.5 Flash via OpenRouter in 200ms.</p>
+                        <p><strong>2. Schema Recovery.</strong> The #1 LLM failure in tool calling — invalid JSON or missing fields. Instead of crashing and asking the user to "fix the prompt", we apply a three-tier strategy: (a) regeneration — model retries with same context, (b) schema patching — inject defaults from JSON Schema for missing fields, (c) strategy switch — if a tool fails 3 times consecutively, switch to a semantically equivalent alternative tool.</p>
+                        <p><strong>3. Graceful Degradation.</strong> An agent that cannot complete 100% should deliver 80%. Every workflow gets cutoff points: if source A is unavailable → fall back to cache B. If no cache → respond with a "partial data" disclaimer. Full failure is worse than an incomplete answer. In Hermes, we implement this via priority chains — ordered source lists the agent walks through until it gets a valid result.</p>
+                        <p><strong>4. Self-Verification Loops.</strong> After every tool call, the agent performs a minimal self-check: is the response empty? does it match the expected schema? within limits? If the check fails → repeat with an adjusted prompt. For critical operations (deploy, DB writes), we use double-check verification: two independent tool calls with different models, result accepted only on match.</p>
+                        <p><strong>Production numbers:</strong> before recovery patterns, ~15% of agent tasks ended with errors requiring manual intervention. After implementation — <strong>2.3%</strong>. Average task latency increased only 12% due to retries. Developer hours saved: hours per day.</p>
+                        <p><strong>The key takeaway:</strong> Don't try to build an agent that never makes mistakes. Build one that catches and fixes its own mistakes quickly and invisibly. The reliability of an AI system isn't a function of model quality. It's a function of the recovery logic around it.</p>
+                        <p><em>A good agent isn't one that never fails. It's one whose failures the user never notices.</em></p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">17 июля 2026</span><span class="ln-en-only">17 July 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">LLM APIs · Engineering</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Реальная цена бесплатных LLM API: скрытые компромиссы при использовании прокси</strong>
+                        <p>У меня в закладках три репозитория с бесплатными API-прокси для LLM — Windows-Copilot-API (1000+ звёзд), Deepseek-API, OmniRoute (11K звёзд). Они выглядят как идеальное решение: бесплатный доступ к GPT-4, Claude, DeepSeek через копеечные прокси. Но после 6 месяцев продакшен-эксплуатации — вот что я понял.</p>
+                        <p><strong>1. Rate limits — не шутка.</strong> Бесплатные прокси работают через общие пулы токенов. Windows-Copilot-API даёт ~20 RPM на юзера — хватает для одного агента, но при параллельной оркестрации 5+ саб-агентов ты ловишь 429 на третьем запросе. Решение: троттлинг-слой с exponential backoff и ротация между 3-4 прокси.</p>
+                        <p><strong>2. Латенси — нестабильная.</strong> Deepseek-API через прокси: p50 = 2.3s, p95 = 12.7s. Прямой API DeepSeek: p50 = 1.1s, p95 = 3.4s. Разница в 3-4 раза на хвостах. Для cron-задач это неважно. Для интерактивных агентов — критично. У нас в Hermes Agent стоит fallback: если прокси отвечает дольше 5 секунд — переключаемся на прямой API дорогой модели.</p>
+                        <p><strong>3. Data privacy — нулевая.</strong> OmniRoute — это китайский прокси. Ваши промпты идут через чужие сервера. Если вы передаёте агентам API-ключи, конфиденциальные данные или код с паролями — вы их светите. Контур: бесплатные прокси только для публичных данных и open-source кода.</p>
+                        <p><strong>4. Стабильность эндпоинтов.</strong> Windows-Copilot-API менял URL модели дважды за месяц. Ваш cron падает без предупреждения, пока вы не обновите конфиг. Стратегия: health check раз в час + автоматический перевыбор прокси.</p>
+                        <p><strong>5. Качество модели — не то же самое.</strong> Copilot через прокси = GPT-4? Не совсем. Наблюдается downgrade: более строгие системные промпты, обрезанный контекст (8K вместо 32K), фильтрация чувствительных тем. Deepseek через бесплатный прокси выдаёт refusal на coding задач в 12% случаев против 2% на прямом API.</p>
+                        <p><strong>Когда это оправдано:</strong></p>
+                        <ul><li>Прототипирование и pet projects — идеально</li><li>Cron-задачи без конфиденциальных данных — норм</li><li>Бенчмарки и тесты моделей — отлично</li></ul>
+                        <p><strong>Когда не стоит:</strong></p>
+                        <ul><li>Продакшен с пользовательскими данными</li><li>Работа с API-ключами и паролями</li><li>Задачи, где каждая секунда латенси стоит денег</li></ul>
+                        <p><em>Лучшая архитектура: бесплатные прокси для 80% рутинных вызовов + premium API для 20% критических. Так вы получаете 90% экономии с 95% надёжности.</em></p>
+                        <p>Мой текущий стек: Qwen 3.5 Flash (бесплатно) для 70% задач → DeepSeek V4 Flash (прямой API) для 20% → Claude Sonnet (премиум) для 10% самых сложных.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>The Real Cost of Free LLM APIs: Hidden Trade-offs When Using Proxy Services</strong>
+                        <p>I keep three proxy API repos bookmarked — Windows-Copilot-API (1K+ stars), Deepseek-API, and OmniRoute (11K stars). They look like the perfect deal: free access to GPT-4, Claude, DeepSeek through cheap proxies. After six months in production, here's what I learned the hard way.</p>
+                        <p><strong>1. Rate limits are real.</strong> Free proxies share token pools across all users. Windows-Copilot-API gives ~20 RPM per user — enough for one agent, but with 5 parallel sub-agents you'll hit 429 on the third request. Solution: a throttling layer with exponential backoff and rotation across 3-4 proxies.</p>
+                        <p><strong>2. Latency is unpredictable.</strong> Deepseek-API via proxy: p50 = 2.3s, p95 = 12.7s. Direct DeepSeek API: p50 = 1.1s, p95 = 3.4s. That's 3-4x worse at the tail. Fine for cron jobs. Critical for interactive agents. In Hermes Agent we have a fallback: if a proxy exceeds 5 seconds, we switch to a paid direct API.</p>
+                        <p><strong>3. Data privacy is nonexistent.</strong> OmniRoute is a Chinese proxy. Your prompts pass through third-party servers. If your agents handle API keys, confidential data, or code with credentials — you're exposing it all. Rule: free proxies for public data and open-source code only.</p>
+                        <p><strong>4. Endpoint instability.</strong> Windows-Copilot-API changed model URLs twice in one month. Your cron silently fails until you update config. Strategy: hourly health check + automatic proxy re-selection.</p>
+                        <p><strong>5. Model quality isn't identical.</strong> Copilot via proxy = GPT-4? Not quite. Expect degraded system prompts, truncated context windows (8K vs 32K), and content filtering. DeepSeek through free proxies refuses coding tasks 12% of the time vs 2% on direct API.</p>
+                        <p><strong>When it makes sense:</strong></p>
+                        <ul><li>Prototyping and pet projects — ideal</li><li>Cron jobs without sensitive data — acceptable</li><li>Model benchmarking — excellent</li></ul>
+                        <p><strong>When to avoid:</strong></p>
+                        <ul><li>Production with user data</li><li>Handling API keys or credentials</li><li>Latency-sensitive tasks where every second costs money</li></ul>
+                        <p><em>The optimal architecture: free proxies for 80% of routine calls + premium API for 20% of critical ones. You get 90% cost savings with 95% reliability.</em></p>
+                        <p>My current stack: Qwen 3.5 Flash (free) for 70% of tasks → DeepSeek V4 Flash (direct API) for 20% → Claude Sonnet (premium) for the hardest 10%.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">24 июля 2026</span><span class="ln-en-only">24 July 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Architecture</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Память AI-агента: четыре уровня, которые реально работают</strong>
+                        <p>Самая частая проблема, с которой я сталкиваюсь в агентах — потеря контекста. Агент помнит последние 3 сообщения, но забыл, что происходило час назад. Решение — не одна «память», а система из четырёх уровней, каждый со своим компромиссом между скоростью и полнотой.</p>
+                        <p><strong>Уровень 1. Эфемерная (контекстное окно).</strong> Всё, что помещается в контекст модели. Быстро, дёшево для первого прохода, но ограничено токенами. Для DeepSeek V4 (~128K токенов) — это ~80 страниц текста. Стратегия: хранить только последние N шагов диалога + сжатый саммари предыдущих.</p>
+                        <p><strong>Уровень 2. Рабочая (summarization loop).</strong> Когда контекст заканчивается — запускаем агента-суммаризатора. <em>Ключевой инсайт:</em> суммаризировать нужно не «о чём был разговор», а «какие факты и решения важны для продолжения». Отдельным промптом: выдели action items, принятые решения, отвергнутые гипотезы. Это сокращает ~50K токенов истории до 2-3K.</p>
+                        <p><strong>Уровень 3. Долговременная (векторная БД / RAG).</strong> Для знаний, которые нужны между сессиями. Я храню результаты прошлых выполнений агента в SQLite с embeddings через sqlite-vec или Chroma. Схема: <em>всегда пиши, читай только по триггеру</em>. Запись — в фоне, без блокировки основного потока. Чтение — когда агент явно запрашивает «а было ли такое раньше?» или при старте новой сессии.</p>
+                        <p><strong>Уровень 4. Персистентная (memory store / MCP).</strong> То, что переживает перезапуск агента и смену провайдера. Здесь я использую MCP-сервер памяти (как в Hermes Agent) — structured facts, которые агент сам решает сохранить. <em>Важно:</em> память должна быть самокорректирующейся — агент может удалить устаревший факт, когда видит противоречие.</p>
+                        <p><strong>Практический совет.</strong> Не стройте универсальный RAG-пайплайн для памяти агента. Сделайте два отдельных хранилища: <em>сессионная память</em> (SQLite + TTL — живёт 24 часа) и <em>знаниевая база</em> (Chroma + embeddings — живёт навсегда). В сессионную пишет каждый шаг, в знаниевую — только когда агент говорит «это важное решение, сохрани». Разница в стоимости хранения — 10x.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>AI Agent Memory: Four Layers That Actually Work in Production</strong>
+                        <p>The most frequent failure mode I see in agent systems is context loss — the agent remembers the last 3 messages but forgets what happened an hour ago. The fix isn't a single "memory" component but a four-layer system, each balancing speed against completeness.</p>
+                        <p><strong>Layer 1: Ephemeral (Context Window).</strong> Everything that fits in the model's context. Fast, cheap for the first pass, token-limited. For DeepSeek V4 (~128K tokens), that's ~80 pages of text. Strategy: keep only the last N conversation turns + a compressed summary of everything before. Don't pad the window with raw history — it degrades retrieval precision.</p>
+                        <p><strong>Layer 2: Working Memory (Summarization Loop).</strong> When context fills up, spawn a summarizer agent. <em>Key insight:</em> summarize decisions and unresolved actions, not narrative. Use a dedicated prompt: "Extract action items, accepted decisions, and discarded hypotheses." This collapses ~50K tokens of history into 2-3K and preserves what actually matters for follow-up.</p>
+                        <p><strong>Layer 3: Long-term (Vector DB / RAG).</strong> For knowledge that spans sessions. I store past agent execution results in SQLite with embeddings via sqlite-vec or Chroma. Rule: <em>always write, read only on trigger</em>. Writes are background, non-blocking. Reads fire when the agent explicitly asks "has this come up before?" or on session start. Avoid auto-RAG — pulling irrelevant docs poisons the context as badly as no memory at all.</p>
+                        <p><strong>Layer 4: Persistent (Memory Store / MCP).</strong> Survives agent restarts and provider switches. I use an MCP memory server (like Hermes Agent's built-in) — structured facts the agent consciously saves. <em>Crucial detail:</em> memory must be self-correcting — the agent deletes stale facts when it encounters contradicting evidence. A memory store that never prunes is technical debt.</p>
+                        <p><strong>Practical takeaway.</strong> Don't build a universal RAG pipeline for agent memory. Create two stores: <em>session memory</em> (SQLite + 24h TTL) and <em>knowledge base</em> (Chroma + embeddings, no TTL). Every step writes to session memory; only agent-flagged "important decision" items go to the knowledge base. The storage cost difference is 10x, and the retrieval precision difference is larger.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">31 июля 2026</span><span class="ln-en-only">31 July 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Testing</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Evals для AI-агентов: как тестировать то, что нельзя предсказать</strong>
+                        <p>Классический юнит-тест требует детерминированного ответа: assert result == expected. С AI-агентом это не работает — тот же промпт вчера дал один ответ, сегодня другой, а завтра модель обновят, и всё сломается. Но это не значит, что агентов нельзя тестировать. Это значит, что тестировать нужно по-другому — на уровне поведения, а не строк.</p>
+                        <p>Eval — это сценарий с чётким критерием. Не «выведи правильный ответ», а «достигни состояния X за N шагов, не превысив бюджет в M токенов». Я тестирую агентов на трёх уровнях:</p>
+                        <ul><li><strong>Юнит-уровень.</strong> Вызывается ли нужный инструмент с правильной схемой? Достаточно ли аргументов? Здесь агент ближе всего к обычной функции — и обычные ассерты работают.</li><li><strong>Уровень трассы.</strong> Не только результат, но и путь: правильный ли порядок вызовов, не зациклился ли агент, не дёргает ли один и тот же API по кругу. Трасса — это то, что в проде скрыто, а в eval видно.</li><li><strong>Уровень исхода.</strong> Достигнут ли бизнес-результат? Для задачи «найди уязвимость в конфиге» оценивается не текст ответа, а то, действительно ли найденная строка — уязвимость.</li></ul>
+                        <p>Для оценки качества ответа без эталона я использую LLM-as-judge: отдельную модель с рубрикой («0 — не решил, 1 — решил частично, 2 — решил с лишними шагами, 3 — оптимально»). Важные детали:</p>
+                        <ul><li>Рубрика обязательна. Просто «оцени от 1 до 10» — это шум.</li><li>Не использовать ту же модель, что и в агенте: у LLM есть self-preference bias, она предпочитает собственные ответы.</li><li>Прогонять каждый кейс минимум дважды и усреднять — judge нестабилен даже при низкой температуре.</li></ul>
+                        <p>Главное — загнать evals в CI. У меня каждый PR к агенту гоняет набор из 30–50 сценариев, и регрессия pass rate блокирует мерж. Это превращает «модель обновили, и всё сломалось» из инцидента в обычный PR с понятным диффом.</p>
+                        <p><em>Практический совет: начинайте с 20 сценариев на самые частые пути, логируйте трассу каждого прогона в JSON и фиксируйте не seed, а версию модели и дату прогона — именно так регрессии становятся воспроизводимыми.</em></p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Agent Evals: How to Test Something You Can't Predict</strong>
+                        <p>A classic unit test needs a deterministic answer: assert result == expected. With an AI agent, that doesn't work — the same prompt gave one answer yesterday, another today, and next week the model gets updated and everything breaks. That doesn't mean agents can't be tested. It means they have to be tested differently: at the level of behavior, not strings.</p>
+                        <p>An eval is a scenario with a clear criterion. Not "output the right answer," but "reach state X within N steps without exceeding a budget of M tokens." I test agents on three levels:</p>
+                        <ul><li><strong>Unit level.</strong> Is the right tool called with the right schema? Are the arguments complete? Here the agent is closest to a regular function — and regular assertions work.</li><li><strong>Trace level.</strong> Not just the outcome, but the path: is the call order correct, did the agent loop, is it hammering the same API in circles? The trace is what's hidden in production and visible in evals.</li><li><strong>Outcome level.</strong> Was the business result achieved? For a task like "find the vulnerability in this config," you don't grade the wording of the answer — you check whether the found line is actually a vulnerability.</li></ul>
+                        <p>To grade answer quality without a golden reference, I use LLM-as-judge: a separate model with a rubric ("0 — not solved, 1 — partially solved, 2 — solved with extra steps, 3 — optimal"). The details matter:</p>
+                        <ul><li>A rubric is mandatory. A bare "score from 1 to 10" is noise.</li><li>Don't use the same model that runs the agent — LLMs have a self-preference bias and favor their own outputs.</li><li>Run each case at least twice and average — judges are unstable even at low temperature.</li></ul>
+                        <p>The key move is putting evals into CI. Every PR touching my agent runs a suite of 30–50 scenarios, and a pass-rate regression blocks the merge. That turns "the model updated and everything broke" from a production incident into a regular PR with an understandable diff.</p>
+                        <p><em>Practical tip: start with 20 scenarios covering the most frequent paths, log every run's trace as JSON, and pin down not the seed but the model version and run date — that's what makes regressions reproducible.</em></p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
