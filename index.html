@@ -327,11 +327,10 @@
         return 'https://xep.qzz.io/knowledge-hub/';
       }
       if (p.url) {
-        if (isGhPages && p.url.startsWith('/weblending/')) {
-          return '/landings/' + p.url.replace('/weblending/projects/', '').replace('/weblending/', '');
-        }
         if (isGhPages && p.url.startsWith('/')) {
-          return '/landings' + p.url;
+          // Нормализация: /weblending/projects/X/, /weblending/X/, /projects/X/, /X/ → /landings/X/
+          const rest = p.url.replace(/^\/(weblending\/projects\/|weblending\/|projects\/)?/, '');
+          return '/landings/' + rest;
         }
         return p.url;
       }
