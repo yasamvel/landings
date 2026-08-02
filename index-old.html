@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebLanding — Галерея проектов</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a14;
+      --bg-card: #12121f;
+      --bg-elevated: #1c1c30;
+      --fg: #eeeef5;
+      --fg-secondary: #8888a0;
+      --fg-muted: #55556a;
+      --accent: #ff4d4d;
+      --accent2: #5b7cfa;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* Animated BG */
+    .bg-glow {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .bg-glow::before {
+      content: ''; position: absolute;
+      width: 700px; height: 700px;
+      top: -200px; right: -150px;
+      background: radial-gradient(circle, rgba(255,77,77,0.08) 0%, transparent 70%);
+      animation: float 22s ease-in-out infinite;
+    }
+    .bg-glow::after {
+      content: ''; position: absolute;
+      width: 600px; height: 600px;
+      bottom: -150px; left: -100px;
+      background: radial-gradient(circle, rgba(91,124,250,0.06) 0%, transparent 70%);
+      animation: float 28s ease-in-out infinite reverse;
+    }
+    .bg-glow-2 {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .bg-glow-2::before {
+      content: ''; position: absolute;
+      width: 400px; height: 400px;
+      top: 40%; left: 50%;
+      background: radial-gradient(circle, rgba(168,85,247,0.04) 0%, transparent 70%);
+      animation: float 18s ease-in-out infinite 5s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* Header */
+    header {
+      padding: 32px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--fg);
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: white; font-weight: 800;
+    }
+    .header-info {
+      font-size: 14px;
+      color: var(--fg-secondary);
+      background: var(--bg-card);
+      padding: 8px 18px;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .header-info span { color: var(--accent); font-weight: 600; }
+
+    /* Hero section */
+    .hero {
+      padding: 60px 0 48px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 17px;
+      color: var(--fg-secondary);
+      max-width: 520px;
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+      color: var(--fg-secondary);
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .filter-btn:hover { border-color: rgba(255,255,255,0.1); color: var(--fg); }
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    /* Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+      padding-bottom: 60px;
+    }
+
+    /* Project Card */
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--fg);
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .card-body {
+      padding: 20px 24px;
+      flex: 1;
+    }
+
+    /* Preview area */
+    .card-preview {
+      height: 200px;
+      background: var(--bg-elevated);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      transform: scale(0.45);
+      transform-origin: 0 0;
+      pointer-events: none;
+    }
+    .card-preview .preview-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 60%, var(--bg-card) 100%);
+    }
+    .card-preview .preview-icon {
+      font-size: 48px;
+      opacity: 0.6;
+    }
+    .card-preview .preview-color-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    /* Card info */
+    .card-body { padding: 20px 24px; flex: 1; }
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .card-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.04);
+      color: var(--fg-muted);
+      text-transform: lowercase;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-size: 14px;
+      color: var(--fg-secondary);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--fg-muted);
+    }
+
+    /* Empty state */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--fg-muted);
+    }
+    .empty-state .empty-icon { font-size: 56px; margin-bottom: 16px; opacity: 0.4; }
+    .empty-state h3 { font-size: 20px; color: var(--fg-secondary); margin-bottom: 8px; }
+    .empty-state p { font-size: 14px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .hero { padding: 36px 0 28px; }
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-scale {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.14); }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- Header -->
+  <div class="container">
+    <header>
+      <a href="/" class="logo">
+        <span class="logo-icon">W</span>
+        WebLanding
+      </a>
+      <div class="header-info">
+        📦 Проектов: <span id="project-count">0</span>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1 class="fade-in">Галерея <span>лендингов</span></h1>
+      <p class="fade-in">Все созданные мной лендинги и веб-страницы в одном месте. Выбирай, смотри, вдохновляйся.</p>
+    </section>
+
+    <!-- Filters -->
+    <div class="filters fade-in" id="filters"></div>
+
+    <!-- Projects Grid -->
+    <div class="projects-grid" id="projects-grid"></div>
+  </div>
+
+  <script>
+    let projects = [];
+    let activeFilter = 'all';
+
+    // Load projects
+    fetch('assets/projects.json')
+      .then(r => r.json())
+      .then(data => {
+        projects = data;
+        render();
+      })
+      .catch(() => {
+        // Fallback: embedded data
+        projects = [];
+        render();
+      });
+
+    function render() {
+      renderFilters();
+      renderGrid();
+      document.getElementById('project-count').textContent = projects.length;
+    }
+
+    function getAllTags() {
+      const tags = new Set();
+      projects.forEach(p => (p.tags || []).forEach(t => tags.add(t)));
+      return Array.from(tags).sort();
+    }
+
+    function renderFilters() {
+      const container = document.getElementById('filters');
+      const tags = getAllTags();
+      let html = `<button class="filter-btn active" data-filter="all" onclick="setFilter('all')">Все</button>`;
+      tags.forEach(t => {
+        html += `<button class="filter-btn" data-filter="${t}" onclick="setFilter('${t}')">${t}</button>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function setFilter(filter) {
+      activeFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === filter);
+      });
+      renderGrid();
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('projects-grid');
+      const filtered = activeFilter === 'all'
+        ? projects
+        : projects.filter(p => (p.tags || []).includes(activeFilter));
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state fade-in visible">
+            <div class="empty-icon">📭</div>
+            <h3>Нет проектов</h3>
+            <p>В этой категории пока ничего нет. Попроси меня создать новый лендинг!</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach((p, i) => {
+        const color = p.color || '#ff4d4d';
+        const tags = (p.tags || []).slice(0, 3).map(t => `<span class="card-tag">${t}</span>`).join('');
+
+        // Умный base: на сервере xep.qzz.io → /weblending/, на GitHub Pages → /landings/
+        // /weblending/projects/<name>/ → /landings/<name>/ ; /weblending/<name>/ → /landings/<name>/
+        const isGhPages = window.location.hostname.includes('github.io');
+        let projectUrl;
+        if (p.id === 'knowledge-hub') {
+          // Защищённый серверный дашборд — всегда на сервере, не публиковать на GitHub
+          projectUrl = 'https://xep.qzz.io/knowledge-hub/';
+        } else if (p.url) {
+          if (isGhPages && p.url.startsWith('/weblending/')) {
+            projectUrl = '/landings/' + p.url.replace('/weblending/projects/', '').replace('/weblending/', '');
+          } else if (isGhPages && p.url.startsWith('/')) {
+            projectUrl = '/landings' + p.url;
+          } else {
+            projectUrl = p.url;
+          }
+        } else {
+          const base = isGhPages ? '/landings/' : '/weblending/projects/';
+          projectUrl = `${base}${p.id}/index.html`;
+        }
+        html += `
+          <a href="${projectUrl}" target="_blank" class="project-card fade-in-scale" style="animation-delay:${i * 0.05}s">
+            <div class="card-preview">
+              <div class="preview-color-bar" style="background:${color}"></div>
+              <span class="preview-icon">${p.icon || '📄'}</span>
+              <div class="preview-overlay"></div>
+            </div>
+            <div class="card-body">
+              <div class="card-tags">${tags}</div>
+              <div class="card-title">${p.name}</div>
+              <div class="card-desc">${p.description}</div>
+              <div class="card-footer">
+                <span>📅 ${p.date || '—'}</span>
+                <span style="color:var(--accent);font-weight:600;">→</span>
+              </div>
+            </div>
+          </a>
+        `;
+      });
+
+      grid.innerHTML = html;
+
+      // Trigger animations
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.fade-in-scale').forEach(el => el.classList.add('visible'));
+      });
+    }
+
+    // Fade-in observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

@@ -2,325 +2,315 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebLanding — Галерея проектов</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Landings — Галерея проектов</title>
+  <meta name="description" content="Галерея лендингов и сайтов — Hermes Agent. Все проекты на GitHub Pages.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%237C3AED'/%3E%3Cpath d='M8 8h8M8 12h5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0a0a14;
-      --bg-card: #12121f;
-      --bg-elevated: #1c1c30;
-      --fg: #eeeef5;
-      --fg-secondary: #8888a0;
-      --fg-muted: #55556a;
-      --accent: #ff4d4d;
-      --accent2: #5b7cfa;
+      --primary: #7C3AED;
+      --primary-glow: rgba(124, 58, 237, 0.35);
+      --secondary: #6366F1;
+      --accent: #EC4899;
+      --bg: #0B0B12;
+      --bg-elev: #12121D;
+      --fg: #F4F4F8;
+      --muted: #9B9BB0;
+      --border: #23233A;
       --radius: 16px;
-      --radius-sm: 10px;
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--fg);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
       min-height: 100vh;
     }
-
-    /* Animated BG */
+    /* Animated background */
     .bg-glow {
       position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
     }
     .bg-glow::before {
       content: ''; position: absolute;
       width: 700px; height: 700px;
-      top: -200px; right: -150px;
-      background: radial-gradient(circle, rgba(255,77,77,0.08) 0%, transparent 70%);
-      animation: float 22s ease-in-out infinite;
+      top: -250px; right: -150px;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+      animation: float1 14s ease-in-out infinite;
     }
     .bg-glow::after {
       content: ''; position: absolute;
       width: 600px; height: 600px;
-      bottom: -150px; left: -100px;
-      background: radial-gradient(circle, rgba(91,124,250,0.06) 0%, transparent 70%);
-      animation: float 28s ease-in-out infinite reverse;
+      bottom: -200px; left: -150px;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%);
+      animation: float2 18s ease-in-out infinite;
     }
-    .bg-glow-2 {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-    }
-    .bg-glow-2::before {
-      content: ''; position: absolute;
-      width: 400px; height: 400px;
-      top: 40%; left: 50%;
-      background: radial-gradient(circle, rgba(168,85,247,0.04) 0%, transparent 70%);
-      animation: float 18s ease-in-out infinite 5s;
-    }
-    @keyframes float {
+    @keyframes float1 {
       0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -30px) scale(1.05); }
-      66% { transform: translate(-20px, 20px) scale(0.95); }
+      50% { transform: translate(-40px, 30px) scale(1.05); }
     }
-
-    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(50px, -30px) scale(1.08); }
+    }
+    .grid-overlay {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+    }
+    .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     /* Header */
     header {
-      padding: 32px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 0 12px;
     }
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--fg);
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 17px; font-weight: 600; letter-spacing: 0.02em;
+      color: var(--fg); text-decoration: none;
     }
     .logo-icon {
-      width: 38px; height: 38px;
-      background: linear-gradient(135deg, var(--accent), #a855f7);
-      border-radius: 10px;
+      width: 38px; height: 38px; border-radius: 11px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; color: white; font-weight: 800;
+      font-size: 18px; color: white;
+      box-shadow: 0 8px 24px var(--primary-glow);
     }
-    .header-info {
-      font-size: 14px;
-      color: var(--fg-secondary);
-      background: var(--bg-card);
-      padding: 8px 18px;
-      border-radius: 100px;
-      border: 1px solid rgba(255,255,255,0.04);
+    .header-links { display: flex; align-items: center; gap: 20px; }
+    .header-links a {
+      color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
+      display: inline-flex; align-items: center; gap: 7px;
+      transition: color 0.2s ease;
     }
-    .header-info span { color: var(--accent); font-weight: 600; }
-
-    /* Hero section */
-    .hero {
-      padding: 60px 0 48px;
+    .header-links a:hover { color: var(--fg); }
+    .header-links .btn-ghost {
+      padding: 8px 18px; border-radius: 10px;
+      background: rgba(124, 58, 237, 0.12);
+      border: 1px solid rgba(124, 58, 237, 0.35);
+      color: #C4B5FD;
     }
-    .hero h1 {
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 800;
+    .header-links .btn-ghost:hover { background: rgba(124, 58, 237, 0.2); color: #DDD6FE; }
+    /* Hero */
+    .hero { padding: 56px 0 36px; text-align: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 999px;
+      background: rgba(124, 58, 237, 0.12);
+      border: 1px solid rgba(124, 58, 237, 0.35);
+      font-size: 13px; font-weight: 500; color: #C4B5FD;
+      margin-bottom: 22px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #34D399;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+    }
+    h1 {
+      font-size: clamp(34px, 5.5vw, 54px);
+      font-weight: 800; line-height: 1.1;
       letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      animation: fadeUp 0.6s ease 0.1s both;
     }
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--accent), #a855f7);
-      -webkit-background-clip: text;
+    h1 .grad {
+      background: linear-gradient(120deg, #A78BFA, #EC4899);
+      -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
-    .hero p {
-      font-size: 17px;
-      color: var(--fg-secondary);
-      max-width: 520px;
+    .hero-sub {
+      font-size: 16px; color: var(--muted); font-weight: 300;
+      max-width: 520px; margin: 0 auto;
+      animation: fadeUp 0.6s ease 0.2s both;
     }
-
+    .hero-sub .count { color: #C4B5FD; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
     /* Filters */
     .filters {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 32px;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+      margin: 34px 0 36px;
+      animation: fadeUp 0.6s ease 0.3s both;
     }
     .filter-btn {
-      background: var(--bg-card);
-      border: 1px solid rgba(255,255,255,0.04);
-      color: var(--fg-secondary);
-      padding: 8px 18px;
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 500;
+      padding: 8px 18px; border-radius: 999px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: inherit; font-size: 13px; font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
+      transition: all 0.2s ease;
     }
-    .filter-btn:hover { border-color: rgba(255,255,255,0.1); color: var(--fg); }
+    .filter-btn:hover { color: var(--fg); border-color: rgba(124, 58, 237, 0.4); }
     .filter-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white; border-color: transparent;
+      box-shadow: 0 6px 20px var(--primary-glow);
     }
-
     /* Grid */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 24px;
-      padding-bottom: 60px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 22px;
+      padding-bottom: 40px;
     }
-
-    /* Project Card */
     .project-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(255,255,255,0.04);
+      display: block;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      overflow: hidden;
-      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: var(--fg);
+      padding: 24px;
+      text-decoration: none; color: var(--fg);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      animation: fadeUp 0.5s ease both;
+      position: relative; overflow: hidden;
     }
-    .project-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-      border-color: rgba(255,255,255,0.08);
-    }
-    .card-body {
-      padding: 20px 24px;
-      flex: 1;
-    }
-
-    /* Preview area */
-    .card-preview {
-      height: 200px;
-      background: var(--bg-elevated);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card-preview iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      transform: scale(0.45);
-      transform-origin: 0 0;
+    .project-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 0%), rgba(124, 58, 237, 0.08), transparent 60%);
+      opacity: 0; transition: opacity 0.25s ease;
       pointer-events: none;
     }
-    .card-preview .preview-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 60%, var(--bg-card) 100%);
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124, 58, 237, 0.5);
+      box-shadow: 0 16px 40px rgba(124, 58, 237, 0.18);
     }
-    .card-preview .preview-icon {
-      font-size: 48px;
-      opacity: 0.6;
-    }
-    .card-preview .preview-color-bar {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-
-    /* Card info */
-    .card-body { padding: 20px 24px; flex: 1; }
-    .card-tags {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-    .card-tag {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 100px;
-      background: rgba(255,255,255,0.04);
-      color: var(--fg-muted);
-      text-transform: lowercase;
-    }
-    .card-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      line-height: 1.3;
-    }
-    .card-desc {
-      font-size: 14px;
-      color: var(--fg-secondary);
-      line-height: 1.6;
+    .project-card:hover::before { opacity: 1; }
+    .card-top {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
       margin-bottom: 14px;
     }
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 13px;
-      color: var(--fg-muted);
+    .card-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      background: rgba(124, 58, 237, 0.12);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      flex-shrink: 0;
     }
-
+    .card-arrow {
+      color: var(--muted); font-size: 18px;
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+    .project-card:hover .card-arrow { transform: translate(2px, -2px); color: #A78BFA; }
+    .card-title {
+      font-size: 17px; font-weight: 700; letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .card-desc {
+      font-size: 13.5px; color: var(--muted); font-weight: 400;
+      line-height: 1.55;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+      min-height: 62px;
+    }
+    .card-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 16px;
+    }
+    .card-tag {
+      padding: 4px 10px; border-radius: 7px;
+      background: rgba(124, 58, 237, 0.1);
+      border: 1px solid rgba(124, 58, 237, 0.22);
+      color: #C4B5FD;
+      font-size: 11.5px; font-weight: 500;
+    }
+    .card-date {
+      display: block;
+      margin-top: 14px;
+      font-size: 12px; color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
     /* Empty state */
     .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--fg-muted);
+      text-align: center; padding: 80px 20px; color: var(--muted);
     }
-    .empty-state .empty-icon { font-size: 56px; margin-bottom: 16px; opacity: 0.4; }
-    .empty-state h3 { font-size: 20px; color: var(--fg-secondary); margin-bottom: 8px; }
-    .empty-state p { font-size: 14px; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
+    .empty-state i { font-size: 44px; color: rgba(124, 58, 237, 0.5); margin-bottom: 16px; display: block; }
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 26px 0 30px;
+      text-align: center;
+      font-size: 13px; color: var(--muted);
+    }
+    footer a { color: #A78BFA; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+    @media (max-width: 640px) {
+      header { flex-direction: column; gap: 14px; align-items: flex-start; }
       .projects-grid { grid-template-columns: 1fr; }
-      header { flex-direction: column; align-items: flex-start; gap: 12px; }
       .hero { padding: 36px 0 28px; }
     }
-
-    /* Animations */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-    .fade-in-scale {
-      opacity: 0;
-      transform: scale(0.95);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .fade-in-scale.visible { opacity: 1; transform: scale(1); }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.14); }
   </style>
 </head>
 <body>
-
   <div class="bg-glow"></div>
-  <div class="bg-glow-2"></div>
+  <div class="grid-overlay"></div>
 
-  <!-- Header -->
-  <div class="container">
+  <div class="wrap">
     <header>
       <a href="/" class="logo">
-        <span class="logo-icon">W</span>
-        WebLanding
+        <span class="logo-icon"><i class="bi bi-stars"></i></span>
+        Landings
       </a>
-      <div class="header-info">
-        📦 Проектов: <span id="project-count">0</span>
+      <div class="header-links">
+        <a href="https://github.com/yasamvel/landings" target="_blank" rel="noopener">
+          <i class="bi bi-github"></i> GitHub
+        </a>
+        <a href="https://xep.qzz.io/" target="_blank" rel="noopener">
+          <i class="bi bi-box-arrow-up-right"></i> Hermes
+        </a>
+        <a href="https://github.com/yasamvel/landings" class="btn-ghost" target="_blank" rel="noopener">
+          <i class="bi bi-plus-lg"></i> Добавить
+        </a>
       </div>
     </header>
 
-    <!-- Hero -->
     <section class="hero">
-      <h1 class="fade-in">Галерея <span>лендингов</span></h1>
-      <p class="fade-in">Все созданные мной лендинги и веб-страницы в одном месте. Выбирай, смотри, вдохновляйся.</p>
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Hermes Agent · GitHub Pages
+      </div>
+      <h1>Галерея <span class="grad">лендингов</span></h1>
+      <p class="hero-sub">Все проекты на GitHub Pages — <span class="count" id="project-count">0</span> сайтов и лендингов</p>
     </section>
 
-    <!-- Filters -->
-    <div class="filters fade-in" id="filters"></div>
+    <div class="filters" id="filters"></div>
 
-    <!-- Projects Grid -->
     <div class="projects-grid" id="projects-grid"></div>
   </div>
+
+  <footer>
+    Hermes Agent by <a href="https://nousresearch.com" target="_blank" rel="noopener">Nous Research</a> · Хостинг GitHub Pages
+  </footer>
 
   <script>
     let projects = [];
     let activeFilter = 'all';
 
-    // Load projects
+    // Умный base: на GitHub Pages → /landings/, на сервере → /weblending/
+    // /weblending/projects/<name>/ → /landings/<name>/ ; /weblending/<name>/ → /landings/<name>/
+    const isGhPages = window.location.hostname.includes('github.io');
+
     fetch('assets/projects.json')
       .then(r => r.json())
       .then(data => {
@@ -328,10 +318,26 @@
         render();
       })
       .catch(() => {
-        // Fallback: embedded data
         projects = [];
         render();
       });
+
+    function resolveUrl(p) {
+      if (p.id === 'knowledge-hub') {
+        return 'https://xep.qzz.io/knowledge-hub/';
+      }
+      if (p.url) {
+        if (isGhPages && p.url.startsWith('/weblending/')) {
+          return '/landings/' + p.url.replace('/weblending/projects/', '').replace('/weblending/', '');
+        }
+        if (isGhPages && p.url.startsWith('/')) {
+          return '/landings' + p.url;
+        }
+        return p.url;
+      }
+      const base = isGhPages ? '/landings/' : '/weblending/projects/';
+      return base + p.id + '/index.html';
+    }
 
     function render() {
       renderFilters();
@@ -371,10 +377,10 @@
 
       if (filtered.length === 0) {
         grid.innerHTML = `
-          <div class="empty-state fade-in visible">
-            <div class="empty-icon">📭</div>
+          <div class="empty-state" style="grid-column:1/-1;">
+            <i class="bi bi-inbox"></i>
             <h3>Нет проектов</h3>
-            <p>В этой категории пока ничего нет. Попроси меня создать новый лендинг!</p>
+            <p>В этой категории пока ничего нет.</p>
           </div>
         `;
         return;
@@ -382,64 +388,35 @@
 
       let html = '';
       filtered.forEach((p, i) => {
-        const color = p.color || '#ff4d4d';
         const tags = (p.tags || []).slice(0, 3).map(t => `<span class="card-tag">${t}</span>`).join('');
-
-        // Умный base: на сервере xep.qzz.io → /weblending/, на GitHub Pages → /landings/
-        // /weblending/projects/<name>/ → /landings/<name>/ ; /weblending/<name>/ → /landings/<name>/
-        const isGhPages = window.location.hostname.includes('github.io');
-        let projectUrl;
-        if (p.id === 'knowledge-hub') {
-          // Защищённый серверный дашборд — всегда на сервере, не публиковать на GitHub
-          projectUrl = 'https://xep.qzz.io/knowledge-hub/';
-        } else if (p.url) {
-          if (isGhPages && p.url.startsWith('/weblending/')) {
-            projectUrl = '/landings/' + p.url.replace('/weblending/projects/', '').replace('/weblending/', '');
-          } else if (isGhPages && p.url.startsWith('/')) {
-            projectUrl = '/landings' + p.url;
-          } else {
-            projectUrl = p.url;
-          }
-        } else {
-          const base = isGhPages ? '/landings/' : '/weblending/projects/';
-          projectUrl = `${base}${p.id}/index.html`;
-        }
+        const icon = p.icon && !p.icon.match(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]$/u) ? p.icon : '';
+        const url = resolveUrl(p);
         html += `
-          <a href="${projectUrl}" target="_blank" class="project-card fade-in-scale" style="animation-delay:${i * 0.05}s">
-            <div class="card-preview">
-              <div class="preview-color-bar" style="background:${color}"></div>
-              <span class="preview-icon">${p.icon || '📄'}</span>
-              <div class="preview-overlay"></div>
+          <a href="${url}" target="_blank" rel="noopener" class="project-card"
+             style="animation-delay:${Math.min(i * 0.04, 0.6)}s">
+            <div class="card-top">
+              <div class="card-icon">${icon ? `<i class="bi ${icon}"></i>` : '<i class="bi bi-file-code"></i>'}</div>
+              <i class="bi bi-arrow-up-right card-arrow"></i>
             </div>
-            <div class="card-body">
-              <div class="card-tags">${tags}</div>
-              <div class="card-title">${p.name}</div>
-              <div class="card-desc">${p.description}</div>
-              <div class="card-footer">
-                <span>📅 ${p.date || '—'}</span>
-                <span style="color:var(--accent);font-weight:600;">→</span>
-              </div>
-            </div>
+            <div class="card-title">${p.name}</div>
+            <div class="card-desc">${p.description || ''}</div>
+            <div class="card-tags">${tags}</div>
+            <span class="card-date">${p.date || ''}</span>
           </a>
         `;
       });
 
       grid.innerHTML = html;
 
-      // Trigger animations
-      requestAnimationFrame(() => {
-        document.querySelectorAll('.fade-in-scale').forEach(el => el.classList.add('visible'));
+      // Spotlight hover
+      grid.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+          card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+        });
       });
     }
-
-    // Fade-in observer
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
