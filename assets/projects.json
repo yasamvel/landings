@@ -1,0 +1,497 @@
+[
+  {
+    "id": "hermes",
+    "name": "Hermes Agent — Главная",
+    "description": "Главная страница сервера: описание AI-агента, терминал, возможности и ссылки.",
+    "date": "2026-06-09",
+    "tags": [
+      "лендинг",
+      "гермес",
+      "ai",
+      "главная"
+    ],
+    "color": "#ff6b35",
+    "icon": "⚡"
+  },
+  {
+    "id": "mtsapp",
+    "name": "MTS App — Магазин приложений",
+    "description": "Лендинг магазина приложений для Android. Тёмная тема, градиенты, анимации, адаптив.",
+    "date": "2026-06-09",
+    "tags": [
+      "лендинг",
+      "android",
+      "магазин",
+      "тёмная тема"
+    ],
+    "color": "#ff4d4d",
+    "icon": "📱"
+  },
+  {
+    "id": "vpnoutline",
+    "name": "SecureCloud — Безопасное облако",
+    "description": "Корпоративное облачное решение. Hero, features, security, pricing, отзывы, CTA.",
+    "date": "2026-06-08",
+    "tags": [
+      "лендинг",
+      "облако",
+      "безопасность",
+      "b2b"
+    ],
+    "color": "#3b82f6",
+    "icon": "☁️"
+  },
+  {
+    "id": "rent-msk",
+    "name": "Сущевский Вал 46 — Коммерческие помещения",
+    "description": "Лендинг аренды коммерческих помещений в Москве. Navy + gold, B2B, taste-skill.",
+    "date": "2026-06-10",
+    "tags": [
+      "лендинг",
+      "недвижимость",
+      "b2b",
+      "taste-skill"
+    ],
+    "color": "#c8923e",
+    "icon": "🏢"
+  },
+  {
+    "id": "mtproto",
+    "name": "MTProto — Криптографический протокол Telegram",
+    "description": "Авангард-лендинг про протокол MTProto. Dark tech, kinetic rings, cyan accent.",
+    "date": "2026-06-10",
+    "tags": [
+      "лендинг",
+      "mtproto",
+      "telegram",
+      "криптография",
+      "авангард"
+    ],
+    "color": "#06d6d6",
+    "icon": "🔐"
+  },
+  {
+    "id": "x3ui-cascade",
+    "name": "3X-UI — Каскад и ноды",
+    "description": "Веб-панель управления Xray. Каскадное проксирование, распределённые ноды, централизованное управление.",
+    "date": "2026-06-10",
+    "tags": [
+      "лендинг",
+      "3x-ui",
+      "xray",
+      "каскад",
+      "прокси",
+      "claude-style"
+    ],
+    "color": "#d97757",
+    "icon": "🔄"
+  },
+  {
+    "id": "kazs",
+    "name": "КАЗС — Контейнерные АЗС (тёмная)",
+    "description": "Тёмная версия. Проектирование, производство и поставка модульных автозаправочных комплексов под ключ.",
+    "date": "2026-06-11",
+    "tags": [
+      "лендинг",
+      "казс",
+      "азс",
+      "топливо",
+      "b2b",
+      "презентация",
+      "тёмная тема"
+    ],
+    "color": "#d4a447",
+    "icon": "⛽"
+  },
+  {
+    "id": "kazs-light",
+    "name": "КАЗС — Контейнерные АЗС (светлая)",
+    "description": "Светлая версия. Проектирование, производство и поставка модульных автозаправочных комплексов под ключ.",
+    "date": "2026-06-11",
+    "tags": [
+      "лендинг",
+      "казс",
+      "азс",
+      "топливо",
+      "b2b",
+      "презентация",
+      "светлая тема"
+    ],
+    "color": "#e8d5a3",
+    "icon": "⛽"
+  },
+  {
+    "id": "lori-bluuu",
+    "name": "Larisa Ervandyan — UGC Creator & Reels Producer",
+    "description": "Премиальный лендинг для UGC Creator. Light aesthetic, beige + black, Geist, dark/light theme, адаптив.",
+    "date": "2026-06-13",
+    "tags": [
+      "лендинг",
+      "ugc",
+      "reels",
+      "creator",
+      "портфолио"
+    ],
+    "color": "#d6ccb8",
+    "icon": "🎬"
+  },
+  {
+    "id": "the-last-of-us",
+    "name": "Одни из нас",
+    "description": "Лендинг сериала The Last of Us — сюжет, актёры, награды",
+    "date": "2026-06-13",
+    "tags": [
+      "сериал",
+      "tv",
+      "лендинг"
+    ],
+    "color": "#2d5a27",
+    "icon": "🎬"
+  },
+  {
+    "id": "usa-auto-export",
+    "name": "Авто из США",
+    "description": "Продажа автомобилей из США в страны СНГ. Топ-10 авто, калькулятор растаможки, доставка под ключ.",
+    "date": "2026-06-13",
+    "tags": [
+      "авто",
+      "сша",
+      "экспорт",
+      "лендинг"
+    ],
+    "color": "#002868",
+    "icon": "🚗"
+  },
+  {
+    "id": "pi-vibe-coder",
+    "name": "Pi Network Vibe Coder Campaign 2026",
+    "description": "Кампания для AI-разработчиков и vibe coders. Мультиязычный (EN/RU/HY) на Bootstrap 5.",
+    "url": "/weblending/projects/pi-vibe-coder/en/",
+    "date": "2026-06-15",
+    "tags": [
+      "лендинг",
+      "pi network",
+      "web3",
+      "ai",
+      "bootstrap"
+    ],
+    "color": "#8B5CF6",
+    "icon": "π"
+  },
+  {
+    "id": "reditems-v2",
+    "name": "Красные Предметы V2 — Bootstrap",
+    "description": "Второй вариант лендинга студии Красные Предметы. Bootstrap 5, тёмная/светлая тема, адаптив.",
+    "url": "/weblending/projects/reditems-v2/",
+    "date": "2026-06-15",
+    "tags": [
+      "лендинг",
+      "дизайн",
+      "производство",
+      "bootstrap"
+    ],
+    "color": "#CC0000",
+    "icon": "🔴"
+  },
+  {
+    "id": "tajik-cards",
+    "name": "Tajik Cards — Visa & Mastercard удалённо",
+    "description": "Удалённое получение банковских карт Visa и Mastercard для граждан Таджикистана. Bootstrap 5, мультиязычность (RU/EN).",
+    "url": "/tajik-cards/",
+    "date": "2026-06-15",
+    "tags": [
+      "лендинг",
+      "карты",
+      "таджикистан",
+      "visa",
+      "mastercard",
+      "bootstrap"
+    ],
+    "color": "#d4a447",
+    "icon": "💳"
+  },
+  {
+    "id": "ariacraft",
+    "name": "AriaCraft — AI-написание песен",
+    "description": "Сервис по написанию песен с помощью ИИ. Тёмный дизайн, фиолетово-циановый градиент.",
+    "url": "/ariacraft/",
+    "date": "2026-06-17",
+    "tags": [
+      "лендинг",
+      "ai",
+      "музыка",
+      "песни"
+    ],
+    "color": "#8b5cf6",
+    "icon": "🎵"
+  },
+  {
+    "id": "vera",
+    "name": "Вера — Православие и Закон Божий",
+    "description": "Премиум лендинг о православной вере: Иисус Христос, Крещение Руси, РПЦ, 12 апостолов, Новый Завет, молитва Отче наш.",
+    "url": "/vera/",
+    "date": "2026-06-17",
+    "tags": [
+      "лендинг",
+      "православие",
+      "религия",
+      "история",
+      "библия"
+    ],
+    "color": "#8b1a2b",
+    "icon": "☦"
+  },
+  {
+    "id": "servcore",
+    "name": "ServCore — VPS/VDS хостинг",
+    "description": "Лендинг хостинга виртуальных серверов. Тёмная тема, NVMe, Bootstrap 5, тарифы, VPS vs VDS сравнение.",
+    "url": "/servcore/",
+    "date": "2026-06-18",
+    "tags": [
+      "лендинг",
+      "хостинг",
+      "vps",
+      "vds",
+      "bootstrap"
+    ],
+    "color": "#3b82f6",
+    "icon": "⚡"
+  },
+  {
+    "id": "hermes-articles",
+    "name": "Hermes Articles — блог про AI Agents",
+    "description": "Статьи про автономные AI-агенты, MCP, автоматизацию на русском и английском. LinkedIn-стиль.",
+    "url": "/hermes-articles/",
+    "date": "2026-06-18",
+    "tags": [
+      "блог",
+      "ai",
+      "гермес",
+      "статьи",
+      "агенты",
+      "bootstrap"
+    ],
+    "color": "#0A66C2",
+    "icon": "✍️"
+  },
+  {
+    "id": "urartu",
+    "name": "URARTU — Колыбель древней цивилизации",
+    "description": "История государства Урарту: IX–VI века до н.э., крепости, цари, архитектура и культура. Премиальный исторический дизайн.",
+    "url": "/urartu/",
+    "date": "2026-06-19",
+    "tags": [
+      "лендинг",
+      "история",
+      "урарту",
+      "армения",
+      "bootstrap"
+    ],
+    "color": "#A34A2A",
+    "icon": "🏛️"
+  },
+  {
+    "id": "hermes-agent-benefits",
+    "name": "Hermes Agent — AI-агент с замкнутым циклом обучения",
+    "description": "Лендинг о пользе Hermes Agent от Nous Research: автономный AI-агент с памятью, навыками, 20+ платформами и планировщиком. Bootstrap 5 + Material Symbols.",
+    "date": "2026-06-26",
+    "tags": [
+      "лендинг",
+      "гермес",
+      "ai",
+      "агент",
+      "bootstrap",
+      "презентация"
+    ],
+    "color": "#FFD700",
+    "icon": "🤖",
+    "url": "/weblending/hermes-agent/"
+  },
+  {
+    "id": "3x-ui-pro",
+    "name": "3X-UI PRO — Терминальный лендинг",
+    "description": "Автоматическая установка 3x-ui панели. Терминальный стиль: ASCII-арт, зелёный терминал, Bootstrap 5 + JetBrains Mono.",
+    "date": "2026-06-26",
+    "tags": [
+      "лендинг",
+      "терминал",
+      "vpn",
+      "3x-ui",
+      "bootstrap",
+      "терминальный стиль"
+    ],
+    "color": "#00ff41",
+    "icon": "💻",
+    "url": "/weblending/3x-ui-pro/"
+  },
+  {
+    "id": "domstroy",
+    "name": "ДомСтрой — Строительство под ключ",
+    "description": "Генподрядные работы в Санкт-Петербурге: строительство домов, ремонт, фасады, кровля. Классический деловой стиль.",
+    "date": "2026-06-27",
+    "tags": [
+      "лендинг",
+      "строительство",
+      "спб",
+      "ремонт",
+      "bootstrap"
+    ],
+    "color": "#1a3a5c",
+    "icon": "🏗️",
+    "url": "/domstroy/"
+  },
+  {
+    "id": "samvel-resume",
+    "name": "Samvel Ervandyan — Resume",
+    "description": "Резюме. Юрист, управление, административная деятельность. Bootstrap 5, тёмная/светлая тема, русский/английский.",
+    "date": "2026-06-27",
+    "tags": [
+      "резюме",
+      "cv",
+      "bootstrap",
+      "bilingual"
+    ],
+    "color": "#3b82f6",
+    "icon": "👤",
+    "url": "/samvel-resume/"
+  },
+  {
+    "id": "knowledge-hub",
+    "name": "Knowledge Hub — База знаний",
+    "description": "Дашборд всех знаний из Obsidian vault: проекты, навыки, инфраструктура, GitHub, CMS. На основе AppDashboard от BootstrapMade.",
+    "date": "2026-06-29",
+    "tags": [
+      "дашборд",
+      "админка",
+      "база знаний",
+      "bootstrapmade"
+    ],
+    "color": "#03569f",
+    "icon": "🧠",
+    "url": "/knowledge-hub/"
+  },
+  {
+    "id": "3x-ui-v1",
+    "name": "3X-UI v1 — Claude Design",
+    "description": "Тёмная тема, dot-grid фон, spotlight-курсор, stagger-анимации, inline SVG иконки. Без внешних CDN.",
+    "date": "2026-06-30",
+    "tags": [
+      "лендинг",
+      "прокси",
+      "xray",
+      "claude-design"
+    ],
+    "color": "#060610",
+    "icon": "🎨",
+    "url": "/weblending/projects/3x-ui/v1/"
+  },
+  {
+    "id": "3x-ui-v2",
+    "name": "3X-UI v2 — Materialize CSS",
+    "description": "Material Design, Materialize CSS, сетка 12 колонок, navbar+sidenav, cards, chips, scrollspy.",
+    "date": "2026-06-30",
+    "tags": [
+      "лендинг",
+      "прокси",
+      "xray",
+      "materialize"
+    ],
+    "color": "#0ea5e9",
+    "icon": "🛡️",
+    "url": "/weblending/projects/3x-ui/v2/"
+  },
+  {
+    "id": "wc2026",
+    "name": "ЧМ-2026",
+    "description": "FIFA World Cup 2026 — группы, результаты, плей-офф. Данные с FIFA API.",
+    "date": "2026-07-01",
+    "tags": [
+      "лендинг",
+      "bootstrap"
+    ],
+    "color": "#1a237e",
+    "icon": "🏆"
+  },
+  {
+    "id": "jetnode",
+    "name": "JetNode",
+    "description": "Облачный хостинг для разработчиков и стартапов — React, Tailwind, Framer Motion",
+    "date": "2026-07-01",
+    "tags": [
+      "лендинг",
+      "react",
+      "tailwind"
+    ],
+    "color": "#7850ff",
+    "icon": "🚀"
+  },
+  {
+    "id": "phone-compare",
+    "name": "Xiaomi 17 Pro vs Honor 600 Pro",
+    "description": "Сравнение флагманов 2026 — характеристики, плюсы/минусы, таблица",
+    "date": "2026-07-01",
+    "tags": [
+      "лендинг",
+      "сравнение"
+    ],
+    "color": "#ff6b35",
+    "icon": "📱"
+  },
+  {
+    "id": "neporno",
+    "name": "НЕПОРНО — самый безопасный сайт",
+    "description": "Юмористический лендинг: ожидание, разочарование, картошка, котики и никакого 18+. Next.js, Framer Motion, Tailwind, неоновый розовый.",
+    "url": "/neporno/",
+    "date": "2026-07-05",
+    "tags": [
+      "лендинг",
+      "next.js",
+      "юмор",
+      "сатира"
+    ],
+    "color": "#ff0080",
+    "icon": "🥔"
+  },
+  {
+    "id": "newbetavpn",
+    "name": "NewBetaVPN",
+    "description": "VPN-сервис на базе Xray/VLESS. Анонимно, быстро, до 300 Мбит/с. 3 дня бесплатно.",
+    "date": "2026-07-11",
+    "tags": [
+      "vpn",
+      "лендинг"
+    ],
+    "color": "#0056b3",
+    "icon": "🔒"
+  },
+  {
+    "id": "kimi-hermes",
+    "name": "Kimi + Hermes — подключение бесплатной Kimi",
+    "description": "Инструкция: как подключить бесплатную Kimi K3 (Moonshot AI) к Hermes Agent через TokenRouter API за 3 шага. RU/EN, светлая/тёмная тема, Tailwind + DaisyUI.",
+    "url": "/projects/kimi-hermes/",
+    "date": "2026-08-01",
+    "tags": [
+      "инструкция",
+      "ai",
+      "kimi",
+      "hermes"
+    ],
+    "color": "#8b5cf6",
+    "icon": "🤖"
+  },
+  {
+    "id": "ubuntu-commands",
+    "name": "Ubuntu Server — базовые команды",
+    "description": "Шпаргалка: обновление системы, установка fail2ban, закрытие всех портов кроме 80/443/22 через UFW. Терминальный стиль на Terminal.css.",
+    "url": "/projects/ubuntu-commands/",
+    "date": "2026-08-01",
+    "tags": [
+      "ubuntu",
+      "шпаргалка",
+      "терминал",
+      "security"
+    ],
+    "color": "#4ade80",
+    "icon": "🐧"
+  }
+]
