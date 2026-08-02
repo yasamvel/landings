@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hermes Agent — AI-агент с замкнутым циклом обучения</title>
+  <meta name="description" content="Hermes Agent от Nous Research — автономный AI-агент, который учится на опыте, запоминает вас и работает где угодно: VPS, GPU-кластер, serverless.">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
+
+  <!-- Geist -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --hermes-dark: #07070d;
+      --hermes-gold: #FFD700;
+      --hermes-gold-light: rgba(255, 215, 0, 0.08);
+      --hermes-gold-hover: #ffed4a;
+      --hermes-purple: #6C63FF;
+      --hermes-text: #1a1a2e;
+      --hermes-text-muted: #6b7280;
+      --hermes-bg: #fafafa;
+      --hermes-card-bg: #ffffff;
+      --hermes-border: rgba(0, 0, 0, 0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--hermes-bg);
+      color: var(--hermes-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 { font-weight: 700; letter-spacing: -0.02em; }
+    .display-1, .display-2, .display-3 { letter-spacing: -0.03em; }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(255, 255, 255, 0.85) !important;
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--hermes-border);
+      padding: 0.75rem 0;
+    }
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--hermes-dark) !important;
+    }
+    .navbar-brand .gold-dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      background: var(--hermes-gold);
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .nav-link {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--hermes-text-muted) !important;
+      padding: 0.5rem 1rem !important;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--hermes-dark) !important; }
+
+    .btn-gold {
+      background: var(--hermes-gold);
+      color: var(--hermes-dark);
+      font-weight: 600;
+      border: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 10px;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+    .btn-gold:hover {
+      background: var(--hermes-gold-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(255, 215, 0, 0.35);
+      color: var(--hermes-dark);
+    }
+
+    .btn-outline-dark {
+      border: 1.5px solid rgba(0,0,0,0.12);
+      color: var(--hermes-text);
+      font-weight: 600;
+      padding: 0.65rem 1.5rem;
+      border-radius: 10px;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+      background: transparent;
+    }
+    .btn-outline-dark:hover {
+      border-color: var(--hermes-dark);
+      background: var(--hermes-dark);
+      color: #fff;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 7rem 0 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -20%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(255,215,0,0.06) 0%, rgba(108,99,255,0.04) 50%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(108,99,255,0.05) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--hermes-gold-light);
+      color: #b8860b;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255, 215, 0, 0.15);
+    }
+    .hero h1 {
+      font-size: 3.2rem;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 .gold-text {
+      background: linear-gradient(135deg, var(--hermes-gold), #ffb300);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--hermes-text-muted);
+      max-width: 580px;
+      margin-bottom: 2rem;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--hermes-border);
+    }
+    .hero-stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--hermes-dark);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 0.8rem;
+      color: var(--hermes-text-muted);
+      font-weight: 500;
+      margin-top: 0.25rem;
+    }
+
+    /* Sections */
+    section { padding: 5rem 0; }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--hermes-purple);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+    .section-subtitle {
+      color: var(--hermes-text-muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+    }
+
+    /* Feature cards */
+    .feature-card {
+      background: var(--hermes-card-bg);
+      border: 1px solid var(--hermes-border);
+      border-radius: 16px;
+      padding: 2rem;
+      height: 100%;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 215, 0, 0.2);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+    }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.4rem;
+    }
+    .feature-icon-gold { background: var(--hermes-gold-light); color: #b8860b; }
+    .feature-icon-purple { background: rgba(108, 99, 255, 0.1); color: var(--hermes-purple); }
+    .feature-icon-blue { background: rgba(59, 130, 246, 0.1); color: #2563eb; }
+    .feature-icon-green { background: rgba(16, 185, 129, 0.1); color: #059669; }
+    .feature-icon-rose { background: rgba(244, 63, 94, 0.1); color: #e11d48; }
+    .feature-icon-amber { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--hermes-text-muted);
+      margin-bottom: 0;
+    }
+
+    /* Platform grid */
+    .platform-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .platform-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--hermes-card-bg);
+      border: 1px solid var(--hermes-border);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .platform-chip:hover {
+      border-color: rgba(255, 215, 0, 0.3);
+      background: var(--hermes-gold-light);
+    }
+    .platform-chip i, .platform-chip .material-symbols-outlined {
+      font-size: 1.1rem;
+    }
+    .platform-chip .material-symbols-outlined {
+      font-size: 1.2rem;
+    }
+
+    /* How it works */
+    .step-card {
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--hermes-gold);
+      color: var(--hermes-dark);
+      font-weight: 800;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+    .step-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .step-card p {
+      font-size: 0.9rem;
+      color: var(--hermes-text-muted);
+    }
+
+    /* CTA */
+    .cta-section {
+      background: var(--hermes-dark);
+      color: #fff;
+      border-radius: 24px;
+      padding: 4rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 60%);
+      border-radius: 50%;
+    }
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .cta-section p {
+      color: rgba(255,255,255,0.6);
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    .btn-cta {
+      background: var(--hermes-gold);
+      color: var(--hermes-dark);
+      font-weight: 700;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .btn-cta:hover {
+      background: var(--hermes-gold-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 215, 0, 0.25);
+      color: var(--hermes-dark);
+    }
+    .btn-cta-outline {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      font-weight: 600;
+      padding: 0.8rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .btn-cta-outline:hover {
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+
+    /* Terminal mockup */
+    .terminal-box {
+      background: #0d0d1a;
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: #a0a0b8;
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow-x: auto;
+    }
+    .terminal-box .prompt { color: var(--hermes-gold); }
+    .terminal-box .cmd { color: #e0e0f0; }
+    .terminal-box .output { color: #60c090; }
+    .terminal-box .comment { color: #555; font-style: italic; }
+
+    /* Footer */
+    footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--hermes-border);
+      font-size: 0.85rem;
+      color: var(--hermes-text-muted);
+    }
+    footer a { color: var(--hermes-text); text-decoration: none; font-weight: 500; }
+    footer a:hover { color: var(--hermes-purple); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero { padding: 5rem 0 3rem; }
+      .hero h1 { font-size: 2rem; }
+      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+      .section-title { font-size: 1.7rem; }
+      .cta-section { padding: 2.5rem 1.5rem; }
+      .cta-section h2 { font-size: 1.8rem; }
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease forwards; }
+    .fade-up-delay-1 { animation-delay: 0.1s; }
+    .fade-up-delay-2 { animation-delay: 0.2s; }
+    .fade-up-delay-3 { animation-delay: 0.3s; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <span class="gold-dot"></span>Hermes Agent
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+          <li class="nav-item"><a class="nav-link" href="#features">Возможности</a></li>
+          <li class="nav-item"><a class="nav-link" href="#how">Как работает</a></li>
+          <li class="nav-item"><a class="nav-link" href="#platforms">Платформы</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-gold" href="https://hermes-agent.nousresearch.com/docs/getting-started/installation" target="_blank">
+              <i class="bi bi-download me-1"></i>Установить
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div class="hero-badge fade-up">
+            <span class="material-symbols-outlined" style="font-size:1rem;">auto_awesome</span>
+            От Nous Research
+          </div>
+          <h1 class="fade-up fade-up-delay-1">
+            AI-агент с <span class="gold-text">замкнутым циклом</span><br>обучения
+          </h1>
+          <p class="fade-up fade-up-delay-2">
+            Hermes Agent — это не просто чат-бот. Это автономный агент, который 
+            создаёт навыки из опыта, улучшает их в процессе работы, запоминает вас 
+            между сессиями и становится умнее с каждым днём.
+          </p>
+          <div class="d-flex flex-wrap gap-3 fade-up fade-up-delay-3">
+            <a class="btn btn-gold btn-lg px-4 py-3" href="https://hermes-agent.nousresearch.com/docs/getting-started/installation" target="_blank">
+              <i class="bi bi-rocket-takeoff me-2"></i>Начать
+            </a>
+            <a class="btn btn-outline-dark btn-lg px-4 py-3" href="https://github.com/NousResearch/hermes-agent" target="_blank">
+              <i class="bi bi-github me-2"></i>GitHub
+            </a>
+          </div>
+          <div class="hero-stats fade-up fade-up-delay-3">
+            <div>
+              <div class="hero-stat-value">20+</div>
+              <div class="hero-stat-label">платформ</div>
+            </div>
+            <div>
+              <div class="hero-stat-value">60+</div>
+              <div class="hero-stat-label">инструментов</div>
+            </div>
+            <div>
+              <div class="hero-stat-value">6</div>
+              <div class="hero-stat-label">бэкендов</div>
+            </div>
+            <div>
+              <div class="hero-stat-value">MIT</div>
+              <div class="hero-stat-label">лицензия</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 d-none d-lg-block fade-up fade-up-delay-2">
+          <div class="terminal-box">
+            <div><span class="prompt">$</span> <span class="cmd">hermes install</span></div>
+            <div class="comment">✓ Установка завершена</div>
+            <div><span class="prompt">$</span> <span class="cmd">hermes --version</span></div>
+            <div class="output">Hermes Agent v0.10.0</div>
+            <div><span class="prompt">$</span> <span class="cmd">hermes run "настрой Telegram"</span></div>
+            <div class="comment">✓ Gateway запущен</div>
+            <div class="comment">✓ Telegram подключён</div>
+            <div style="color: var(--hermes-gold);">▌</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label justify-content-center">
+          <span class="material-symbols-outlined" style="font-size:1rem;">neurology</span>
+          Что умеет Hermes
+        </div>
+        <h2 class="section-title">Ключевые возможности</h2>
+        <p class="section-subtitle mx-auto">Hermes Agent создан для реальной работы — от автоматизации до исследований</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-gold">
+              <span class="material-symbols-outlined">psychology</span>
+            </div>
+            <h3>Замкнутый цикл обучения</h3>
+            <p>Создаёт навыки из опыта, улучшает их при использовании, запоминает вас между сессиями. Становится умнее с каждым днём.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-purple">
+              <i class="bi bi-cloud-arrow-up"></i>
+            </div>
+            <h3>Работает где угодно</h3>
+            <p>VPS за $5, GPU-кластер или serverless (Daytona, Modal). Не привязан к вашему ноутбуку — живёт в облаке.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-blue">
+              <i class="bi bi-chat-dots"></i>
+            </div>
+            <h3>20+ платформ</h3>
+            <p>Telegram, Discord, Slack, WhatsApp, Signal, Email, SMS, Teams, 
+            Matrix и другие — единый gateway для всех мессенджеров.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-green">
+              <span class="material-symbols-outlined">call_split</span>
+            </div>
+            <h3>Параллельные агенты</h3>
+            <p>Запускайте изолированных саб-агентов для параллельной работы. 
+            Один агент пишет код, другой ищет информацию — одновременно.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-rose">
+              <i class="bi bi-tools"></i>
+            </div>
+            <h3>60+ встроенных инструментов</h3>
+            <p>Веб-поиск, браузер, работа с файлами, терминал, 
+            генерация изображений, TTS, MCP-серверы — всё из коробки.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-amber">
+              <span class="material-symbols-outlined">schedule</span>
+            </div>
+            <h3>Планировщик задач</h3>
+            <p>Встроенный cron с доставкой результатов на любую платформу. 
+            Утренние дайджесты, мониторинг, бэкапы — всё автоматически.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-gold">
+              <i class="bi bi-memory"></i>
+            </div>
+            <h3>Персистентная память</h3>
+            <p>Помнит вас между сессиями. Сохраняет предпочтения, 
+            факты о проектах, контекст — ничего не теряется.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-purple">
+              <span class="material-symbols-outlined">extension</span>
+            </div>
+            <h3>MCP интеграция</h3>
+            <p>Подключайте любые MCP-серверы для расширения возможностей. 
+            Фильтруйте инструменты, управляйте доступом.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-blue">
+              <span class="material-symbols-outlined">record_voice_over</span>
+            </div>
+            <h3>Голосовой режим</h3>
+            <p>Реальное время: CLI, Telegram, Discord, Discord VC. 
+            Разговаривайте с агентом как с человеком.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how" class="bg-white" style="border-top:1px solid var(--hermes-border);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label justify-content-center">
+          <span class="material-symbols-outlined" style="font-size:1rem;">polyline</span>
+          Процесс
+        </div>
+        <h2 class="section-title">Как это работает</h2>
+        <p class="section-subtitle mx-auto">Три простых шага — и ваш личный AI-агент готов к работе</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <span class="material-symbols-outlined" style="font-size:2rem;color:var(--hermes-gold);margin-bottom:0.5rem;">terminal</span>
+            <h4>Установите</h4>
+            <p>Одна команда в терминале — и Hermes работает. Linux, macOS, WSL2, Windows.</p>
+            <div class="terminal-box mt-3 text-start">
+              <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://hermes-agent</span></div>
+              <div><span class="cmd">  .nousresearch.com/install.sh | bash</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <span class="material-symbols-outlined" style="font-size:2rem;color:var(--hermes-gold);margin-bottom:0.5rem;">settings</span>
+            <h4>Настройте</h4>
+            <p>Подключите модели, мессенджеры, инструменты. Одна OAuth — и всё готово.</p>
+            <div class="terminal-box mt-3 text-start">
+              <div><span class="prompt">$</span> <span class="cmd">hermes setup --portal</span></div>
+              <div class="output">✓ Nous Portal connected</div>
+              <div class="output">✓ Models configured</div>
+              <div class="output">✓ Tools ready</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <span class="material-symbols-outlined" style="font-size:2rem;color:var(--hermes-gold);margin-bottom:0.5rem;">rocket_launch</span>
+            <h4>Используйте</h4>
+            <p>Пишите из Telegram, пока агент работает на сервере. Он запоминает, учится и automatизирует.</p>
+            <div class="terminal-box mt-3 text-start">
+              <div class="comment"># Telegram → сервер</div>
+              <div><span class="prompt">Вы:</span> <span class="cmd">напиши дайджест новостей</span></div>
+              <div class="output">Готово! Дайджест в канале ✅</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platforms -->
+  <section id="platforms">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label justify-content-center">
+          <i class="bi bi-grid-3x3-gap-fill"></i>
+          Экосистема
+        </div>
+        <h2 class="section-title">Работает там, где вы</h2>
+        <p class="section-subtitle mx-auto">Поддержка всех популярных платформ из одного gateway</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="platform-grid justify-content-center">
+            <span class="platform-chip"><i class="bi bi-telegram"></i> Telegram</span>
+            <span class="platform-chip"><i class="bi bi-discord"></i> Discord</span>
+            <span class="platform-chip"><i class="bi bi-slack"></i> Slack</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">chat</span> WhatsApp</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">signal_cellular_alt</span> Signal</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">grid_view</span> Matrix</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">mark_email_read</span> Email</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">sms</span> SMS</span>
+            <span class="platform-chip"><i class="bi bi-microsoft-teams"></i> Teams</span>
+            <span class="platform-chip"><i class="bi bi-google"></i> Google Chat</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">home</span> Home Assistant</span>
+            <span class="platform-chip"><i class="bi bi-terminal"></i> CLI</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">forum</span> Mattermost</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">groups</span> DingTalk</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">feed</span> Feishu</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">wechat</span> WeCom</span>
+            <span class="platform-chip"><span class="material-symbols-outlined">smart_toy</span> QQ Bot</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Backends -->
+  <section class="bg-white" style="border-top:1px solid var(--hermes-border);">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="section-label">
+            <span class="material-symbols-outlined" style="font-size:1rem;">cloud</span>
+            Инфраструктура
+          </div>
+          <h2 class="section-title">Где запускать?</h2>
+          <p class="section-subtitle mb-4">Hermes не привязан к вашему ноутбуку. Выберите бэкенд под свою задачу:</p>
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="feature-icon feature-icon-gold" style="width:40px;height:40px;font-size:1.1rem;margin:0;flex-shrink:0;">
+                <i class="bi bi-laptop"></i>
+              </div>
+              <div>
+                <strong>Локальный</strong>
+                <div class="text-muted" style="font-size:0.85rem;">Прямо на вашей машине</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="feature-icon feature-icon-blue" style="width:40px;height:40px;font-size:1.1rem;margin:0;flex-shrink:0;">
+                <i class="bi bi-boxes"></i>
+              </div>
+              <div>
+                <strong>Docker</strong>
+                <div class="text-muted" style="font-size:0.85rem;">Изолированный контейнер</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="feature-icon feature-icon-purple" style="width:40px;height:40px;font-size:1.1rem;margin:0;flex-shrink:0;">
+                <i class="bi bi-hdd-network"></i>
+              </div>
+              <div>
+                <strong>SSH / VPS</strong>
+                <div class="text-muted" style="font-size:0.85rem;">Сервер за $5/мес</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="feature-icon feature-icon-green" style="width:40px;height:40px;font-size:1.1rem;margin:0;flex-shrink:0;">
+                <span class="material-symbols-outlined" style="font-size:1.1rem;">cloud_done</span>
+              </div>
+              <div>
+                <strong>Serverless (Daytona / Modal)</strong>
+                <div class="text-muted" style="font-size:0.85rem;">Платите только за использование. Засыпает в простое.</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="feature-icon feature-icon-amber" style="width:40px;height:40px;font-size:1.1rem;margin:0;flex-shrink:0;">
+                <span class="material-symbols-outlined" style="font-size:1.1rem;">memory</span>
+              </div>
+              <div>
+                <strong>Singularity / GPU</strong>
+                <div class="text-muted" style="font-size:0.85rem;">Для исследований и тяжёлых вычислений</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="terminal-box">
+            <div class="comment" style="color:#888;"># hermes.yaml — бэкенд: modal</div>
+            <div><span class="prompt">backend:</span> <span style="color:#60c090;">modal</span></div>
+            <div><span class="prompt">provider:</span> <span style="color:#60c090;">openrouter</span></div>
+            <div><span class="prompt">messaging:</span></div>
+            <div>  <span class="prompt">telegram:</span> <span style="color:#60c090;">true</span></div>
+            <div>  <span class="prompt">discord:</span> <span style="color:#60c090;">true</span></div>
+            <div><span class="prompt">tools:</span></div>
+            <div>  <span class="prompt">web:</span> <span style="color:#60c090;">true</span></div>
+            <div>  <span class="prompt">vision:</span> <span style="color:#60c090;">true</span></div>
+            <div>  <span class="prompt">image_gen:</span> <span style="color:#60c090;">true</span></div>
+            <div style="color: var(--hermes-gold); margin-top: 0.5rem;">▌</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-section text-center text-lg-start">
+        <div class="row align-items-center">
+          <div class="col-lg-7">
+            <h2>Готовы попробовать?</h2>
+            <p>Установите Hermes Agent за 60 секунд и получите личного AI-агента с памятью, навыками и поддержкой всех платформ.</p>
+            <div class="d-flex flex-wrap gap-3">
+              <a class="btn btn-cta btn-lg" href="https://hermes-agent.nousresearch.com/docs/getting-started/installation" target="_blank">
+                <i class="bi bi-download me-2"></i>Установить Hermes
+              </a>
+              <a class="btn btn-cta-outline btn-lg" href="https://hermes-agent.nousresearch.com/docs" target="_blank">
+                <span class="material-symbols-outlined align-middle" style="font-size:1.2rem;">menu_book</span>
+                <span class="ms-1">Документация</span>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5 d-none d-lg-flex justify-content-end">
+            <div style="font-size:5rem;color:rgba(255,215,0,0.15);line-height:1;">
+              <span class="material-symbols-outlined" style="font-size:5rem;">auto_awesome</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <span class="fw-bold" style="color:var(--hermes-dark);">Hermes Agent</span> — создан командой <a href="https://nousresearch.com" target="_blank">Nous Research</a>
+          <br>
+          <span class="material-symbols-outlined align-middle" style="font-size:0.9rem;color:var(--hermes-gold);">copyright</span> MIT License · 2026
+        </div>
+        <div class="col-md-6 text-md-end">
+          <a href="https://github.com/NousResearch/hermes-agent" target="_blank" class="me-3">
+            <i class="bi bi-github"></i> GitHub
+          </a>
+          <a href="https://discord.gg/NousResearch" target="_blank" class="me-3">
+            <i class="bi bi-discord"></i> Discord
+          </a>
+          <a href="https://agentskills.io" target="_blank">
+            <span class="material-symbols-outlined align-middle" style="font-size:1rem;">extension</span> Skills Hub
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

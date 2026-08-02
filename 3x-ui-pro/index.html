@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3X-UI PRO — Терминальная установка VPN-панели</title>
+  <meta name="description" content="Автоматическая установка 3x-ui панели с nginx, SSL, Clash-подпиской и диагностикой сети. Debian/Ubuntu.">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0">
+  <!-- JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --term-bg: #0a0a0f;
+      --term-bg2: #0d0d1a;
+      --term-bg3: #111122;
+      --term-green: #00ff41;
+      --term-green-dim: #00cc35;
+      --term-amber: #ffb000;
+      --term-amber-dim: #cc8c00;
+      --term-red: #ff3355;
+      --term-blue: #33aaff;
+      --term-cyan: #00e5ff;
+      --term-magenta: #ff66cc;
+      --term-gray: #606080;
+      --term-text: #c0c0d0;
+      --term-text-dim: #707090;
+      --term-border: rgba(0, 255, 65, 0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      background: var(--term-bg);
+      color: var(--term-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: rgba(0, 255, 65, 0.25); color: var(--term-green); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--term-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--term-gray); border-radius: 3px; }
+
+    /* Container */
+    .term-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    /* Scanline overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 65, 0.015) 2px,
+        rgba(0, 255, 65, 0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Terminal window chrome */
+    .term-window {
+      background: var(--term-bg2);
+      border: 1px solid var(--term-border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .term-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--term-bg3);
+      border-bottom: 1px solid var(--term-border);
+      font-size: 0.75rem;
+      color: var(--term-text-dim);
+    }
+    .term-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .term-dot-red { background: #ff5f56; }
+    .term-dot-amber { background: #ffbd2e; }
+    .term-dot-green { background: #27c93f; }
+    .term-body {
+      padding: 1.5rem;
+    }
+
+    /* ASCII Art */
+    .ascii-art {
+      color: var(--term-green);
+      font-size: 0.6rem;
+      line-height: 1.15;
+      white-space: pre;
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+    @media (max-width: 600px) {
+      .ascii-art { font-size: 0.35rem; }
+    }
+
+    /* Terminal lines */
+    .line { margin-bottom: 0.35rem; }
+    .prompt { color: var(--term-amber); }
+    .prompt-green { color: var(--term-green); }
+    .cmd { color: var(--term-text); }
+    .output { color: var(--term-green-dim); }
+    .output-cyan { color: var(--term-cyan); }
+    .output-blue { color: var(--term-blue); }
+    .output-amber { color: var(--term-amber); }
+    .output-red { color: var(--term-red); }
+    .output-magenta { color: var(--term-magenta); }
+    .comment { color: var(--term-gray); font-style: italic; }
+    .dim { color: var(--term-text-dim); }
+
+    .cursor::after {
+      content: '█';
+      color: var(--term-green);
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Feature cards as terminal boxes */
+    .term-card {
+      background: var(--term-bg2);
+      border: 1px solid var(--term-border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      height: 100%;
+      transition: all 0.2s ease;
+    }
+    .term-card:hover {
+      border-color: rgba(0, 255, 65, 0.3);
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.05);
+    }
+    .term-card-icon {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .term-card h3 {
+      font-size: 0.85rem;
+      color: var(--term-amber);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .term-card p {
+      font-size: 0.78rem;
+      color: var(--term-text-dim);
+      margin-bottom: 0;
+    }
+
+    /* Code blocks */
+    .term-code {
+      background: var(--term-bg3);
+      border: 1px solid var(--term-border);
+      border-radius: 6px;
+      padding: 1rem;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    .term-code .comment-line { color: var(--term-gray); }
+    .term-code .cmd-line { color: var(--term-text); }
+    .term-code .out-line { color: var(--term-green-dim); }
+    .term-code .err-line { color: var(--term-red); }
+    .term-code .hl { color: var(--term-amber); }
+    .term-code .hl-green { color: var(--term-green); }
+
+    /* Table as terminal output */
+    .term-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      margin-bottom: 1rem;
+    }
+    .term-table th {
+      color: var(--term-amber);
+      font-weight: 600;
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--term-border);
+    }
+    .term-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(0, 255, 65, 0.06);
+      color: var(--term-text);
+    }
+    .term-table tr:hover td {
+      background: rgba(0, 255, 65, 0.02);
+    }
+
+    /* Progress bar terminal style */
+    .term-progress {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .term-progress-bar {
+      flex: 1;
+      height: 16px;
+      background: var(--term-bg3);
+      border: 1px solid var(--term-border);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    .term-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--term-green-dim), var(--term-green));
+      border-radius: 1px;
+      transition: width 0.3s;
+    }
+    .term-progress-label {
+      color: var(--term-text-dim);
+      min-width: 30px;
+      text-align: right;
+    }
+
+    /* Buttons terminal style */
+    .btn-term {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--term-green);
+      border: 1px solid var(--term-border);
+      padding: 0.7rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-term:hover {
+      background: rgba(0, 255, 65, 0.06);
+      border-color: rgba(0, 255, 65, 0.3);
+      color: var(--term-green);
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.08);
+    }
+    .btn-term-primary {
+      background: rgba(0, 255, 65, 0.08);
+      border-color: rgba(0, 255, 65, 0.25);
+      color: var(--term-green);
+    }
+    .btn-term-primary:hover {
+      background: rgba(0, 255, 65, 0.15);
+      border-color: var(--term-green);
+      color: var(--term-green);
+    }
+
+    /* Footer */
+    .term-footer {
+      border-top: 1px solid var(--term-border);
+      padding: 2rem 0;
+      font-size: 0.75rem;
+      color: var(--term-text-dim);
+    }
+
+    /* Section titles */
+    .section-title-term {
+      color: var(--term-amber);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title-term::before {
+      content: '##';
+      color: var(--term-gray);
+    }
+
+    /* Flag indicator */
+    .flag-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--term-text-dim);
+      padding: 0.3rem 0.75rem;
+      background: var(--term-bg3);
+      border: 1px solid var(--term-border);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="term-container">
+
+    <!-- Terminal Window -->
+    <div class="term-window">
+      <div class="term-titlebar">
+        <span class="term-dot term-dot-red"></span>
+        <span class="term-dot term-dot-amber"></span>
+        <span class="term-dot term-dot-green"></span>
+        <span style="margin-left:auto;">root@server: ~/3x-ui-pro — bash</span>
+        <span style="margin-left:auto;" class="d-none d-sm-inline">— □ ×</span>
+      </div>
+      <div class="term-body">
+
+        <!-- ASCII Logo -->
+        <div class="ascii-art">
+  ████████╗██╗  ██╗       ██╗   ██╗██╗
+  ╚══██╔══╝╚██╗██╔╝       ██║   ██║██║
+     ██║    ╚███╔╝  █████╗██║   ██║██║
+     ██║    ██╔██╗  ╚════╝██║   ██║██║
+     ██║   ██╔╝ ██╗       ╚██████╔╝██║
+     ╚═╝   ╚═╝  ╚═╝        ╚═════╝ ╚═╝
+
+     ██████╗ ██████╗  ██████╗
+     ██╔══██╗██╔══██╗██╔═══██╗
+     ██████╔╝██████╔╝██║   ██║
+     ██╔═══╝ ██╔══██╗██║   ██║
+     ██║     ██║  ██║╚██████╔╝
+     ╚═╝     ╚═╝  ╚═╝ ╚═════╝
+        </div>
+
+        <!-- Intro -->
+        <div class="line"><span class="comment"># 3X-UI PRO — Automated VPN panel deployment</span></div>
+        <div class="line"><span class="comment"># Debian 12 / Ubuntu 24  |  Mozaroc/c0d3x</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">cat /etc/os-release | head -1</span></div>
+        <div class="line"><span class="output">PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">./check_deps.sh</span></div>
+        <div class="line"><span class="output">[✓] curl        found</span></div>
+        <div class="line"><span class="output">[✓] wget        found</span></div>
+        <div class="line"><span class="output">[✓] systemd     active</span></div>
+        <div class="line"><span class="output">[✓] firewall    ufw</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">./x-ui-latest.sh <span class="hl">-install y</span> -subdomain <span class="hl-green">panel.example.com</span> -reality_domain <span class="hl-green">r.example.com</span></span></div>
+        <div class="line"><span class="output">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span></div>
+        <div class="line"><span class="output"> [1/8]  nginx          </span><span class="output-cyan">■■■■■■■■■■</span><span class="output"> 100%</span></div>
+        <div class="line"><span class="output"> [2/8]  SSL (certbot)  </span><span class="output-cyan">■■■■■■■■■■</span><span class="output"> 100%</span></div>
+        <div class="line"><span class="output"> [3/8]  3x-ui          </span><span class="output-cyan">■■■■■■■■■■</span><span class="output"> 100%</span></div>
+        <div class="line"><span class="output"> [4/8]  Clash-proxy    </span><span class="output-cyan">■■■■■■■■■■</span><span class="output"> 100%</span></div>
+        <div class="line"><span class="output"> [5/8]  REALITY        </span><span class="output-cyan">■■■■■■■■■■</span><span class="output"> 100%</span></div>
+        <div class="line"><span class="output"> [6/8]  Фейк-сайт      </span><span class="output-cyan">■■■■■■■■■■</span><span class="output"> 100%</span></div>
+        <div class="line"><span class="output"> [7/8]  Диагностика    </span><span class="output-cyan">■■■■■■■■■■</span><span class="output"> 100%</span></div>
+        <div class="line"><span class="output"> [8/8]  Бэкап          </span><span class="output-cyan">■■■■■■■■■■</span><span class="output"> 100%</span></div>
+        <div class="line"><span class="output">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span></div>
+        <div class="line"><span class="prompt-green">[✓] Установка завершена!</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">systemctl status 3x-ui</span></div>
+        <div class="line"><span class="output">● 3x-ui.service — 3X-UI Panel</span></div>
+        <div class="line"><span class="output">    Loaded: loaded (/etc/systemd/system/3x-ui.service; enabled; preset: enabled)</span></div>
+        <div class="line"><span class="output">    Active: <span class="output-green">active (running)</span> since 2026-06-26 15:42:01 UTC</span></div>
+        <div class="line"><span class="output">  Main PID: 31415 (x-ui)</span></div>
+        <div class="line"><span class="output">    Tasks: 9 (limit: 1111)</span></div>
+        <div class="line"><span class="output">   Memory: 42.7M</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">curl -s https://panel.example.com/status | jq .</span></div>
+        <div class="line"><span class="output">{</span></div>
+        <div class="line"><span class="output">  "status": "online",</span></div>
+        <div class="line"><span class="output">  "uptime": "0:42:01",</span></div>
+        <div class="line"><span class="output">  "version": "2.4.2",</span></div>
+        <div class="line"><span class="output">  "inbounds": 4,</span></div>
+        <div class="line"><span class="output">  "clients": 0</span></div>
+        <div class="line"><span class="output">}</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="prompt">root@server:~$</span><span class="cursor"></span></div>
+
+      </div>
+    </div>
+
+    <!-- What is it -->
+    <div class="section-title-term"> О проекте</div>
+
+    <div class="term-window">
+      <div class="term-body">
+        <div class="line"><span class="prompt">$</span> <span class="cmd">man 3x-ui-pro</span></div>
+        <div class="line"><span class="comment"># 3X-UI PRO — автоматическая установка панели 3x-ui</span></div>
+        <div class="line"><span class="comment"># с nginx, Let's Encrypt SSL, Clash-подпиской и диагностикой.</span></div>
+        <div class="line"><span class="comment">#</span></div>
+        <div class="line"><span class="comment"># Одной командой: nginx → SSL → панель → Clash → REALITY → бэкап</span></div>
+        <div class="line"><span class="comment">#</span></div>
+        <div class="line"><span class="comment"># Поддерживает VLESS+REALITY, VLESS+WebSocket, VLESS+XHTTP, Trojan+gRPC</span></div>
+        <div class="line"><span class="comment"># Всё через единый порт 443.</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">ls -la /etc/3x-ui-pro/</span></div>
+        <div class="line"><span class="output">total 36</span></div>
+        <div class="line"><span class="output">drwxr-xr-x  3 root root  4096 Jun 26 15:42 .</span></div>
+        <div class="line"><span class="output">drwxr-xr-x 80 root root  4096 Jun 26 12:00 ..</span></div>
+        <div class="line"><span class="output">-rw-r--r--  1 root root   847 Jun 26 15:42 nginx.conf</span></div>
+        <div class="line"><span class="output">-rw-r--r--  1 root root  2104 Jun 26 15:42 x-ui.db</span></div>
+        <div class="line"><span class="output">drwx------  2 root root  4096 Jun 26 15:42 ssl</span></div>
+        <div class="line"><span class="output">-rwxr-xr-x  1 root root  3864 Jun 26 15:42 backup.sh</span></div>
+        <div class="line"><span class="prompt">root@server:~$</span><span class="cursor"></span></div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="section-title-term"> Компоненты</div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="term-card">
+          <span class="term-card-icon output-cyan">◈</span>
+          <h3>3x-ui панель</h3>
+          <p>Веб-интерфейс управления с поддержкой всех современных протоколов. VLESS, Trojan, WebSocket, gRPC.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="term-card">
+          <span class="term-card-icon output-green">◈</span>
+          <h3>nginx + SSL</h3>
+          <p>Обратный прокси с SNI-роутингом. Let's Encrypt с автообновлением. HTTP/2, HTTP/3.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="term-card">
+          <span class="term-card-icon output-amber">◈</span>
+          <h3>Clash-подписка</h3>
+          <p>Один URL — разный ответ. Clash получает clash.yaml, браузер — стандартную страницу.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="term-card">
+          <span class="term-card-icon output-magenta">◈</span>
+          <h3>VLESS+REALITY</h3>
+          <p>Маскировка под реальный сайт. Домен назначения настраивается, трафик неотличим от HTTPS.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="term-card">
+          <span class="term-card-icon output-blue">◈</span>
+          <h3>Диагностика сети</h3>
+          <p>MTR-трейс до вашего IP, тест скорости (512 МБ), всё в браузере по ссылке.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="term-card">
+          <span class="term-card-icon output-red">◈</span>
+          <h3>Бэкап и restore</h3>
+          <p>Полный бэкап: конфиги, БД, бинарник, SSL, systemd, cron, UFW. Восстановление на чистом сервере.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Installation -->
+    <div class="section-title-term"> Установка</div>
+
+    <div class="term-window">
+      <div class="term-body">
+        <div class="line"><span class="comment"># Шаг 1 — скачать скрипт</span></div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">wget -qO x-ui-latest.sh <span class="hl">https://raw.githubusercontent.com/mozaroc/3x-ui-pro/main/x-ui-latest.sh</span></span></div>
+        <div class="line"><span class="output">[################################################################] 100%</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="comment"># Шаг 2 — запустить</span></div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">bash x-ui-latest.sh <span class="hl">-install y</span> \</span></div>
+        <div class="line"><span class="cmd">  <span class="hl">-subdomain</span> panel.example.com \</span></div>
+        <div class="line"><span class="cmd">  <span class="hl">-reality_domain</span> r.example.com</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="comment"># Или с автоопределением домена:</span></div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">bash x-ui-latest.sh <span class="hl">-install y -auto_domain y</span></span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">tail -f /var/log/3x-ui-install.log</span><span class="cursor"></span></div>
+      </div>
+    </div>
+
+    <!-- Parameters -->
+    <div class="section-title-term"> Параметры</div>
+
+    <div class="term-window">
+      <div class="term-body">
+        <div class="line" style="margin-bottom:0.75rem;"><span class="comment"># x-ui-latest.sh — флаги запуска</span></div>
+        <table class="term-table">
+          <thead>
+            <tr>
+              <th>Флаг</th>
+              <th>Значение</th>
+              <th>Описание</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="hl">-install</span></td>
+              <td><span class="output">y / n</span></td>
+              <td>Запустить установку</td>
+            </tr>
+            <tr>
+              <td><span class="hl">-subdomain</span></td>
+              <td><span class="output-green">домен</span></td>
+              <td>Домен панели и подписок</td>
+            </tr>
+            <tr>
+              <td><span class="hl">-reality_domain</span></td>
+              <td><span class="output-green">домен</span></td>
+              <td>Домен назначения для REALITY</td>
+            </tr>
+            <tr>
+              <td><span class="hl">-auto_domain</span></td>
+              <td><span class="output">y / n</span></td>
+              <td>Авто-определение домена</td>
+            </tr>
+            <tr>
+              <td><span class="hl">-uninstall</span></td>
+              <td><span class="output">y</span></td>
+              <td>Полное удаление</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="line"><span class="comment"># Удаление:</span></div>
+        <div class="line"><span class="prompt">$</span> <span class="cmd">bash x-ui-latest.sh <span class="hl">-uninstall y</span></span></div>
+        <div class="line"><span class="prompt">root@server:~$</span><span class="cursor"></span></div>
+      </div>
+    </div>
+
+    <!-- Protocol support -->
+    <div class="section-title-term"> Протоколы</div>
+
+    <div class="term-window">
+      <div class="term-body">
+        <table class="term-table">
+          <thead>
+            <tr>
+              <th>Протокол</th>
+              <th>Транспорт</th>
+              <th>Порт</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="output-amber">VLESS</span></td>
+              <td>REALITY</td>
+              <td>443</td>
+              <td><span class="output-green">✓ active</span></td>
+            </tr>
+            <tr>
+              <td><span class="output-amber">VLESS</span></td>
+              <td>WebSocket + TLS</td>
+              <td>443</td>
+              <td><span class="output-green">✓ active</span></td>
+            </tr>
+            <tr>
+              <td><span class="output-amber">VLESS</span></td>
+              <td>XHTTP</td>
+              <td>443</td>
+              <td><span class="output-green">✓ active</span></td>
+            </tr>
+            <tr>
+              <td><span class="output-amber">Trojan</span></td>
+              <td>gRPC</td>
+              <td>443</td>
+              <td><span class="output-green">✓ active</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="line" style="margin-top:0.5rem;"><span class="dim">Единый порт 443 для всех протоколов</span></div>
+        <div class="line"><span class="prompt">root@server:~$</span><span class="cursor"></span></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center;padding:2rem 0;">
+      <div class="line" style="font-size:0.85rem;margin-bottom:1.5rem;">
+        <span class="comment"># Готовы попробовать?</span>
+      </div>
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        <a class="btn-term btn-term-primary" href="https://github.com/mozaroc/3x-ui-pro" target="_blank">
+          <i class="bi bi-github"></i>
+          <span>git clone</span>
+        </a>
+        <a class="btn-term" href="#" onclick="navigator.clipboard.writeText('wget -qO x-ui-latest.sh https://raw.githubusercontent.com/mozaroc/3x-ui-pro/main/x-ui-latest.sh && bash x-ui-latest.sh -install y -auto_domain y');alert('✓ Скопировано в буфер!');return false;">
+          <span class="material-symbols-outlined" style="font-size:1.1rem;">content_copy</span>
+          <span>копировать команду</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="term-footer">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+          <span class="prompt-green">●</span> <span class="dim">3x-ui-pro</span>
+          <span class="dim">· Mozaroc/c0d3x · MIT</span>
+        </div>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/mozaroc/3x-ui-pro" target="_blank" style="color:var(--term-text-dim);text-decoration:none;">
+            <i class="bi bi-github"></i> GitHub
+          </a>
+          <a href="https://github.com/MHSanaei/3x-ui" target="_blank" style="color:var(--term-text-dim);text-decoration:none;">
+            <span class="material-symbols-outlined align-middle" style="font-size:0.85rem;">open_in_new</span> 3x-ui
+          </a>
+        </div>
+      </div>
+      <div class="mt-2 dim" style="font-size:0.7rem;">
+        _EOF_ · Сгенерировано в 2026-06-26 · Все права защищены? Нет, MIT.
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
