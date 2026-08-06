@@ -201,6 +201,12 @@
       border: 1px solid rgba(124, 58, 237, 0.25);
       flex-shrink: 0;
     }
+    .si-icon {
+      width: 26px; height: 26px;
+      object-fit: contain;
+      transition: transform 0.25s ease;
+    }
+    .project-card:hover .si-icon { transform: scale(1.12); }
     .card-arrow {
       color: var(--muted); font-size: 18px;
       transition: transform 0.25s ease, color 0.25s ease;
@@ -389,12 +395,13 @@
       filtered.forEach((p, i) => {
         const tags = (p.tags || []).slice(0, 3).map(t => `<span class="card-tag">${t}</span>`).join('');
         const icon = p.icon && !p.icon.match(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]$/u) ? p.icon : '';
+        const si = p.si ? `<img src="https://cdn.simpleicons.org/${p.si}" alt="${p.name}" class="si-icon" loading="lazy" onerror="this.style.display='none'">` : '';
         const url = resolveUrl(p);
         html += `
           <a href="${url}" target="_blank" rel="noopener" class="project-card"
              style="animation-delay:${Math.min(i * 0.04, 0.6)}s">
             <div class="card-top">
-              <div class="card-icon">${icon ? `<i class="bi ${icon}"></i>` : '<i class="bi bi-file-code"></i>'}</div>
+              <div class="card-icon">${si || (icon ? `<i class="bi ${icon}"></i>` : '<i class="bi bi-file-code"></i>')}</div>
               <i class="bi bi-arrow-up-right card-arrow"></i>
             </div>
             <div class="card-title">${p.name}</div>
