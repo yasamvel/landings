@@ -760,6 +760,48 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">14 августа 2026</span><span class="ln-en-only">14 August 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">LLMs · Engineering</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Structured Outputs: почему JSON Schema — это контракт между LLM и кодом</strong>
+                        <p>Самая частая причина «хрупких» AI-интеграций — не качество модели, а неструктурированный вывод. Модель возвращает JSON в markdown-обёртке, с лишними полями, опечатками в ключах или числами в виде строк — парсер падает, агент молча ретраит, пользователь получает ошибку. Проблема не в том, что LLM «не умеет», а в том, что мы не задали контракт на выходе.</p>
+                        <p>Контракт — это JSON Schema, объявленная до вызова модели. Современные API (OpenAI, Anthropic, Gemini, DeepSeek) поддерживают structured outputs / response_format: модель гарантированно возвращает валидный JSON по схеме — без markdown-обёрток и «творческих» полей. Это убирает целый класс багов ещё до валидации.</p>
+                        <ul>
+                        <li><strong>Схема — это спецификация.</strong> Тип, required, enum и description каждого поля. Описания работают как микропромпты: модель заметно точнее заполняет поля, назначение которых пояснено.</li>
+                        <li><strong>Валидация — не опция.</strong> Даже со structured outputs проверяйте результат через Pydantic/Zod. Схема API — это обещание, а не гарантия: версии моделей меняют поведение, и поймать это должен ваш код.</li>
+                        <li><strong>Ретрай с фидбеком.</strong> При невалидном выводе отправьте модели сообщение валидатора и попросите исправить. Один-два ретрая закрывают почти все кейсы — это дешевле, чем менять модель.</li>
+                        <li><strong>Constrained decoding.</strong> Локальные рантаймы (llama.cpp, outlines) поддерживают грамматику: модель физически не может сгенерировать невалидный токен. Для self-hosted стека это сильнее любого response_format.</li>
+                        </ul>
+                        <p>Из практики: на одном проекте переход на structured outputs + Pydantic-валидацию с ретраем сократил долю «битых» ответов с ~8% до 0.2% — без смены модели. Бонус: та же схема переиспользуется как контракт для парсинга, UI-форм и документации API — один источник правды вместо трёх.</p>
+                        <p>Вывод: относитесь к выводу модели как к интерфейсу. JSON Schema — это API вашего агента: чем строже контракт, тем меньше сюрпризов в проде. Начинайте со схемы, а не с промпта — промпт поменять легко, схему переписывать больно.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Structured Outputs: Why JSON Schema Is the Contract Between Your LLM and Your Code</strong>
+                        <p>Most "fragile" AI integrations fail for a boring reason: unstructured output. The model returns JSON wrapped in markdown fences, with extra keys, typos, or numbers as strings — your parser crashes, the agent retries silently, the user sees an error. The model isn't the problem. You never defined a contract for the output.</p>
+                        <p>A contract is a JSON Schema declared before the call. Modern APIs (OpenAI, Anthropic, Gemini, DeepSeek) support structured outputs / response_format: the model is guaranteed to return valid JSON matching the schema — no fences, no hallucinated fields. That removes an entire bug class before validation even starts.</p>
+                        <ul>
+                        <li><strong>The schema is the spec.</strong> Type, required, enum, and a description per field. Descriptions act as micro-prompts — models fill explained fields noticeably more accurately.</li>
+                        <li><strong>Validation is not optional.</strong> Even with structured outputs, validate with Pydantic/Zod. An API schema is a promise, not a guarantee — model versions change behavior, and your code should catch that.</li>
+                        <li><strong>Retry with feedback.</strong> On invalid output, send the validator error back to the model and ask it to fix. One or two retries close nearly all cases — cheaper than switching models.</li>
+                        <li><strong>Constrained decoding.</strong> Local runtimes (llama.cpp, outlines) support grammar: the model physically cannot emit an invalid token. For self-hosted stacks, that beats any response_format.</li>
+                        </ul>
+                        <p>Real numbers: on one project, switching to structured outputs plus Pydantic validation with retries cut broken responses from ~8% to 0.2% — with no model change. Bonus: the same schema doubles as the contract for parsing, UI forms, and API docs — one source of truth instead of three.</p>
+                        <p>Treat output as an interface. The schema is your agent's API — the stricter the contract, the fewer surprises in production. Start with the schema, not the prompt: prompts are easy to change, schemas are painful to rewrite.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
