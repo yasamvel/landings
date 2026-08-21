@@ -802,6 +802,50 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">21 августа 2026</span><span class="ln-en-only">21 August 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Human-in-the-Loop</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Human-in-the-loop: как проектировать точки контроля в автономных агентах</strong>
+                        <p>Автономность — это не «безлюдность». Это аккуратно спроектированные точки, где система забирает контроль у человека, а человек может забрать его обратно. Самая частая ошибка инженеров — думать «автономный агент» равно «запустил и забыл». На практике выигрывает тот, кто проектирует человека в цикл заранее, а не добавляет escalation после первого убытка.</p>
+                        <p>Правило простое: уровень автономии должен расти вместе с доказанной надёжностью. Сначала агент только готовит решение и просит подтверждения. Потом — действует в изолированном песочнике. И только после серии успешных прогонов получает право на необратимые операции напрямую. Это похоже на staged rollout для моделей: same logic, только вместо версий — уровни доверия к агенту.</p>
+                        <ul>
+                        <li><strong>Необратимые действия всегда требуют гейта.</strong> Отправка платежа, удаление данных, DNS, продакшн-деплой — здесь confirmed, а не автоматика.</li>
+                        <li><strong>Anomaly-based эскалация.</strong> Не эскалируйте каждый раз, а только когда метрика отклоняется от базовой. Иначе оператор перестанет читать уведомления.</li>
+                        <li><strong>Дай человеку контекст целиком.</strong> Кнопка «Подтвердить» бесполезна без трассы: что агент видел, что решил, какой tool вызвал. Иначе подтверждение — это слепое согласие.</li>
+                        <li><strong>Timeout на подтверждение.</strong> Если человек не ответил за N минут — не зависай молча, а вернись в безопасное состояние или понизь права.</li>
+                        </ul>
+                        <p>Конкретный пример из нашего продакшена. Агент, который автоматизирует доменные дайджесты и бэкапы, получил права только на чтение и cron. Первые две недели все «опасные» шаги (запись, push в GitHub, деплой) шли через approve-гейт. Мы вели журнал решений человека и заметили паттерн: 90% подтверждений были однотипными. Тогда включили «auto-approve для известных паттернов + блокировка всего остального». Это не убрало человека из цикла, а сфокусировало его внимание там, где он реально нужен — на аномалиях.</p>
+                        <p>Ещё один нюанс — <em>точка невозврата</em>. Проектируйте так, чтобы у каждого рискованного шага был откат. Агент, который умеет откатывать деплой или восстанавливать состояние из снапшота, позволяет человеку не сидеть рядом с клавиатурой. Escalation должен идти не «к человеку, чтобы он решал всё с нуля», а «к человеку с готовым вариантом решения и трассой». Это меняет всю экономику надзора: оператор тратит 30 секунд на решение, а не 30 минут на разбор.</p>
+                        <p>Главный вывод: человека нельзя «убрать» из автономной системы, но можно спроектировать его участие так, чтобы оно было редким, осмысленным и принимало решения только там, где алгоритмика ещё не надёжна. Хороший продакшн-агент — это не тот, кто всё делает сам, а тот, кто корректно понимает границу своих полномочий и умеет её соблюдать.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Human-in-the-Loop: Designing Control Points in Autonomous Agents</strong>
+                        <p>Autonomy is not the absence of humans. It is carefully designed checkpoints where the system takes control from the human — and the human can always take it back. The most common engineering mistake is treating 'autonomous agent' as 'set it and forget it.' In practice, the winners design humans into the loop from day one, not bolt on an escalation flow after the first costly mistake.</p>
+                        <p>The rule is simple: the level of autonomy should grow together with proven reliability. First the agent only prepares a decision and asks for confirmation. Then it acts inside an isolated sandbox. Only after a series of successful runs does it earn the right to execute irreversible operations directly. It's staged rollout for models — same logic, except the versions are trust levels granted to your agent.</p>
+                        <ul>
+                        <li><strong>Irreversible actions always need a gate.</strong> Payment, data deletion, DNS, production deploys — these demand explicit confirmation, not automation.</li>
+                        <li><strong>Escalate on anomaly, not on every run.</strong> Escalate only when a metric deviates from your baseline. Otherwise the operator stops reading notifications entirely.</li>
+                        <li><strong>Hand the human full context.</strong> A 'Confirm' button is useless without the trace: what the agent saw, what it decided, which tool it invoked. Otherwise approval is blind consent.</li>
+                        <li><strong>Timeout on approval.</strong> If a human doesn't respond within N minutes, don't hang silently — fall back to a safe state or downgrade permissions.</li>
+                        </ul>
+                        <p>A concrete example from our production stack. The agent automating domain digests and backups got read-only and cron permissions only. For the first two weeks every 'dangerous' step (writes, GitHub pushes, deploys) went through an approve gate. We logged the human's decisions and spotted a pattern: 90% of approvals were identical. So we enabled 'auto-approve for known patterns + block everything else.' That didn't remove the human from the loop — it focused their attention exactly where it matters: on anomalies.</p>
+                        <p>One more nuance is the <em>point of no return</em>. Design so every risky step has a rollback. An agent that can revert a deploy or restore state from a snapshot means the human doesn't have to sit next to the keyboard. Escalation should not go 'to a human to solve everything from scratch' but 'to a human with a ready-made solution and a full trace.' That changes the economics of oversight entirely: an operator spends 30 seconds deciding, not 30 minutes investigating.</p>
+                        <p>The key takeaway: you can't 'remove' the human from an autonomous system, but you can design their involvement to be rare, meaningful, and reserved for decisions where the algorithms aren't reliable yet. A good production agent isn't the one that does everything itself — it's the one that correctly understands the boundaries of its authority and reliably respects them.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
