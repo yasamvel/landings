@@ -846,6 +846,42 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">28 августа 2026</span><span class="ln-en-only">28 August 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Model Routing</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Model Routing: как выбирать LLM для каждой задачи и не разоряться</strong>
+                        <p>У большинства агентов одно проклятие: одна и та же модель на все задачи. Но «дорогая модель» и «умная модель» — это не одно и то же. Классификация по сложности, а не по качеству — вот что экономит до 70–80% бюджета на LLM в проде.</p>
+                        <p>Идея простая: <em>у каждой задачи есть своя «правильная» цена.</em> Тривиальный фикс опечатки в системе решает DeepSeek, а рефакторинг архитектуры требует Claude. Проблема в том, что большинство агентов не знает сложность задачи <em>до</em> её выполнения. Поэтому маршрутизация строится на хевристиках.</p>
+                        <p>Вот схемы, которые я реально использую в Hermes:</p>
+                        <ul><li><strong>Статическая маршрутизация по типу задачи.</strong> Промпты, суммаризация, извлечение данных — это «дешёвые» операции, им не нужен SOTA. Ставь границу по типу задачи, а не по «важности».</li><li><strong>Cascade (каскад).</strong> Сначала дешёвая модель с жёсткой валидацией результата. Если схема не прошла или уверенность низкая — эскалируй на дорогую. Классический failover экономит запросы к топовой модели на 60%+.</li><li><strong>Роутер-классификатор.</strong> Маленькая модель (или дешёвый LLM) принимает решение, куда отправить запрос. 3–5 классов сложности, ~100 токенов на классификацию. Дорогую модель вообще не трогаем для простых запросов.</li><li><strong>Self-consistency / вердикт.</strong> Для необратимых действий запусти два прохода на разных моделях и сравни. Дорого, но это единственный способ поймать расхождения, когда необратимость высока.</li></ul>
+                        <p>Дальше вступает <strong>vibe-эвристика</strong>: глубина задач внутри одного prompt-класса тоже разная. Мерить её надёжно можно по количеству инструментов, которые агент скорее всего вызовет. <em>Больше потенциальных tool call'ов → выше вероятность длинного multi-step reasoning → дороже модель.</em> Это грубый, но рабочий прокси сложности.</p>
+                        <p>Главное правило: <strong>не выбирай модель по «интеллекту», выбирай по стоимости исполнения.</strong> Стоимость = (вход + выход + кэш) × число вызовов. Дорогая модель, которая решает задачу с первого раза, может оказаться дешевле дешёвой, которая делает три ретрая с ветвлением контекста.</p>
+                        <p>Практический вывод: введи слой routing между кодом и провайдером. Один интерфейс, N бэкендов, и политика «дешевле → дороже» с эскалацией. Это не оптимизация ради оптимизации — это разница между «агент работает вечером, пока спишь» и «агент сожрал квоту до обеда».</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Model Routing: How to Pick the Right LLM Per Task Without Burning Your Budget</strong>
+                        <p>Most agents share one curse: a single model for every task. But <em>"expensive" and "smart" are not the same thing.</em> Routing by task complexity — not by model prestige — is what actually cuts LLM spend 70–80% in production.</p>
+                        <p>The idea is simple: <em>every task has a "correct" price.</em> A typo fix doesn't need frontier reasoning; an architecture refactor does. The catch: agents rarely know a task's complexity <em>before</em> running it, so routing relies on heuristics.</p>
+                        <p>Here are the patterns I actually run in Hermes:</p>
+                        <ul><li><strong>Static routing by task type.</strong> Summarization, extraction, classification — these are "cheap" operations that don't need SOTA. Gate by task type, not by perceived importance.</li><li><strong>Cascade.</strong> Start with a cheap model and strict validation. On schema failure or low confidence, escalate to the expensive one. Classic failover cuts top-model calls by 60%+.</li><li><strong>Router-classifier.</strong> A small model decides where each request goes. 3–5 complexity buckets, ~100 tokens per classification. The frontier model never sees trivial requests.</li><li><strong>Self-consistency verdict.</strong> For irreversible actions, run two passes on different models and compare. Costly — but the only way to catch divergence when the blast radius is high.</li></ul>
+                        <p>Then comes <strong>vibe estimation</strong>: complexity varies inside the same task class too. A workable proxy is <em>the number of tools the agent is likely to call.</em> More potential tool calls → longer multi-step reasoning → more capable model needed. Crude, but it works.</p>
+                        <p>The golden rule: <strong>don't pick a model by intelligence — pick by cost of execution.</strong> Cost = (input + output + cache) × call count. An expensive model that nails it first try can end up cheaper than a cheap one that needs three retries with context branching.</p>
+                        <p>Actionable takeaway: put a routing layer between your code and your providers. One interface, N backends, a "cheap → expensive with escalation" policy. This isn't optimization for its own sake — it's the difference between an agent that runs overnight while you sleep and one that burns your quota before lunch.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
