@@ -882,6 +882,50 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">4 сентября 2026</span><span class="ln-en-only">4 September 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Reliability</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Долгоживущие агенты: как делать автономные задачи, которые не падают после рестарта</strong>
+                        <p>Когда агент работает 30 секунд — он просто функция. Другое дело агент, который крутится часами: собирает данные ночью, гоняет миграции, ведёт доменный дайджест или проверяет деплой. Чем дольше живёт процесс, тем больше он похож на распределённую систему — со всеми вытекающими. Проблема в том, что большинство из нас проектирует агента как один вызов к LLM, а не как <em>durable workflow</em>.</p>
+                        <p>Первое, что нужно принять: контекст — это не память, а <em>эфемерная сессия</em>. Если процесс упал, токены ушли вместе с ним. Реальный state должен жить в файле, базе или объектном хранилище — не в chat history агента. Я делаю так: каждый шаг агента пишет чекпоинт (что сделано, что в работе, что дальше), и при рестарте агент читает не историю, а последний чекпоинт. Это превращает крэш из катастрофы в просто ещё одну итерацию.</p>
+                        <p>Второе — <em>идемпотентность шагов</em>. Классическая боль: агент отправил письмо, ответ потерялся по сети, агент повторил — и письмо ушло дважды. Решение — каждый внешний вызов (email, API, деплой) получает уникальный idempotency key, и повторы идут с тем же ключом. Не могу переоценить, как часто эту мелочь забывают ровно до первого прод-инцидента.</p>
+                        <ul>
+                        <li><strong>Чекпоинт после каждого шага</strong> — атомарная запись state + признание того, что сделано.</li>
+                        <li><strong>Idempotency key на всех внешних сайд-эффектах</strong> — повтор не создаёт дублей.</li>
+                        <li><strong>Отделяй «что решить» от «что сделать»</strong>: решение LLM кэшируется, действие исполняется детерминированным кодом.</li>
+                        <li><strong>Таймаут на каждый инструмент и retry с backoff</strong> — зависший вызов не должен блокировать весь loop.</li>
+                        </ul>
+                        <p>Третий принцип, который звучит неочевидно: планировщик <em>не должен</em> держать весь прогресс в голове. Каждый шаг агента — это чистый вопрос «что дальше?», а не «вспомни, что мы делали». Состояние в файле, намерение в промпте — так вы получаете агента, который можно безопасно перезапустить, и это единственный способ держать фоновые задачи без присмотра.</p>
+                        <p>Практический итог: если ваш агент должен жить дольше одного вызова — проектируйте его как <em>state machine с durable storage</em>, а не как длинный prompt. Внешний мир (почта, базы, деплои) не прощает потери состояния. Научитесь писать чекпоинты и переживать крэши — и автономные задачи перестанут быть хрупкими экспериментами, а станут инженерной нормой.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Durable Agents: How to Build Autonomous Tasks That Survive a Restart</strong>
+                        <p>When an agent runs for 30 seconds it's just a function. But an agent that runs for hours — collecting data overnight, driving migrations, running a domain digest, babysitting a deploy — starts to look a lot like a distributed system, with everything that implies. The problem is that most of us design an agent as a single LLM call, not as a <em>durable workflow</em>.</p>
+                        <p>First hard truth: context is not memory, it's an <em>ephemeral session</em>. If the process dies, the tokens go with it. Real state must live in a file, a database, or object storage — not in the agent's chat history. My pattern: every step writes a checkpoint (what's done, what's in flight, what's next), and on restart the agent reads the last checkpoint instead of replaying a transcript. That turns a crash from a catastrophe into just another iteration.</p>
+                        <p>Second — <em>idempotency of side effects</em>. The classic pain: the agent sends an email, the response is lost on the wire, the agent retries, and now the email went out twice. The fix: every external call (email, API, deploy) carries a unique idempotency key, and retries reuse that key. I can't overstate how often this detail is skipped — right up until the first production incident.</p>
+                        <ul>
+                        <li><strong>Checkpoint after every step</strong> — atomic write of state plus an acknowledgement of what's done.</li>
+                        <li><strong>Idempotency key on every external side effect</strong> — retries never produce duplicates.</li>
+                        <li><strong>Separate decide from do</strong>: cache the LLM's decision, execute it with deterministic code.</li>
+                        <li><strong>Per-tool timeout and retry with backoff</strong> — one hung call must not block the whole loop.</li>
+                        </ul>
+                        <p>Third principle, and it sounds counterintuitive: the planner should <em>not</em> carry the whole progress in its head. Each agent step is a clean question — 'what next?' — not 'remember what we were doing'. State on disk, intent in the prompt: that's how you get an agent you can restart safely, and that's the only way to leave background jobs unattended.</p>
+                        <p>Bottom line: if your agent must outlive a single call, design it as a <em>state machine with durable storage</em>, not as a long prompt. The outside world — mail, databases, deploys — does not forgive lost state. Learn to write checkpoints and survive crashes, and autonomous tasks stop being fragile experiments and become an engineering baseline.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
