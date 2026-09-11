@@ -926,6 +926,46 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">11 сентября 2026</span><span class="ln-en-only">11 September 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">Small Models · Local Inference</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Локальный агент на одном CPU: как получить рабочую автоматизацию без GPU</strong>
+                        <p>Все туториалы по AI-агентам начинаются одинаково: «возьмите модель на 70B и GPU с 24 ГБ VRAM». А потом вы смотрите на свой VPS за 5 долларов — 1 ядро, 2 ГБ RAM, ноль GPU — и понимаете, что половина гайдов написана не для вас. Спойлер: рабочий агент собирается и здесь. Просто архитектура будет другой.</p>
+                        <p>Главная ошибка — пытаться запустить большую модель локально «для экономии». На CPU с 2 ГБ памяти Qwen3 7B в Q4 выдаёт пару токенов в секунду, а система уходит в своп. Это не экономия, это самообман. Правило простое: <em>локальный инференс нужен не для интеллекта, а для приватности и нулевой стоимости на тривиальных шагах.</em></p>
+                        <ul>
+                        <li><strong>Разделите интеллект и исполнение.</strong> Локально держите только классификацию, извлечение полей, роутинг запросов, проверку форматов. Всё, что требует рассуждений, — в облако через API. Один вызов большой модели стоит дешевле, чем час борьбы с OOM-killer.</li>
+                        <li><strong>Модели до 3B в Q4 — это реально.</strong> Qwen3 1.7B, Gemma 3 1B, Llama 3.2 3B в формате GGUF через llama.cpp дают 15–30 токенов/сек на одном ядре EPYC. Достаточно для структурированного вывода и быстрых эвристик.</li>
+                        <li><strong>Ограничьте контекст жёстко.</strong> Каждый токен контекста — это память под KV-кэш. На 2 ГБ RAM держите окно в 4K, а не 32K. Меньше контекста — предсказуемее потребление.</li>
+                        </ul>
+                        <p>Второй инсайт: <em>агент на слабом железе должен быть событийным, а не резидентным.</em> Не держите модель в памяти 24/7 — поднимайте процесс по cron или webhook, обрабатывайте задачу, отдавайте результат, убивайте процесс. Пиковая память вместо постоянной. Именно так у меня работают ночные дайджесты и проверки доменов на машине без GPU.</p>
+                        <p>И последнее: <em>swap — ваш враг, а не друг.</em> Как только модель ушла в своп, latency падает в разы и вся «автономность» умирает. Ставьте memory-лимит на процесс и мониторьте RSS. Если не влезает — берите модель меньше, а не железо больше. <strong>Локальный агент побеждает не мощью, а дисциплиной бюджета ресурсов.</strong></p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Running a Local Agent on a Single CPU: Real Automation Without a GPU</strong>
+                        <p>Every AI agent tutorial opens the same way: "grab a 70B model and a 24 GB GPU." Then you look at your $5 VPS — 1 core, 2 GB RAM, no GPU — and realize half the guides were never written for you. Spoiler: you can still build a working agent here. The architecture just looks different.</p>
+                        <p>The classic mistake is trying to run a big model locally "to save money." On a CPU with 2 GB of RAM, Qwen3 7B in Q4 produces a couple of tokens per second and the system drowns in swap. That's not saving, that's self-deception. The rule is simple: <em>local inference isn't about intelligence — it's about privacy and zero cost on trivial steps.</em></p>
+                        <ul>
+                        <li><strong>Split intelligence from execution.</strong> Keep only classification, field extraction, request routing, and format validation on the box. Anything that needs real reasoning goes to the cloud via API. One call to a large model costs less than an hour fighting the OOM killer.</li>
+                        <li><strong>Sub-3B models in Q4 are viable.</strong> Qwen3 1.7B, Gemma 3 1B, Llama 3.2 3B as GGUF via llama.cpp deliver 15–30 tokens/sec on a single EPYC core. Plenty for structured output and fast heuristics.</li>
+                        <li><strong>Cap the context window hard.</strong> Every context token is KV-cache memory. On 2 GB of RAM, run a 4K window, not 32K. Less context means more predictable memory use.</li>
+                        </ul>
+                        <p>Second insight: <em>an agent on weak hardware should be event-driven, not resident.</em> Don't keep the model loaded 24/7 — spin the process up on a cron tick or webhook, process the task, return the result, kill the process. Peak memory instead of permanent memory. That's exactly how my nightly digests and domain checks run on a GPU-less box.</p>
+                        <p>Finally: <em>swap is your enemy, not your friend.</em> The moment a model spills into swap, latency collapses and all that "autonomy" dies. Set a hard memory limit per process and watch RSS. If it doesn't fit, pick a smaller model — not bigger hardware. <strong>A local agent wins not by raw power, but by disciplined resource budgeting.</strong></p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
