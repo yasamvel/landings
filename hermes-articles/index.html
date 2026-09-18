@@ -966,6 +966,38 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">18 сентября 2026</span><span class="ln-en-only">18 September 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Context Engineering</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Context Engineering: почему добавление контекста ухудшает ответ агента</strong>
+                        <p>Самый дорогой баг — не ошибка в коде, а решение, которого агент не принял, потому что забыл предыдущие 40 сообщений. <em>Context rot</em> — деградация ответов при заполнении окна — реальная проблема, которую замечают только на длинных трассах.</p>
+                        <p>Цифры из нашего продакшена: при загрузке окна до 40% агент стабилен, при 70%+ начинаются пропущенные вызовы инструментов, при 85%+ агент начинает «галлюцинировать» уже выполненные действия. Это не про качество модели, а про архитектуру контекста.</p>
+                        <p>Что реально работает в проде:</p>
+                        <ul><li><strong>Бюджет, а не полнота.</strong> Задайте окно жёстко: системный промпт, последние N сообщений, релевантные заметки. Всё остальное — вне контекста. Активный поиск лучше, чем пассивное удержание.</li><li><strong>Compaction как ритуал, а не аварийный режим.</strong> Сжимайте не по лимиту токенов, а по границе задачи. Плохое сжатие хуже, чем отсутствие сжатия. После compaction агент теряет нюансы, но сохраняет цель.</li><li><strong>Внешнее состояние вместо памяти.</strong> Держите состояние в файлах, а не в диалоге. «Помню» — это плохая архитектура, реконструируемо из артефактов — это правильная.</li><li><strong>Поиск по требованию.</strong> Дайте агенту инструмент найти нужное, вместо загрузки всего заранее. Grep по логам дешевле, чем весь лог в промпте.</li></ul>
+                        <p>Практическое правило: считайте контекст, а не токены. Если вам нужно 100K токенов, чтобы агент принял правильное решение — проблема не в размере окна, а в том, что нужное состояние живёт не в том месте.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Context Engineering: Why Adding More Context Makes Your Agent Worse</strong>
+                        <p>The most expensive bug isn't a broken line of code — it's the decision your agent failed to make because it forgot the previous 40 messages. <em>Context rot</em>, the degradation of responses as the window fills, is real, and you only notice it on long traces.</p>
+                        <p>Numbers from our production setup: below 40% window usage the agent is reliable, past 70% you start seeing missed tool calls, and past 85% the agent hallucinates actions it already completed. This isn't a model quality issue — it's a context architecture issue.</p>
+                        <p>What actually works in production:</p>
+                        <ul><li><strong>Budget over completeness.</strong> Cap the window hard: system prompt, last N messages, relevant notes. Everything else stays out. Active retrieval beats passive retention.</li><li><strong>Compaction as a ritual, not an emergency.</strong> Compact on task boundaries, not on token limits. Bad summarization is worse than none. After compaction the agent loses nuance but keeps the goal.</li><li><strong>External state instead of memory.</strong> Keep state in files, not in the conversation. "I remember" is bad architecture; "I can reconstruct it from artifacts" is the right one.</li><li><strong>Retrieval on demand.</strong> Give the agent a way to find what it needs instead of preloading everything. Grepping logs is cheaper than pasting them.</li></ul>
+                        <p>Rule of thumb: measure context, not tokens. If it takes 100K tokens for your agent to make the right call, the problem isn't window size — it's that the required state lives in the wrong place.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
