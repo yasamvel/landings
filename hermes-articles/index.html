@@ -998,6 +998,54 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">25 сентября 2026</span><span class="ln-en-only">25 September 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Workflow Design</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Когда агент — плохое решение: детерминированные workflow против автономных циклов</strong>
+                        <p>Каждый раз, когда появляется новая задача, рефлекс инженера — «давай накинем агента». LLM в цикле, набор инструментов, цикл while до победного. Проблема в том, что для большинства производственных задач это <em>худший</em> выбор: дороже, медленнее и менее предсказуемо, чем обычный код с одним вызовом модели внутри.</p>
+                        <p>Разница принципиальная. <em>Автономный агент</em> сам решает, какой инструмент вызвать следующим, сколько шагов сделать и когда остановиться. <em>Детерминированный workflow</em> — это граф: узлы фиксированы, переходы заданы кодом, а LLM отвечает только за одну узкую операцию внутри узла (классификация, извлечение, черновик).</p>
+                        <p>Практическое правило, которое я вывел: <strong>если вы можете нарисовать блок-схему задачи заранее — не нужен агент.</strong> Нужен граф.</p>
+                        <p>Что реально стоит держать в голове:</p>
+                        <ul>
+                        <li><strong>Стоимость предсказуема только у графа.</strong> Агент может крутиться 3 шага, а может 30 — вы платите за неопределённость. В workflow число вызовов LLM фиксировано: знаете цену на один запрос — знаете цену на миллион.</li>
+                        <li><strong>Отладка.</strong> Когда агент выдал мусор, вы восстанавливаете цепочку решений по логам. Когда упал узел графа — вы видите точку отказа и воспроизводите её одним прогоном.</li>
+                        <li><strong>Тесты.</strong> Узел графа можно покрыть юнит-тестом с мок-ответом модели. Автономный цикл тестируется только end-to-end, а значит хрупко.</li>
+                        <li><strong>Латентность.</strong> Каждый лишний шаг агента — это ещё один round-trip к API. Граф минимизирует количество обращений туда, где они действительно нужны.</li>
+                        </ul>
+                        <p>Где агент всё-таки оправдан: открытые задачи без заранее известного числа шагов — исследование, диагностика, навигация по неизвестной кодовой базе. Там маршрут не строится заранее, и автономность окупает свою цену.</p>
+                        <p>Мой рабочий подход — гибрид: скелет задачи как детерминированный граф, а внутри 1–2 узлов, где путь реально неизвестен, — маленький ограниченный агент с жёстким лимитом шагов. Так вы получаете предсказуемость основного пайплайна и гибкость там, где она нужна.</p>
+                        <p><strong>Вывод:</strong> сначала спросите себя, можно ли нарисовать решение на доске. Если да — пишите код, а модель вызывайте как функцию. Автономный агент — это инструмент для задач, которые принципиально нельзя захардкодить.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>When an Agent Is the Wrong Answer: Deterministic Workflows vs Autonomous Loops</strong>
+                        <p>Every time a new task appears, the engineering reflex is "let's throw an agent at it." An LLM in a loop, a set of tools, a while loop until it wins. The problem is that for most production tasks this is the <em>worst</em> choice: more expensive, slower, and less predictable than plain code with a single model call inside.</p>
+                        <p>The distinction is fundamental. An <em>autonomous agent</em> decides for itself which tool to call next, how many steps to take, and when to stop. A <em>deterministic workflow</em> is a graph: nodes are fixed, transitions are defined in code, and the LLM is responsible only for one narrow operation inside a node (classification, extraction, drafting).</p>
+                        <p>The practical rule I've landed on: <strong>if you can draw the task as a flowchart in advance, you don't need an agent.</strong> You need a graph.</p>
+                        <p>What's actually worth keeping in mind:</p>
+                        <ul>
+                        <li><strong>Cost is predictable only in a graph.</strong> An agent may take 3 steps or 30 — you're paying for nondeterminism. In a workflow the number of LLM calls is fixed: know the cost per request and you know the cost per million.</li>
+                        <li><strong>Debuggability.</strong> When an agent produces garbage, you reconstruct its decision chain from logs. When a graph node fails, you see the exact failure point and reproduce it in a single run.</li>
+                        <li><strong>Testability.</strong> A graph node can be unit-tested with a mocked model response. An autonomous loop can only be tested end-to-end, which makes it brittle.</li>
+                        <li><strong>Latency.</strong> Every extra agent step is another API round-trip. A graph minimizes the calls to exactly where they're needed.</li>
+                        </ul>
+                        <p>Where an agent <em>is</em> justified: open-ended tasks with no known step count — research, diagnosis, navigating an unfamiliar codebase. There the route can't be drawn in advance, and autonomy earns its cost.</p>
+                        <p>My working approach is a hybrid: the task skeleton as a deterministic graph, with one or two nodes where the path is genuinely unknown wrapped in a small bounded agent with a hard step limit. You get a predictable core pipeline and flexibility exactly where it matters.</p>
+                        <p><strong>Bottom line:</strong> first ask whether you can draw the solution on a whiteboard. If yes, write code and call the model as a function. An autonomous agent is a tool for the tasks that genuinely can't be hardcoded.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
