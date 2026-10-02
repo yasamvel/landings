@@ -1046,6 +1046,58 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">02 октября 2026</span><span class="ln-en-only">02 October 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Cost Engineering</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Экономика агентских циклов: куда утекают токены и как поставить жёсткий лимит</strong>
+                        <p>Когда агент работает в цикле «подумал → вызвал инструмент → посмотрел результат → подумал снова», счёт за токены растёт не линейно, а квадратично. Каждый следующий шаг тащит за собой всю историю предыдущих. Пять итераций — это не 5× контекст, а 5+4+3+2+1 = 15 прогонов растущего промпта. Вот почему дешёвый запрос на старте превращается в дорогой счёт на выходе.</p>
+                        <p>Хуже всего то, что основная часть трат уходит не на полезную работу, а на <em>retry storm</em> — лавину повторных попыток после одной ошибки. Агент не понимает, что инструмент упал, и пробует снова с тем же аргументом. Ещё раз. Ещё. Каждая попытка добавляет всю историю в контекст и умножает стоимость.</p>
+                        <p><strong>Три уровня защиты, которые я ставлю в продакшене:</strong></p>
+                        <ul>
+                        <li><strong>Бюджет на запуск.</strong> Максимальная сумма денег или токенов на одну задачу. Агент обязан проверять счётчик перед каждым следующим вызовом LLM. Дошёл до лимита — останавливается и отдаёт частичный результат, а не молча сжигает бюджет.</li>
+                        <li><strong>Лимит шагов.</strong> Жёсткий потолок итераций цикла (обычно 20-30). Бесконечный цикл — самый дорогой баг в агентных системах, и он не виден в логах, пока не придёт счёт.</li>
+                        <li><strong>Детектор застоя.</strong> Если два шага подряд дают одинаковый tool call с теми же аргументами — прерываем. Это ловит retry storm на втором повторении, а не на двадцатом.</li>
+                        </ul>
+                        <p><strong>Что реально помогает снизить счёт:</strong></p>
+                        <ul>
+                        <li><em>Сжатие истории.</em> После N шагов старые пары «вызов-результат» сворачиваются в одну строку-резюме. Радикально режет входной контекст.</li>
+                        <li><em>Смена модели по фазам.</em> Планирование — на сильной модели, рутинное исполнение — на дешёвой. Планирование — это 10% токенов, но 90% качества.</li>
+                        <li><em>Кэш статического промпта.</em> System prompt и описания инструментов не должны пересчитываться на каждом шаге.</li>
+                        </ul>
+                        <p><strong>Главный инсайт:</strong> стоимость агента — это инженерная метрика, а не бухгалтерская. Если вы не логируете токены на каждый шаг цикла с разбивкой по типу (system / history / tools / output), вы не управляете агентом — вы просто платите за то, что он делает. Начните с логирования «стоимость на задачу», и вы удивитесь, сколько трат приходится на трёхстрочные ошибки.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>The Economics of Agent Loops: Where Tokens Leak and How to Cap the Bill</strong>
+                        <p>When an agent runs the loop "think → call tool → read result → think again," the token bill grows quadratically, not linearly. Every step drags the entire history of previous steps with it. Five iterations isn't 5x the context — it's 5+4+3+2+1 = 15 passes over a growing prompt. That's how a cheap request at the start becomes an expensive invoice at the end.</p>
+                        <p>Worse: most of the spend goes not to useful work but to a <em>retry storm</em> — an avalanche of repeated attempts after a single failure. The agent doesn't realize the tool is broken and retries with the same argument. Again. And again. Each attempt appends the full history to context and multiplies cost.</p>
+                        <p><strong>Three layers of protection I put into production:</strong></p>
+                        <ul>
+                        <li><strong>Per-run budget.</strong> A hard cap on money or tokens for a single task. The agent must check the counter before every LLM call. Hit the limit — stop and return partial results instead of silently burning the budget.</li>
+                        <li><strong>Step ceiling.</strong> A hard iteration cap (usually 20-30). An infinite loop is the most expensive bug in agentic systems, and it's invisible in logs until the bill arrives.</li>
+                        <li><strong>Stall detector.</strong> If two consecutive steps produce an identical tool call with identical arguments — abort. This catches a retry storm on the second repeat, not the twentieth.</li>
+                        </ul>
+                        <p><strong>What actually cuts the bill:</strong></p>
+                        <ul>
+                        <li><em>History compaction.</em> After N steps, old call/result pairs collapse into a one-line summary. It slashes input context dramatically.</li>
+                        <li><em>Model switching per phase.</em> Plan with a strong model, execute routine steps with a cheap one. Planning is 10% of tokens but 90% of quality.</li>
+                        <li><em>Static prompt caching.</em> The system prompt and tool schemas must not be recomputed on every step.</li>
+                        </ul>
+                        <p><strong>The key insight:</strong> agent cost is an engineering metric, not an accounting one. If you don't log tokens per loop step, broken down by type (system / history / tools / output), you're not managing the agent — you're just paying for whatever it does. Start by logging cost-per-task, and you'll be surprised how much spend comes from a three-line error. Control the loop, control the bill.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
