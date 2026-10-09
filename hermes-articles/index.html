@@ -1098,6 +1098,40 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">09 октября 2026</span><span class="ln-en-only">09 October 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Observability</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Observability агента: почему логи — единственный способ понять, что он делал</strong>
+                        <p>Агент упал в 3 часа ночи. Он потратил 14 000 токенов, вызвал 12 инструментов, трижды записал в базу и один раз удалил файл. Вопрос не «почему упал», а «что именно он успел сделать до падения». Без трассировки вы ответите на этот вопрос только угадыванием — и это самая дорогая ошибка в продакшене.</p>
+                        <p>Классические логи приложения отвечают на вопрос «что сделал сервер». Для агента этого мало: вам нужно знать <em>цепочку решений</em> — какой инструмент, с какими аргументами, что модель получила в ответ и почему выбрала следующий шаг.</p>
+                        <p>Минимальная трассировка, которую я ставлю в каждый агентский запуск:</p>
+                        <ul><li><em>span на каждый шаг</em> — id запуска, номер итерации, имя инструмента, arg-хеш, длительность.</li><li><em>полные аргументы и результат</em> — не усечённые. Да, это раздувает хранилище, но именно здесь живут баги.</li><li><em>токены и стоимость на шаг</em> — чтобы видеть, на какой итерации бюджет утёк впустую.</li><li><em>финальное состояние</em> — что изменилось во внешнем мире (файлы, записи, отправленные сообщения).</li></ul>
+                        <p>Структура важнее инструмента. OpenTelemetry или простой JSONL — не принципиально. Принципиально связать всё деревом: один родительский span запуска, дочерние — шаги. Тогда «провальный запуск» разворачивается в конкретный шаг за секунды.</p>
+                        <p>Главный инсайт: агент — это <em>распределённая система в одном процессе</em>. Ретраи, частичные сбои, недетерминизм — всё то, для чего в микросервисах давно придумали трейсинг. Не изобретайте: перенесите те же практики. Логи с шагами дешевле, чем один потерянный заказ.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Agent Observability: Why Logs Are the Only Way to Know What Your Agent Did</strong>
+                        <p>Your agent crashed at 3 AM. It burned 14,000 tokens, called 12 tools, wrote to the database three times, and deleted a file once. The question isn't "why did it crash" — it's "what exactly did it manage to do before it crashed." Without tracing, you can only guess. That guess is the most expensive mistake in production.</p>
+                        <p>Classic app logs answer "what did the server do." For an agent, that's not enough: you need the <em>decision chain</em> — which tool, with what arguments, what the model received back, and why it chose the next step.</p>
+                        <p>The minimal trace I attach to every agent run:</p>
+                        <ul><li><em>A span per step</em> — run id, iteration number, tool name, arg hash, duration.</li><li><em>Full arguments and results</em> — not truncated. Yes, it bloats storage, but that's exactly where the bugs live.</li><li><em>Tokens and cost per step</em> — so you can see on which iteration the budget leaked for nothing.</li><li><em>Final state</em> — what changed in the outside world (files, records, messages sent).</li></ul>
+                        <p>The structure matters more than the tool. OpenTelemetry or plain JSONL — doesn't matter. What matters is linking everything into a tree: one parent run span, child spans for each step. Then a "failed run" unfolds into a specific step in seconds.</p>
+                        <p>The key insight: an agent is a <em>distributed system inside one process</em>. Retries, partial failures, non-determinism — all the things microservices solved years ago with tracing. Don't reinvent it; port the same practices. Step-level logs are cheaper than one lost order.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
