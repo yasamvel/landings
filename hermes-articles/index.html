@@ -1130,6 +1130,46 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">16 октября 2026</span><span class="ln-en-only">16 October 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">MCP · Engineering</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Свой MCP-сервер: как превратить внутренний API в инструмент агента за один вечер</strong>
+                        <p>Все пишут, что MCP — это стандарт подключения инструментов к LLM. Но пока вы пользуетесь чужими серверами, агент работает с чужими абстракциями. Настоящая отдача начинается, когда вы оборачиваете <em>свой</em> внутренний API в MCP-сервер, и агент получает доступ к вашей инфраструктуре без единой строки интеграционного кода на стороне хоста.</p>
+                        <p>Протокол намеренно скучный: JSON-RPC 2.0 поверх stdio или HTTP, три примитива — <em>tools</em>, <em>resources</em>, <em>prompts</em>. Сервер объявляет возможности, хост сам решает, что показать модели. Никакой магии, никакого SDK-лока — просто контракт.</p>
+                        <p><strong>Что даёт свой сервер на практике:</strong></p>
+                        <ul><li><em>Смена хоста без переписывания интеграций.</em> Claude Desktop, свой агент, IDE — один и тот же сервер работает везде.</li><li><em>Права на уровне инструмента.</em> Не «отдать агенту доступ к БД», а «отдать ровно три read-only-метода».</li><li><em>Валидация на границе.</em> Схема инструмента через JSON Schema отсекает мусор до того, как он дойдёт до вашего кода.</li><li><em>Аудит в одном месте.</em> Все вызовы идут через ваш процесс — логировать, лимитировать и реплеить их проще, чем ловить разбросанные вызовы модели.</li></ul>
+                        <p><strong>Три инсайта, которые я вынес из продакшена:</strong></p>
+                        <p>Первое — описания инструментов важнее кода. Модель выбирает инструмент по <em>текстовому описанию и имени параметров</em>, а не по реализации. Плохое описание = агент вызывает не то. Половина времени ушла на переписывание description, а не на логику.</p>
+                        <p>Второе — не давайте агенту составные операции. Инструмент <em>create_and_publish</em> звучит удобно, но агент не может откатиться на середине. Дробите на атомарные шаги — модель сама выстроит цепочку, а вы получите точки контроля.</p>
+                        <p>Третье — валидируйте вывод инструмента так же строго, как вход. Данные, вернувшиеся из вашего же API, — это внешний ввод для агента. Если в ответе появится текст, похожий на инструкцию, модель может его выполнить. Метаданные отделяйте от содержимого структурно.</p>
+                        <p><strong>Вывод:</strong> MCP — это не про интеграции, а про границу доверия. Хорошо спроектированный сервер — это API, который вы готовы дать агенту без страха: минимум привилегий, строгие схемы, атомарные операции и полный аудит. Начните с одного read-only инструмента и расширяйте только тогда, когда поймёте, где агент ошибается.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Your Own MCP Server: Turning an Internal API Into an Agent Tool in One Evening</strong>
+                        <p>Everyone writes that MCP is the standard for wiring tools into LLMs. But while you're using someone else's server, your agent works with someone else's abstractions. The real payoff starts when you wrap <em>your own</em> internal API in an MCP server — and your agent gets access to your infrastructure with zero integration code on the host side.</p>
+                        <p>The protocol is deliberately boring: JSON-RPC 2.0 over stdio or HTTP, three primitives — <em>tools</em>, <em>resources</em>, <em>prompts</em>. The server declares capabilities; the host decides what to expose to the model. No magic, no SDK lock-in — just a contract.</p>
+                        <p><strong>What a custom server gives you in practice:</strong></p>
+                        <ul><li><em>Swap hosts without rewriting integrations.</em> Claude Desktop, your own agent, an IDE — the same server works everywhere.</li><li><em>Permissions at the tool level.</em> Not "give the agent database access" but "give exactly three read-only methods".</li><li><em>Validation at the boundary.</em> JSON Schema on the tool input rejects garbage before it reaches your code.</li><li><em>Audit in one place.</em> Every call flows through your process — logging, rate-limiting, and replaying them beats chasing calls scattered across the model.</li></ul>
+                        <p><strong>Three insights I took from production:</strong></p>
+                        <p>First — tool descriptions matter more than code. The model picks a tool by its <em>textual description and parameter names</em>, not its implementation. A bad description means the agent calls the wrong thing. Half my time went into rewriting descriptions, not logic.</p>
+                        <p>Second — don't hand the agent composite operations. A tool named <em>create_and_publish</em> sounds convenient, but the agent can't roll back halfway through. Split it into atomic steps — the model will chain them itself, and you get control points.</p>
+                        <p>Third — validate tool output as strictly as input. Data returned from your own API is <em>external input</em> for the agent. If the response contains something that looks like an instruction, the model may execute it. Separate metadata from content structurally.</p>
+                        <p><strong>Bottom line:</strong> MCP isn't about integrations — it's about the trust boundary. A well-designed server is an API you're comfortable giving an agent without fear: least privilege, strict schemas, atomic operations, and full audit. Start with one read-only tool and expand only once you see where the agent goes wrong.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
