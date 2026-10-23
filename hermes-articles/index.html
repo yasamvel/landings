@@ -1170,6 +1170,44 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">23 октября 2026</span><span class="ln-en-only">23 October 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Evals</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Evals для агентов: как измерить то, у чего нет правильного ответа</strong>
+                        <p>Юнит-тесты проверяют функцию на равенство результата ожидаемому. С агентом так не работает: один и тот же запрос в двух прогонах даёт разные цепочки вызовов, разные промежуточные данные и часто одинаково хороший финальный ответ. Поэтому команды либо не тестируют агентов вовсе, либо пишут evals, которые через месяц перестают что-либо значит.</p>
+                        <p><strong>Ошибка номер один — оценивать финальный текст.</strong> Агент выдал красивый ответ, но дошёл до него, удалив не ту ветку или вызвав инструмент с угаданным ID. Текст правильный, система сломана. Оценивать нужно <em>траекторию</em>, а не последнее сообщение.</p>
+                        <p><strong>Что я проверяю в первую очередь:</strong></p>
+                        <ul><li><em>Выбранные инструменты.</em> Набор и последовательность вызовов на golden-сетах. Не «ровно так же», а «содержит обязательный вызов и не содержит запрещённого».</li><li><em>Аргументы вызовов.</em> Особенно идентификаторы: агент, который передал ID из воздуха, опаснее агента, который честно упал с ошибкой.</li><li><em>Границы.</em> Негативные кейсы: попросили сделать то, что запрещено — агент должен отказаться, а не «креативно» обойти ограничение.</li><li><em>Стоимость и шаги.</em> Одинаково верный результат за 4 шага и за 40 — это разные продукты.</li></ul>
+                        <p><strong>Детерминизм там, где он возможен.</strong> Температура 0, фиксированный seed, замоканные инструменты с записанными ответами. Тогда 80% тестов становятся обычными assertions по вызовам, и они гоняются в CI бесплатно. LLM-as-judge оставляйте только для действительно субъективного — тональности, полноты, качества объяснения.</p>
+                        <p><strong>Судью тоже надо тестировать.</strong> Если вы измеряете агента моделью, у вас есть вторая модель с собственной ошибкой. Держите маленький набор с эталонными оценками человека и прогоняйте его при каждой смене промпта судьи. Иначе вы оптимизируете агента под вкус конкретной модели.</p>
+                        <p><strong>Evals пишутся из инцидентов.</strong> Не из фантазии, а из реальных провалов: упал прод — кейс в датасет, поправили промпт — кейс остаётся навсегда. Через полгода такой набор стоит дороже любого бенчмарка, потому что он про <em>вашу</em> систему.</p>
+                        <p><strong>Вывод:</strong> не спрашивайте «стало ли лучше» — спрашивайте «что именно я измерил». Если ответ нельзя воспроизвести дважды, это не метрика, а впечатление. Начните с двадцати golden-кейсов и проверки вызовов инструментов — этого хватит, чтобы поймать 90% регрессий, которые вы сейчас ловите в проде.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Evals for Agents: Measuring What Has No Single Right Answer</strong>
+                        <p>Unit tests check a function against an expected result. Agents don't work that way: the same request produces different call chains, different intermediate data, and often an equally good final answer. So teams either skip testing agents entirely or write evals that stop meaning anything within a month.</p>
+                        <p><strong>Mistake number one — grading the final text.</strong> The agent produced a beautiful answer but got there by deleting the wrong branch or calling a tool with a guessed ID. The text is right; the system is broken. You have to evaluate the <em>trajectory</em>, not the last message.</p>
+                        <p><strong>What I check first:</strong></p>
+                        <ul><li><em>Tool selection.</em> The set and order of calls against golden sets. Not "exactly the same", but "contains the mandatory call and contains no forbidden one".</li><li><em>Call arguments.</em> Especially identifiers: an agent that passed a made-up ID is more dangerous than one that failed honestly with an error.</li><li><em>Boundaries.</em> Negative cases: ask for something forbidden — the agent must refuse rather than "creatively" route around the constraint.</li><li><em>Cost and steps.</em> An equally correct result in 4 steps versus 40 is a different product.</li></ul>
+                        <p><strong>Determinism wherever possible.</strong> Temperature 0, fixed seed, mocked tools with recorded responses. Then 80% of your tests become ordinary assertions over calls, and they run in CI for free. Reserve LLM-as-judge for genuinely subjective things — tone, completeness, quality of explanation.</p>
+                        <p><strong>Test the judge too.</strong> If you measure an agent with a model, you own a second model with its own error rate. Keep a small set with human reference scores and run it every time you change the judge prompt. Otherwise you're optimizing the agent toward one model's taste.</p>
+                        <p><strong>Evals are written from incidents.</strong> Not from imagination, but from real failures: production broke — case goes into the dataset, you fixed the prompt — the case stays forever. Six months later that set is worth more than any public benchmark, because it is about <em>your</em> system.</p>
+                        <p><strong>Bottom line:</strong> stop asking "is it better now" and start asking "what exactly did I measure". If the answer can't be reproduced twice, it's not a metric — it's an impression. Start with twenty golden cases and tool-call assertions; that's enough to catch the 90% of regressions you're currently catching in production.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
