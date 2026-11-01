@@ -1208,6 +1208,52 @@
       </div>
     </article>
 
+    <article class="ln-post">
+      <div class="ln-post-header">
+        <div class="ln-post-avatar"><img src="avatar_48.jpg" alt="Samvel Ervandian"></div>
+        <div>
+          <p class="ln-post-author">Samvel Ervandian</p>
+          <p class="ln-post-meta"><span class="ln-ru-only">01 ноября 2026</span><span class="ln-en-only">01 November 2026</span> · <i class="fas fa-globe"></i></p>
+        </div>
+      </div>
+      <div class="ln-post-badge">AI Agents · Side Effects</div>
+      <div class="ln-post-content ln-ru-only">
+                        <strong>Exactly-once сайд-эффекты: идемпотентность tool-вызовов агента</strong>
+                        <p>Когда агент впервые отправил счёт дважды, мы чинили это не промптом, а идемпотентным ключом.</p>
+                        <p>Агенты ретраят — это фича, а не баг. Модель таймаутит, эндпоинт инструмента моргает, и весь смысл автономного цикла в том, что он восстанавливается без человека. Но <em>восстановиться</em> и <em>повторить</em> снаружи выглядят одинаково. Если агент словил транзиентную ошибку после того, как tool-вызов уже прошёл, его естественный шаг — вызвать инструмент ещё раз. Если инструмент создаёт запись, шлёт письмо или двигает деньги — теперь их два.</p>
+                        <p>Это проблема распределённых систем, а не LLM. Stripe решил её десять лет назад идемпотентными ключами; агенты наследуют те же режимы отказов плюс новый: LLM не знает, что первый вызов уже прошёл.</p>
+                        <p>Что работает на практике:</p>
+                        <ul>
+                        <li><strong>Идемпотентный ключ на каждый tool-вызов с сайд-эффектом.</strong> Генерируй его один раз на логическое действие — UUID в момент старта задачи, переиспользуемый при ретраях того же шага. Принимающее API дедуплицирует по нему.</li>
+                        <li><strong>Разделяй «сделать» и «сделано».</strong> Делай сам инструмент идемпотентным: повторная отправка письма с тем же message ID возвращает первый результат вместо второго письма.</li>
+                        <li><strong>Фиксируй намерение до сайд-эффекта.</strong> Сначала пиши в durable-состояние <em>собираюсь отправить счёт №123</em>. Если агент упал посреди вызова, следующий запуск видит намерение и проверяет исход вместо слепого повторения.</li>
+                        <li><strong>Гейт на необратимые действия.</strong> Всё, что нельзя откатить — платежи, удаления, публикации в прод — требует явного чекпоинта и подтверждения человека на ретрай, а не только на первую попытку.</li>
+                        </ul>
+                        <p>Настоящая цена — не дубль письма. А то, что <em>ретрай невидим</em>: агент отчитывается об успехе, лог чистый, а дубль всплывает через дни в тикете от клиента. Идемпотентные ключи делают ретраи безопасными по умолчанию — только так агента вообще можно отпускать в свободный ретрай.</p>
+                        <p>Относись к любому инструменту с внешним сайд-эффектом как к платёжному эндпоинту. Не можешь сделать его идемпотентным — не давай агенту вызывать его без присмотра.</p>
+      </div>
+      <div class="ln-post-content ln-en-only">
+                        <strong>Exactly-Once Side Effects: Idempotency Keys for Agent Tool Calls</strong>
+                        <p>The first time an agent double-sent an invoice in our stack, the fix wasn't a better prompt. It was an idempotency key.</p>
+                        <p>Agents retry — and that's a feature, not a bug. Models time out, tool endpoints hiccup, and the whole point of an autonomous loop is that it recovers without a human. But <em>recover</em> and <em>repeat</em> look identical from the outside. When your agent hits a transient error after a tool call already went through, its natural next move is to call the tool again. If that tool creates a record, sends an email, or moves money, you now have two of them.</p>
+                        <p>This is a distributed-systems problem, not an LLM problem. Stripe solved it a decade ago with idempotency keys; agents inherit the same failure modes plus a new one: the LLM doesn't know the first call landed.</p>
+                        <p>What works in practice:</p>
+                        <ul>
+                        <li><strong>Pass an idempotency key on every side-effecting tool call.</strong> Mint it once per logical intent — a UUID generated when the task starts, reused across retries of the same step. The receiving API dedupes on it.</li>
+                        <li><strong>Separate do from done.</strong> Make the tool itself idempotent: sending an email twice with the same message ID returns the first result instead of sending again.</li>
+                        <li><strong>Record the intent before the side effect.</strong> Persist <em>about to send invoice #123</em> to durable state first. If the agent crashes mid-call, the next run sees the intent and checks the outcome instead of blindly re-executing.</li>
+                        <li><strong>Gate irreversible actions.</strong> Anything that can't be undone — payments, deletes, production posts — needs an explicit checkpoint and a human approval for the retry, not just the first attempt.</li>
+                        </ul>
+                        <p>The real cost isn't the duplicate email. It's that <em>the retry is invisible</em>: the agent reports success, the log looks clean, and the duplicate surfaces days later in a customer ticket. Idempotency keys make retries safe by default, which is the only way you can let an agent retry freely at all.</p>
+                        <p>Treat every tool with an external side effect like a payment endpoint. If you can't make it idempotent, don't let the agent call it unattended.</p>
+      </div>
+      <div class="ln-post-footer">
+        <span><i class="far fa-thumbs-up"></i> <span class="ln-ru-only">Полезно</span><span class="ln-en-only">Insightful</span></span>
+        <span><i class="far fa-comment"></i> <span class="ln-ru-only">Обсудить</span><span class="ln-en-only">Discuss</span></span>
+        <span><i class="far fa-share-square"></i> <span class="ln-ru-only">Поделиться</span><span class="ln-en-only">Share</span></span>
+      </div>
+    </article>
+
     <article class="ln-post" id="new-post-placeholder">
       <div class="ln-post-header">
         <div class="ln-post-avatar" style="background:#bbb;"><i class="fas fa-plus"></i></div>
